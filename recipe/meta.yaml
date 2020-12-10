@@ -1,4 +1,4 @@
-{% set version = "1.0.1" %}
+{% set version = "1.1.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: e08ff04dc8bca99527dbc821446f8660cfe6cbc8c35db61410958b9aa9acee56
+  sha256: 416c1c2b8742131e7fe3aef03c322bdbd4ae22df7d80afa0a0fc92997925d225
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -23,9 +23,9 @@ source:
 
 build:
   number: 0
-  skip: True  # [py<36]
+  skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
-  skip: True  # [osx]
+  skip: true  # [osx]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -118,7 +118,7 @@ outputs:
     build:
       # some weird incompatibility when installing during tests... disabling for now
       # wild guess is it is caused by py-spy using newer sysroot/glibc
-      skip: True
+      skip: true
     requirements:
       host:
         - python
@@ -211,7 +211,7 @@ outputs:
       # ray autoscaler relies heavily on using POSIX-compliant OpenSSH and rsync,
       # neither of which are available on Windows; they are in WSL, but that is
       # effectively a Linux version from conda point of view
-      skip: True  # [win]
+      skip: true  # [win]
     requirements:
       host:
         - python
@@ -256,7 +256,7 @@ about:
     - licenses/redis-hiredis-COPYING.txt
     - licenses/tporadowski-redis-license.txt
     - licenses/zlib-LICENSE.txt
-  summary: 'Ray is a fast and simple framework for building and running distributed applications.'
+  summary: Ray is a fast and simple framework for building and running distributed applications.
   description: |
     Ray is a fast and simple framework for building and running
     distributed applications.
