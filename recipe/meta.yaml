@@ -22,7 +22,7 @@ source:
     - patches/0012-Empty-install-requirements-installed-by-conda-build.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: True  # [osx]
