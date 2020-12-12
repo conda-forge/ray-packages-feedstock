@@ -1,7 +1,7 @@
-From d2c6fcdc5c5dd2b43c62309b0ab4a02b2cffb786 Mon Sep 17 00:00:00 2001
+From b886f47befb6af584aeab53cb0b7f4a069539125 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 20 Nov 2020 15:32:19 +0300
-Subject: [PATCH 09/12] Convert symlinks to junctions on Windows before
+Subject: [PATCH 09/13] Convert symlinks to junctions on Windows before
  building
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
@@ -68,5 +68,5 @@ index 024657039..1e8ae41f7 100644
          if SHELL:
              bazel_env.setdefault("BAZEL_SH", os.path.normpath(SHELL))
 -- 
-2.11.0
+2.29.2.windows.3
 
