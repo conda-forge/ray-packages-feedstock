@@ -20,9 +20,10 @@ source:
     - patches/0010-Add-workaround-for-os.path.isdir-on-Windows.patch
     - patches/0011-Include-process.h-for-getpid-explicitly-on-Windows.patch
     - patches/0012-Empty-install-requirements-installed-by-conda-build.patch
+    - patches/0013-permit-python-3.9.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: True  # [osx]

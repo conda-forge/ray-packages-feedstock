@@ -1,0 +1,25 @@
+From f7db10e1c0b48163d265014e0819974e71607439 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sat, 12 Dec 2020 14:28:05 +0100
+Subject: [PATCH 13/13] permit python 3.9
+
+---
+ python/setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index bd7762372..73ea5829c 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
+ # before these files have been created, so we have to move the files
+ # manually.
+ 
+-SUPPORTED_PYTHONS = [(3, 6), (3, 7), (3, 8)]
++SUPPORTED_PYTHONS = [(3, 6), (3, 7), (3, 8), (3, 9)]
+ SUPPORTED_BAZEL = (3, 2, 0)
+ 
+ ROOT_DIR = os.path.dirname(__file__)
+-- 
+2.29.2.windows.3
+
