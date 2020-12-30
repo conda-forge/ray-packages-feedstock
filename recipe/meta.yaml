@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 416c1c2b8742131e7fe3aef03c322bdbd4ae22df7d80afa0a0fc92997925d225
+  sha256: c0fde1b6df563d8875e40aa12ad7559863753a3f7e11c976fea6d67d4adcb26c
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
