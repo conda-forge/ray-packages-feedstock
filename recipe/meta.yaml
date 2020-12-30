@@ -99,7 +99,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - redis-py >=3.3.2, <3.5.0
+        - redis-py >=3.5.0
         - opencensus
         - prometheus_client >=0.7.1
         - pickle5  # [py<38]
