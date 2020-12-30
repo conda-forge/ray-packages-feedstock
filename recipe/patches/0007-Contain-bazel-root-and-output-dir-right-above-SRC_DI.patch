@@ -1,4 +1,4 @@
-From 0c769d8e23e664c3716a96925267d3e1dd2213a5 Mon Sep 17 00:00:00 2001
+From a96462bb8f1fe3577dc8038b71d39c0e60ddd7c8 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 18 Nov 2020 18:47:40 +0300
 Subject: [PATCH 07/13] Contain bazel root and output dir right above $SRC_DIR
@@ -9,10 +9,10 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index b0a20062a..13c1f4b34 100644
+index 63ab0d09a..ecc91a3df 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -294,12 +294,18 @@ def build(build_python, build_java):
+@@ -290,12 +290,18 @@ def build(build_python, build_java):
          logger.warning("Expected Bazel version {} but found {}".format(
              ".".join(map(str, SUPPORTED_BAZEL)), bazel_version_str))
  

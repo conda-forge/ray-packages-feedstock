@@ -1,4 +1,4 @@
-From 51bbc15562768eb194601e5363efb084671a731a Mon Sep 17 00:00:00 2001
+From d9ee8537bcf119cfe0f643b8337755b936c55563 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 12:04:25 +0300
 Subject: [PATCH 01/13] Do not force pickle5 in sys.path
@@ -9,7 +9,7 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 6 deletions(-)
 
 diff --git a/python/ray/__init__.py b/python/ray/__init__.py
-index 9089059c5..24b661a84 100644
+index ca232f123..92a538713 100644
 --- a/python/ray/__init__.py
 +++ b/python/ray/__init__.py
 @@ -31,12 +31,6 @@ if "OMP_NUM_THREADS" not in os.environ:

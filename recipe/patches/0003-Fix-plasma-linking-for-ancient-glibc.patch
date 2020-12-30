@@ -1,4 +1,4 @@
-From b23c9d18ac386a6bd6acc6079aa03bbabcbb6eb0 Mon Sep 17 00:00:00 2001
+From 9b88e9958354c4daa3735644f8b96ad267b03bba Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 17:09:46 +0300
 Subject: [PATCH 03/13] Fix plasma linking for ancient glibc
@@ -9,7 +9,7 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/BUILD.bazel b/BUILD.bazel
-index 883a31c3b..7fc4fc7e6 100644
+index ec103528e..5317494c2 100644
 --- a/BUILD.bazel
 +++ b/BUILD.bazel
 @@ -219,6 +219,7 @@ PLASMA_LINKOPTS = [] + select({
@@ -20,7 +20,7 @@ index 883a31c3b..7fc4fc7e6 100644
      ],
  })
  
-@@ -312,6 +313,7 @@ cc_binary(
+@@ -315,6 +316,7 @@ cc_binary(
          "src/ray/plasma/store_exec.cc",
      ],
      copts = PLASMA_COPTS,

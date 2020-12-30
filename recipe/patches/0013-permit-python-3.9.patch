@@ -1,4 +1,4 @@
-From f7db10e1c0b48163d265014e0819974e71607439 Mon Sep 17 00:00:00 2001
+From e247fa3658dca3e4b0c70cb7d53acde61a0da4ba Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 12 Dec 2020 14:28:05 +0100
 Subject: [PATCH 13/13] permit python 3.9
@@ -8,7 +8,7 @@ Subject: [PATCH 13/13] permit python 3.9
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index bd7762372..73ea5829c 100644
+index ce1851078..6e9360de2 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)

@@ -1,4 +1,4 @@
-From 8c0e05d821fced7d3ea8459952bc1da1c19286a8 Mon Sep 17 00:00:00 2001
+From 9f0e35f416eace0966ee6ffdc302b3808346d808 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 24 Nov 2020 00:20:34 +0300
 Subject: [PATCH 11/13] Include <process.h> for getpid() explicitly on Windows
@@ -9,7 +9,7 @@ Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/src/ray/util/util.h b/src/ray/util/util.h
-index 5b678d4f2..85f47e66d 100644
+index 763119861..d54003e78 100644
 --- a/src/ray/util/util.h
 +++ b/src/ray/util/util.h
 @@ -23,6 +23,10 @@

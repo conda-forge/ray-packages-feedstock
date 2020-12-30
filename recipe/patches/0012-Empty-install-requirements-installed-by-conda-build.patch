@@ -1,18 +1,18 @@
-From cf8613a1e9dec371831841cca44b26f93dfa2346 Mon Sep 17 00:00:00 2001
+From 213fce3a4eb03c8b26608c6dda1cd0bf6338a6a2 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 4 Dec 2020 12:49:34 +0300
 Subject: [PATCH 12/13] Empty install requirements - installed by conda build
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
- python/setup.py | 28 ++--------------------------
- 1 file changed, 2 insertions(+), 26 deletions(-)
+ python/setup.py | 27 ++-------------------------
+ 1 file changed, 2 insertions(+), 25 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 3ad34870a..bd7762372 100644
+index 292b3a76a..ce1851078 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -128,31 +128,7 @@ extras["all"] = list(set(chain.from_iterable(extras.values())))
+@@ -124,30 +124,7 @@ extras["all"] = list(set(chain.from_iterable(extras.values())))
  # These are the main dependencies for users of ray. This list
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements.txt
@@ -27,7 +27,6 @@ index 3ad34870a..bd7762372 100644
 -    "colorama",
 -    "colorful",
 -    "filelock",
--    "google",
 -    "gpustat",
 -    "grpcio >= 1.28.1",
 -    "jsonschema",
@@ -37,7 +36,7 @@ index 3ad34870a..bd7762372 100644
 -    "py-spy >= 0.2.0",
 -    "pyyaml",
 -    "requests",
--    "redis >= 3.3.2, < 3.5.0",
+-    "redis >= 3.5.0",
 -    "opencensus",
 -    "prometheus_client >= 0.7.1",
 -]
@@ -45,7 +44,7 @@ index 3ad34870a..bd7762372 100644
  
  
  def is_native_windows_or_msys():
-@@ -522,7 +498,7 @@ setuptools.setup(
+@@ -510,7 +487,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=install_requires,
