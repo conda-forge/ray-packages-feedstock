@@ -74,7 +74,7 @@ outputs:
       host:
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
-        - pickle5  # [py<38]
+        - pickle5  # [py<38 and python_impl == "cpython"]
         - packaging
         - python
         - pip
@@ -102,7 +102,7 @@ outputs:
         - redis-py >=3.3.2, <3.5.0
         - opencensus
         - prometheus_client >=0.7.1
-        - pickle5  # [py<38]
+        - pickle5  # [py<38 and python_impl == "cpython"]
         - funcsigs
         - setproctitle
     test:
