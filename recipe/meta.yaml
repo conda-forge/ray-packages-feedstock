@@ -125,12 +125,14 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - azure-common
-        - azure-mgmt-resource
-        - boto3
-        - google-api-python-client
+        - azure-cli-core ==2.4.0
+        - azure-mgmt-compute ==12.0.0
+        - azure-mgmt-msi ==1.0.0
+        - azure-mgmt-network ==10.1.0
+        - boto3 ==1.4.8
+        - google-api-python-client ==1.7.8
         - google-auth
-        - msrestazure
+        - kubernetes
     test:
       imports:
         - ray.autoscaler
