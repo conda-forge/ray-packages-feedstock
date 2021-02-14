@@ -35,12 +35,12 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cython >=0.29
     - bazel <=3.4.1  # [not win]
-    - bazel <3.7  # [win]
+    - bazel <3.7     # [win]
+    - cython >=0.29
     - curl
     - make
-    - m2-patch  # [win]
+    - m2-patch       # [win]
 
 outputs:
   - name: ray-all
@@ -62,24 +62,24 @@ outputs:
         - ray
 
   - name: ray-core
-    script: build-core.sh  # [not win]
+    script: build-core.sh   # [not win]
     script: build-core.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cython >=0.29
         - bazel <=3.4.1  # [not win]
-        - bazel <3.7  # [win]
+        - bazel <3.7     # [win]
         - curl
+        - cython >=0.29
         - make
       host:
+        - python
+        - pip
+        - packaging
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
         - pickle5  # [py<38]
-        - packaging
-        - python
-        - pip
       run:
         - python
         - aiohttp
@@ -89,6 +89,7 @@ outputs:
         - colorama
         - colorful
         - filelock
+        - funcsigs
         - googlesearch
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
@@ -97,15 +98,14 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
+        - opencensus
+        - pickle5  # [py<38]
+        - prometheus_client >=0.7.1
         - protobuf >=3.8.0
         - psutil
         - pyyaml
         - requests
-        - redis-py >=3.5.0
-        - opencensus
-        - prometheus_client >=0.7.1
-        - pickle5  # [py<38]
-        - funcsigs
+        - redis-py >=3.3.2, <3.5.0
         - setproctitle
     test:
       imports:
@@ -155,11 +155,8 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - tabulate
-        - tensorboardX
-        - pandas
-        - dataclasses  # [py<37]
         - atari_py
+        - dataclasses  # [py<37]
         - dm-tree
         - gym-atari
         - lz4
@@ -167,8 +164,11 @@ outputs:
         # full graphics stack we have to rely on user system having needed
         #  graphics libraries installed
         - opencv <=4.30.0
+        - pandas
         - pyyaml
         - scipy
+        - tabulate
+        - tensorboardX
     test:
       imports:
         - ray.rllib
@@ -182,11 +182,11 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn
-        - flask
-        - requests
-        - pydantic <1.7
         - dataclasses  # [py<37]
+        - flask
+        - pydantic <1.7
+        - requests
+        - uvicorn
     test:
       imports:
         - ray.serve
@@ -201,10 +201,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - dataclasses  # [py<37]
+        - pandas
         - tabulate
         - tensorboardX
-        - pandas
-        - dataclasses  # [py<37]
     test:
       imports:
         - ray.tune
