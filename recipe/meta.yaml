@@ -89,8 +89,6 @@ outputs:
         - colorama
         - colorful
         - filelock
-        - funcsigs
-        - googlesearch
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
@@ -98,15 +96,13 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
-        - opencensus
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
         - protobuf >=3.8.0
-        - psutil
+        - py-spy >=0.2.0
         - pyyaml
         - requests
-        - redis-py >=3.3.2, <3.5.0
-        - setproctitle
+        - redis-py >=3.5.0
     test:
       imports:
         - ray
@@ -128,7 +124,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - py-spy >=0.2.0
     test:
       imports:
         # there doesn't appear to be a debug specific module
@@ -154,9 +149,8 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-tune', exact=True) }}
         - atari_py
-        - dataclasses  # [py<37]
         - dm-tree
         - gym-atari
         - lz4
@@ -164,11 +158,8 @@ outputs:
         # full graphics stack we have to rely on user system having needed
         #  graphics libraries installed
         - opencv <=4.30.0
-        - pandas
         - pyyaml
         - scipy
-        - tabulate
-        - tensorboardX
     test:
       imports:
         - ray.rllib
@@ -186,6 +177,7 @@ outputs:
         - flask
         - pydantic <1.7
         - requests
+        - starlette
         - uvicorn
     test:
       imports:
