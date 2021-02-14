@@ -1,13 +1,13 @@
-From 9ac8f6e0319e44a44bc8b00f4f39ec2df86ec2ab Mon Sep 17 00:00:00 2001
+From b8cdbcca029859eb99ccb6a1d5f6dbe15767b6d4 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 6 Nov 2020 00:55:05 +0300
-Subject: [PATCH 04/15] Redis deps now build but do not link
+Subject: [PATCH 04/13] Redis deps now build but do not link
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
- bazel/BUILD.redis                      | 12 +++++-
+ bazel/BUILD.redis                      | 12 ++++-
  bazel/ray_deps_setup.bzl               |  1 +
- thirdparty/patches/redis-deps-ar.patch | 74 ++++++++++++++++++++++++++++++++++
+ thirdparty/patches/redis-deps-ar.patch | 74 ++++++++++++++++++++++++++
  3 files changed, 85 insertions(+), 2 deletions(-)
  create mode 100644 thirdparty/patches/redis-deps-ar.patch
 
@@ -47,7 +47,7 @@ index 9ec69d433..06d79b72a 100644
  
  # This library is for internal hiredis use, because hiredis assumes a
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 02bda17cc..9e141f989 100644
+index c398dd15d..9b77e4f39 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -84,6 +84,7 @@ def ray_deps_setup():
@@ -139,5 +139,5 @@ index 000000000..15acb3165
 + .PHONY: persist-settings
 + 
 -- 
-2.11.0
+2.29.2.windows.3
 

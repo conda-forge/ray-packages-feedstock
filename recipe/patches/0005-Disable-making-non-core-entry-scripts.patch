@@ -1,28 +1,31 @@
-From ffd413d8cda3a801f786f3a3ca7503c91aa84fc5 Mon Sep 17 00:00:00 2001
+From 0c8dcb2c8d878b23101438ea12cfe85df4a5adb8 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
-Subject: [PATCH 05/15] Disable making non-core entry scripts
+Subject: [PATCH 05/13] Disable making non-core entry scripts
 
-Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
- python/setup.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ python/setup.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 2c82ad1d9..63ab0d09a 100644
+index a1542a7a2..5f68ae765 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -450,8 +450,8 @@ setuptools.setup(
+@@ -447,10 +447,10 @@ setuptools.setup(
      entry_points={
          "console_scripts": [
              "ray=ray.scripts.scripts:main",
--            "rllib=ray.rllib.scripts:cli [rllib]", "tune=ray.tune.scripts:cli",
--            "ray-operator=ray.operator:main"
-+#            "rllib=ray.rllib.scripts:cli [rllib]", "tune=ray.tune.scripts:cli",
-+#            "ray-operator=ray.operator:main"
+-            "rllib=ray.rllib.scripts:cli [rllib]",
+-            "tune=ray.tune.scripts:cli",
+-            "ray-operator=ray.operator.operator:main",
+-            "serve=ray.serve.scripts:cli",
++            # "rllib=ray.rllib.scripts:cli [rllib]",
++            # "tune=ray.tune.scripts:cli",
++            # "ray-operator=ray.operator.operator:main",
++            # "serve=ray.serve.scripts:cli",
          ]
      },
      include_package_data=True,
 -- 
-2.11.0
+2.29.2.windows.3
 

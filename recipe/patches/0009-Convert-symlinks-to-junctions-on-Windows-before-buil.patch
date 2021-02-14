@@ -1,7 +1,7 @@
-From 859d3531b7daf01a69dc1550f46deb848c8b88ce Mon Sep 17 00:00:00 2001
+From 72a4576c09bb0ca4b9215ca99b2079d5d786efcd Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 20 Nov 2020 15:32:19 +0300
-Subject: [PATCH 09/15] Convert symlinks to junctions on Windows before
+Subject: [PATCH 09/13] Convert symlinks to junctions on Windows before
  building
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
@@ -10,10 +10,10 @@ Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 40 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index c9b1eddb3..641e26660 100644
+index 2b6d3e075..c76c4b5a8 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -221,6 +221,45 @@ def download_pickle5(pickle5_dir):
+@@ -218,6 +218,45 @@ def download_pickle5(pickle5_dir):
              finally:
                  wzf.close()
  
@@ -59,7 +59,7 @@ index c9b1eddb3..641e26660 100644
  
  def build(build_python, build_java):
      if tuple(sys.version_info[:2]) not in SUPPORTED_PYTHONS:
-@@ -239,6 +278,7 @@ def build(build_python, build_java):
+@@ -236,6 +275,7 @@ def build(build_python, build_java):
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
  
      if is_native_windows_or_msys():
@@ -68,5 +68,5 @@ index c9b1eddb3..641e26660 100644
          if SHELL:
              bazel_env.setdefault("BAZEL_SH", os.path.normpath(SHELL))
 -- 
-2.11.0
+2.29.2.windows.3
 
