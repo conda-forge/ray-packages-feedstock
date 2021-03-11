@@ -22,6 +22,7 @@ source:
     - patches/0012-Empty-install-requirements-installed-by-conda-build.patch
     - patches/0013-permit-python-3.9.patch
     - patches/0014-Update-redis-patch-for-redis-6.0.9.patch
+    - patches/0015-Ignore-warnings-in-logging.cc.patch
 
 build:
   number: 0

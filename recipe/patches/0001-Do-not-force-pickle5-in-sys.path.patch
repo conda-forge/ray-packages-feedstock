@@ -1,7 +1,7 @@
 From f9497f96506e62e4b01b43476b15f848d1550cca Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 12:04:25 +0300
-Subject: [PATCH 01/14] Do not force pickle5 in sys.path
+Subject: [PATCH 01/15] Do not force pickle5 in sys.path
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---

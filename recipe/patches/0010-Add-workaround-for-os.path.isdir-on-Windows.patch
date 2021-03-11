@@ -1,7 +1,7 @@
 From bb40b3a700675a954377e9752c869440d14d9702 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Mon, 23 Nov 2020 13:14:24 +0300
-Subject: [PATCH 10/14] Add workaround for os.path.isdir on Windows
+Subject: [PATCH 10/15] Add workaround for os.path.isdir on Windows
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 ---
