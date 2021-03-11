@@ -143,7 +143,7 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
     test:
       imports:
-        - ray.dashboard
+        - ray.new_dashboard
 
   - name: ray-rllib
     build:
