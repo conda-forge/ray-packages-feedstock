@@ -1,7 +1,7 @@
-From 51552e702ce81936906030bde40f5e2ab2660b7e Mon Sep 17 00:00:00 2001
+From ffd413d8cda3a801f786f3a3ca7503c91aa84fc5 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
-Subject: [PATCH 05/13] Disable making non-core entry scripts
+Subject: [PATCH 05/14] Disable making non-core entry scripts
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
@@ -24,5 +24,5 @@ index 2c82ad1d9..63ab0d09a 100644
      },
      include_package_data=True,
 -- 
-2.29.2.windows.3
+2.11.0
 

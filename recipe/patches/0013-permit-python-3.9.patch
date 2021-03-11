@@ -1,7 +1,7 @@
-From e247fa3658dca3e4b0c70cb7d53acde61a0da4ba Mon Sep 17 00:00:00 2001
+From 0d1d07077bc9ed00400adc8e013d038a5f8d3dcc Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 12 Dec 2020 14:28:05 +0100
-Subject: [PATCH 13/13] permit python 3.9
+Subject: [PATCH 13/14] permit python 3.9
 
 ---
  python/setup.py | 2 +-
@@ -21,5 +21,5 @@ index ce1851078..6e9360de2 100644
  
  ROOT_DIR = os.path.dirname(__file__)
 -- 
-2.29.2.windows.3
+2.11.0
 

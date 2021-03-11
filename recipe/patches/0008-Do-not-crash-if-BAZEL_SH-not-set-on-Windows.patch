@@ -1,7 +1,7 @@
-From e76a76d050cc86c4209958fdbd1e747ab8648d2a Mon Sep 17 00:00:00 2001
+From 125a0ddf30688af5814f419709d657a98f151389 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 20 Nov 2020 14:17:05 +0300
-Subject: [PATCH 08/13] Do not crash if BAZEL_SH not set on Windows
+Subject: [PATCH 08/14] Do not crash if BAZEL_SH not set on Windows
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 ---
@@ -22,5 +22,5 @@ index ecc91a3df..c9b1eddb3 100644
          wsl_bash = os.path.join(SYSTEMROOT, "System32", "bash.exe")
          if (not BAZEL_SH) and SYSTEMROOT and os.path.isfile(wsl_bash):
 -- 
-2.29.2.windows.3
+2.11.0
 
