@@ -1,13 +1,13 @@
-From b8cdbcca029859eb99ccb6a1d5f6dbe15767b6d4 Mon Sep 17 00:00:00 2001
+From 6e739a9dc46bae93dc71b4d61f949a15ff9a3af4 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 6 Nov 2020 00:55:05 +0300
-Subject: [PATCH 04/13] Redis deps now build but do not link
+Subject: [PATCH 04/15] Redis deps now build but do not link
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
- bazel/BUILD.redis                      | 12 ++++-
+ bazel/BUILD.redis                      | 12 +++++-
  bazel/ray_deps_setup.bzl               |  1 +
- thirdparty/patches/redis-deps-ar.patch | 74 ++++++++++++++++++++++++++
+ thirdparty/patches/redis-deps-ar.patch | 74 ++++++++++++++++++++++++++++++++++
  3 files changed, 85 insertions(+), 2 deletions(-)
  create mode 100644 thirdparty/patches/redis-deps-ar.patch
 
@@ -139,5 +139,5 @@ index 000000000..15acb3165
 + .PHONY: persist-settings
 + 
 -- 
-2.29.2.windows.3
+2.11.0
 
