@@ -102,7 +102,7 @@ outputs:
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
         - protobuf >=3.8.0
-        - py-spy >=0.2.0
+        - psutil
         - pyyaml
         - requests
         - redis-py >=3.5.0
@@ -166,6 +166,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - py-spy >=0.2.0
     test:
       imports:
         # there doesn't appear to be a debug specific module
