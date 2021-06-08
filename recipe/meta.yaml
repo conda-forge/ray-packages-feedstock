@@ -178,7 +178,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-k8s', exact=True) }}
+        - {{ pin_subpackage('ray-core', exact=True) }}
         - kubernetes
     test:
       imports:
