@@ -108,6 +108,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--core-green.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--dashboard-green.svg)](https://anaconda.org/conda-forge/ray-dashboard) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-dashboard.svg)](https://anaconda.org/conda-forge/ray-dashboard) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-dashboard.svg)](https://anaconda.org/conda-forge/ray-dashboard) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-dashboard.svg)](https://anaconda.org/conda-forge/ray-dashboard) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--debug-green.svg)](https://anaconda.org/conda-forge/ray-debug) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-debug.svg)](https://anaconda.org/conda-forge/ray-debug) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-debug.svg)](https://anaconda.org/conda-forge/ray-debug) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-debug.svg)](https://anaconda.org/conda-forge/ray-debug) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-ray--k8s-green.svg)](https://anaconda.org/conda-forge/ray-k8s) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-k8s.svg)](https://anaconda.org/conda-forge/ray-k8s) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-k8s.svg)](https://anaconda.org/conda-forge/ray-k8s) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-k8s.svg)](https://anaconda.org/conda-forge/ray-k8s) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--rllib-green.svg)](https://anaconda.org/conda-forge/ray-rllib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-rllib.svg)](https://anaconda.org/conda-forge/ray-rllib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-rllib.svg)](https://anaconda.org/conda-forge/ray-rllib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-rllib.svg)](https://anaconda.org/conda-forge/ray-rllib) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--serve-green.svg)](https://anaconda.org/conda-forge/ray-serve) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-serve.svg)](https://anaconda.org/conda-forge/ray-serve) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-serve.svg)](https://anaconda.org/conda-forge/ray-serve) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-serve.svg)](https://anaconda.org/conda-forge/ray-serve) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--tune-green.svg)](https://anaconda.org/conda-forge/ray-tune) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-tune.svg)](https://anaconda.org/conda-forge/ray-tune) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-tune.svg)](https://anaconda.org/conda-forge/ray-tune) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-tune.svg)](https://anaconda.org/conda-forge/ray-tune) |
@@ -119,12 +120,13 @@ Installing `ray-packages` from the `conda-forge` channel can be achieved by addi
 
 ```
 conda config --add channels conda-forge
+conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `ray-all, ray-autoscaler, ray-core, ray-dashboard, ray-debug, ray-rllib, ray-serve, ray-tune` can be installed with:
+Once the `conda-forge` channel has been enabled, `ray-all, ray-autoscaler, ray-core, ray-dashboard, ray-debug, ray-k8s, ray-rllib, ray-serve, ray-tune` can be installed with:
 
 ```
-conda install ray-all ray-autoscaler ray-core ray-dashboard ray-debug ray-rllib ray-serve ray-tune
+conda install ray-all ray-autoscaler ray-core ray-dashboard ray-debug ray-k8s ray-rllib ray-serve ray-tune
 ```
 
 It is possible to list all of the versions of `ray-all` available on your platform with:
@@ -189,9 +191,9 @@ build distinct package versions.
 
 In order to produce a uniquely identifiable distribution:
  * If the version of a package **is not** being increased, please add or increase
-   the [``build/number``](https://conda.io/docs/user-guide/tasks/build-packages/define-metadata.html#build-number-and-string).
+   the [``build/number``](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#build-number-and-string).
  * If the version of a package **is** being increased, please remember to return
-   the [``build/number``](https://conda.io/docs/user-guide/tasks/build-packages/define-metadata.html#build-number-and-string)
+   the [``build/number``](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#build-number-and-string)
    back to 0.
 
 Feedstock Maintainers

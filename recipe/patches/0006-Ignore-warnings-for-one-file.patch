@@ -1,4 +1,4 @@
-From 26074f87d29c42de93fe3a5211a0a3d6d0684b06 Mon Sep 17 00:00:00 2001
+From cb3f554224e3b430ea1e8341f538df076f311351 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 11 Nov 2020 01:08:16 +0300
 Subject: [PATCH 06/15] Ignore warnings for one file
@@ -9,7 +9,7 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/.bazelrc b/.bazelrc
-index 67bbf92d1..ddeae42f1 100644
+index 8de20992a..c2aed7a51 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -35,6 +35,8 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"

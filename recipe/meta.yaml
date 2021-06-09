@@ -1,4 +1,4 @@
-{% set version = "1.1.0" %}
+{% set version = "1.2.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: c0fde1b6df563d8875e40aa12ad7559863753a3f7e11c976fea6d67d4adcb26c
+  sha256: e4c9aa0cbfecf4d1112a43de473606a81f6fbba5c3f0b3013644268b366e2b75
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -35,12 +35,12 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cython >=0.29
     - bazel <=3.4.1  # [not win]
-    - bazel <3.7  # [win]
+    - bazel <3.7     # [win]
+    - cython >=0.29
     - curl
     - make
-    - m2-patch  # [win]
+    - m2-patch       # [win]
 
 outputs:
   - name: ray-all
@@ -49,37 +49,40 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        #- {{ pin_subpackage('ray-debug', exact=True) }}  # turned off for now, see below
+        # autoscaler is completely disabled for now as it's missing a bunch of dependencies
+        # and there's not much interest in adding them (yet).
+        # autoscaler does not work on Windows, no point of building it; see below
+        #- {{ pin_subpackage('ray-autoscaler', exact=True) }}  # [not win]
         - {{ pin_subpackage('ray-dashboard', exact=True) }}
+        #- {{ pin_subpackage('ray-debug', exact=True) }}  # turned off for now, see below
+        - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
         - {{ pin_subpackage('ray-tune', exact=True) }}
-        # autoscaler does not work on Windows, no point of building it; see below
-        - {{ pin_subpackage('ray-autoscaler', exact=True) }}  # [not win]
     test:
       imports:
         # dummy test; actual tests are in subpackages
         - ray
 
   - name: ray-core
-    script: build-core.sh  # [not win]
+    script: build-core.sh   # [not win]
     script: build-core.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cython >=0.29
         - bazel <=3.4.1  # [not win]
-        - bazel <3.7  # [win]
+        - bazel <3.7     # [win]
         - curl
+        - cython >=0.29
         - make
       host:
+        - python
+        - pip
+        - packaging
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
         - pickle5  # [py<38]
-        - packaging
-        - python
-        - pip
       run:
         - python
         - aiohttp
@@ -89,7 +92,6 @@ outputs:
         - colorama
         - colorful
         - filelock
-        - googlesearch
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
@@ -97,16 +99,14 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
+        - pickle5  # [py<38]
+        - prometheus_client >=0.7.1
         - protobuf >=3.8.0
         - psutil
         - pyyaml
         - requests
         - redis-py >=3.5.0
-        - opencensus
-        - prometheus_client >=0.7.1
-        - pickle5  # [py<38]
-        - funcsigs
-        - setproctitle
+        - setproctitle =1.1.10
     test:
       imports:
         - ray
@@ -116,6 +116,44 @@ outputs:
         - ray.runtime_context
         - ray.state
         - ray.worker
+
+  - name: ray-autoscaler
+    build:
+      # skip autoscaler altogether because right now it's missing a lot of dependencies
+      # and no one has volunteered to update those
+      skip: true
+      # ray autoscaler relies heavily on using POSIX-compliant OpenSSH and rsync,
+      # neither of which are available on Windows; they are in WSL, but that is
+      # effectively a Linux version from conda point of view
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - azure-cli-core ==2.4.0
+        - azure-mgmt-compute ==12.0.0
+        - azure-mgmt-msi ==1.0.0
+        - azure-mgmt-network ==10.1.0
+        - boto3 ==1.4.8
+        - google-api-python-client ==1.7.8
+        - google-auth
+        - kubernetes
+    test:
+      imports:
+        - ray.autoscaler
+
+  - name: ray-dashboard
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+    test:
+      imports:
+        - ray.new_dashboard
 
   - name: ray-debug
     build:
@@ -134,16 +172,18 @@ outputs:
         # there doesn't appear to be a debug specific module
         - ray
 
-  - name: ray-dashboard
+  - name: ray-k8s
     requirements:
       host:
         - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - kubernetes
     test:
       imports:
-        - ray.new_dashboard
+        # there doesn't appear to be a k8s module, not sure how to test this
+        - ray
 
   - name: ray-rllib
     build:
@@ -154,11 +194,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - tabulate
-        - tensorboardX
-        - pandas
-        - dataclasses  # [py<37]
+        - {{ pin_subpackage('ray-tune', exact=True) }}
         - atari_py
         - dm-tree
         - gym-atari
@@ -182,11 +218,12 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn
-        - flask
-        - requests
-        - pydantic <1.7
         - dataclasses  # [py<37]
+        - flask
+        - pydantic <1.7
+        - requests
+        - starlette
+        - uvicorn
     test:
       imports:
         - ray.serve
@@ -201,35 +238,13 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - dataclasses  # [py<37]
+        - pandas
         - tabulate
         - tensorboardX
-        - pandas
-        - dataclasses  # [py<37]
     test:
       imports:
         - ray.tune
-
-  - name: ray-autoscaler
-    build:
-      # ray autoscaler relies heavily on using POSIX-compliant OpenSSH and rsync,
-      # neither of which are available on Windows; they are in WSL, but that is
-      # effectively a Linux version from conda point of view
-      skip: true  # [win]
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - azure-common
-        - azure-mgmt-resource
-        - boto3
-        - google-api-python-client
-        - google-auth
-        - msrestazure
-    test:
-      imports:
-        - ray.autoscaler
 
 about:
   home: https://github.com/ray-project/ray

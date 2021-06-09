@@ -1,4 +1,4 @@
-From bb40b3a700675a954377e9752c869440d14d9702 Mon Sep 17 00:00:00 2001
+From dd50f3ce0b7bb6acfcc06491aa5b0b870e9b0fb1 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Mon, 23 Nov 2020 13:14:24 +0300
 Subject: [PATCH 10/15] Add workaround for os.path.isdir on Windows
@@ -9,10 +9,10 @@ Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 19 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index 641e26660..292b3a76a 100644
+index c76c4b5a8..a38f76b7b 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -221,6 +221,24 @@ def download_pickle5(pickle5_dir):
+@@ -218,6 +218,24 @@ def download_pickle5(pickle5_dir):
              finally:
                  wzf.close()
  
@@ -37,7 +37,7 @@ index 641e26660..292b3a76a 100644
  def replace_symlinks_with_junctions():
      _LINKS = {
          r'ray\new_dashboard': '../../dashboard',
-@@ -259,6 +277,7 @@ def replace_symlinks_with_junctions():
+@@ -256,6 +274,7 @@ def replace_symlinks_with_junctions():
              subprocess.check_call('MKLINK /J "{}" "{}"'.format(os.path.basename(link), target), shell=True, cwd=os.path.dirname(path))
  
  if is_native_windows_or_msys():
