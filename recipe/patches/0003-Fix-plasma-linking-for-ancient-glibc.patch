@@ -1,7 +1,7 @@
-From 6ea89bff1595d3d48c285c0569abae42966473f0 Mon Sep 17 00:00:00 2001
+From 092468d20a20d4ee8da4d256ab3aa2b53645c4ca Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 17:09:46 +0300
-Subject: [PATCH 03/15] Fix plasma linking for ancient glibc
+Subject: [PATCH 03/12] Fix plasma linking for ancient glibc
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/BUILD.bazel b/BUILD.bazel
-index c1745e468..fbe66124e 100644
+index 879633444..0463f7c9d 100644
 --- a/BUILD.bazel
 +++ b/BUILD.bazel
 @@ -223,6 +223,7 @@ PLASMA_LINKOPTS = [] + select({
@@ -29,5 +29,5 @@ index c1745e468..fbe66124e 100644
      deps = [
          ":plasma_store_server_lib",
 -- 
-2.11.0
+2.25.1
 
