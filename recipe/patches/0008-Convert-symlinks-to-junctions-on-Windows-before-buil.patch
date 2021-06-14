@@ -1,19 +1,20 @@
-From 6953ae0874549694e68be5fa92c08d5bfee1898b Mon Sep 17 00:00:00 2001
+From 850158741b845c8db81e39058c5f0ba15936369d Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 20 Nov 2020 15:32:19 +0300
-Subject: [PATCH 08/12] Convert symlinks to junctions on Windows before
+Subject: [PATCH 08/13] Convert symlinks to junctions on Windows before
  building
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
+Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
 ---
- python/setup.py | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ python/setup.py | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index acb80c4aa..80b906cf7 100644
+index acb80c4aa..f396b73eb 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -213,6 +213,45 @@ def download_pickle5(pickle5_dir):
+@@ -213,6 +213,48 @@ def download_pickle5(pickle5_dir):
              finally:
                  wzf.close()
  
@@ -45,8 +46,11 @@ index acb80c4aa..80b906cf7 100644
 +                    # and links to directories are considered directories now
 +                    os.unlink(path)
 +                except OSError as err:
-+                    if err.errno != errno.EIO:
++                    # On Windows attempt to unlink a regular directory results
++                    # in a PermissionError with errno set to errno.EACCES.
++                    if err.errno != errno.EACCES:
 +                        raise
++                    # For regular directories deletion is done with rmdir call.
 +                    os.rmdir(path)
 +            else:
 +                raise ValueError('Unexpected type of entry: "{}"'.format(path))
@@ -59,7 +63,7 @@ index acb80c4aa..80b906cf7 100644
  
  def build(build_python, build_java):
      if tuple(sys.version_info[:2]) not in SUPPORTED_PYTHONS:
-@@ -231,6 +270,7 @@ def build(build_python, build_java):
+@@ -231,6 +273,7 @@ def build(build_python, build_java):
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
  
      if is_native_windows_or_msys():
@@ -68,5 +72,5 @@ index acb80c4aa..80b906cf7 100644
          if SHELL:
              bazel_env.setdefault("BAZEL_SH", os.path.normpath(SHELL))
 -- 
-2.25.1
+2.28.0
 

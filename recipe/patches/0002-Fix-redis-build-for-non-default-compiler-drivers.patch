@@ -1,7 +1,7 @@
 From 1ed5ff57c5367303479f117dea72eabefefa1946 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 17:05:44 +0300
-Subject: [PATCH 02/12] Fix redis build for non-default compiler drivers
+Subject: [PATCH 02/13] Fix redis build for non-default compiler drivers
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
@@ -29,5 +29,5 @@ index f428f7b36..9ec69d433 100644
  
  # This library is for internal hiredis use, because hiredis assumes a
 -- 
-2.25.1
+2.28.0
 

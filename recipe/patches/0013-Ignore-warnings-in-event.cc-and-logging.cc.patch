@@ -1,4 +1,4 @@
-From 463412068c8cbf99b3dd807de71c1075fce651f1 Mon Sep 17 00:00:00 2001
+From 19d8518add9095bd14b780d4cd6a5e32ea956b99 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 11 Nov 2020 01:08:16 +0300
 Subject: [PATCH 13/13] Ignore warnings in event.cc and logging.cc
@@ -24,5 +24,5 @@ index e4d94d44a..ada7f919d 100644
  #build --per_file_copt="external/.*@-Wno-unused-result"
  # Ignore minor warnings for host tools, which we generally can't control
 -- 
-2.25.1
+2.28.0
 

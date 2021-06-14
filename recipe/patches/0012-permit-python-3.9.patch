@@ -1,14 +1,14 @@
-From 59caedbc4e888170aff5a0b6e0dc22a5fb386ec3 Mon Sep 17 00:00:00 2001
+From 515b71d6d25508972eb01b53a76a7529e60d67be Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 12 Dec 2020 14:28:05 +0100
-Subject: [PATCH 12/12] permit python 3.9
+Subject: [PATCH 12/13] permit python 3.9
 
 ---
  python/setup.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 59e73897f..16325f9a3 100644
+index 34085dec6..54a0e40f3 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
@@ -21,5 +21,5 @@ index 59e73897f..16325f9a3 100644
  
  ROOT_DIR = os.path.dirname(__file__)
 -- 
-2.25.1
+2.28.0
 

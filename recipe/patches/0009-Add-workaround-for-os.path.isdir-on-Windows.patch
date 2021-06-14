@@ -1,7 +1,7 @@
-From 82df5247486a79ef65121c05c7691ecce0fa3df1 Mon Sep 17 00:00:00 2001
+From ce15e164aadcadf90a4eaa88b801247f3d03a5ee Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Mon, 23 Nov 2020 13:14:24 +0300
-Subject: [PATCH 09/12] Add workaround for os.path.isdir on Windows
+Subject: [PATCH 09/13] Add workaround for os.path.isdir on Windows
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 19 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index 80b906cf7..fb5c83998 100644
+index f396b73eb..554fde263 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -213,6 +213,24 @@ def download_pickle5(pickle5_dir):
@@ -37,7 +37,7 @@ index 80b906cf7..fb5c83998 100644
  def replace_symlinks_with_junctions():
      _LINKS = {
          r'ray\new_dashboard': '../../dashboard',
-@@ -251,6 +269,7 @@ def replace_symlinks_with_junctions():
+@@ -254,6 +272,7 @@ def replace_symlinks_with_junctions():
              subprocess.check_call('MKLINK /J "{}" "{}"'.format(os.path.basename(link), target), shell=True, cwd=os.path.dirname(path))
  
  if is_native_windows_or_msys():
@@ -46,5 +46,5 @@ index 80b906cf7..fb5c83998 100644
  
  def build(build_python, build_java):
 -- 
-2.25.1
+2.28.0
 
