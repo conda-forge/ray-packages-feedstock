@@ -89,6 +89,7 @@ outputs:
         - click >=7.0
         - colorama
         - colorful
+        - dataclasses  # [py<37]
         - filelock
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
