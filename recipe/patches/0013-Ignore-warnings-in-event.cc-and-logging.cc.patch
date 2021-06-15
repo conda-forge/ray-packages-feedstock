@@ -1,7 +1,7 @@
 From 19d8518add9095bd14b780d4cd6a5e32ea956b99 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 11 Nov 2020 01:08:16 +0300
-Subject: [PATCH 13/13] Ignore warnings in event.cc and logging.cc
+Subject: [PATCH 13/14] Ignore warnings in event.cc and logging.cc
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>

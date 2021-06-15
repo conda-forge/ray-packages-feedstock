@@ -1,7 +1,7 @@
 From 2af78c95e58017caae6485e2e1b82f5cd0e41ad5 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 4 Dec 2020 12:49:34 +0300
-Subject: [PATCH 11/13] Empty install requirements - installed by conda build
+Subject: [PATCH 11/14] Empty install requirements - installed by conda build
 
 ---
  python/setup.py | 27 ++-------------------------

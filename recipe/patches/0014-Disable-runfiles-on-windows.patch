@@ -1,0 +1,37 @@
+From fc1c71bd49abbd725371a386cba6fdf53a2993b1 Mon Sep 17 00:00:00 2001
+From: Gregory Shimansky <gregory.shimansky@intel.com>
+Date: Tue, 15 Jun 2021 17:17:34 -0500
+Subject: [PATCH 14/14] Disable runfiles on windows
+
+because otherwise build-runfiles insists on creating symlinks
+that require elevated privileges during the build.
+
+Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
+---
+ python/setup.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index 54a0e40f3..66f5762ad 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -327,12 +327,15 @@ def build(build_python, build_java):
+         if not os.path.exists(d):
+             os.makedirs(d)
+ 
++    bazel_options = ["--output_user_root=" + root_dir, "--output_base=" + out_dir, "build", "--verbose_failures"]
++    if is_native_windows_or_msys():
++        bazel_options.append("--enable_runfiles=false")
+     bazel_targets = []
+     bazel_targets += ["//:ray_pkg"] if build_python else []
+     bazel_targets += ["//java:ray_java_pkg"] if build_java else []
+     return bazel_invoke(
+         subprocess.check_call,
+-        ["--output_user_root=" + root_dir, "--output_base=" + out_dir, "build", "--verbose_failures", "--"] + bazel_targets,
++        bazel_options + ["--"] + bazel_targets,
+         env=bazel_env)
+ 
+ 
+-- 
+2.28.0
+

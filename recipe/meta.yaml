@@ -21,6 +21,7 @@ source:
     - patches/0011-Empty-install-requirements-installed-by-conda-build.patch
     - patches/0012-permit-python-3.9.patch
     - patches/0013-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0014-Disable-runfiles-on-windows.patch
 
 build:
   number: 1

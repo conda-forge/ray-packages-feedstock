@@ -1,7 +1,7 @@
 From 515b71d6d25508972eb01b53a76a7529e60d67be Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 12 Dec 2020 14:28:05 +0100
-Subject: [PATCH 12/13] permit python 3.9
+Subject: [PATCH 12/14] permit python 3.9
 
 ---
  python/setup.py | 2 +-
