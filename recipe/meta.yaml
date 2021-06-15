@@ -33,8 +33,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - bazel <=3.4.1  # [not win]
-    - bazel <3.7     # [win]
+    - bazel <=3.7.2
     - cython >=0.29
     - curl
     - make
