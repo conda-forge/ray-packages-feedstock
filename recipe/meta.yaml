@@ -116,6 +116,8 @@ outputs:
         - ray.runtime_context
         - ray.state
         - ray.worker
+      commands:
+        - python -c "import ray; ray.init()"
 
   - name: ray-autoscaler
     build:
