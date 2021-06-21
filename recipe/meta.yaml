@@ -25,7 +25,7 @@ source:
     - patches/0015-Ignore-warnings-in-logging.cc.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
@@ -99,6 +99,7 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
+        - opencensus
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
         - protobuf >=3.8.0
@@ -116,6 +117,12 @@ outputs:
         - ray.runtime_context
         - ray.state
         - ray.worker
+        # init-code seemingly depends on platform or other ambient things;
+        # the following doesn't get triggered in CI, but was a problem in
+        # https://github.com/conda-forge/ray-packages-feedstock/issues/16
+        - ray.metrics_agent
+      commands:
+        - python -c "import ray; ray.init()"
 
   - name: ray-autoscaler
     build:
