@@ -24,7 +24,7 @@ source:
     - patches/0014-Disable-runfiles-on-windows.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
