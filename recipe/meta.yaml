@@ -99,6 +99,7 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
+        - opencensus
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
         - protobuf >=3.8.0
