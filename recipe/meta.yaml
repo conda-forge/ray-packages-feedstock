@@ -218,6 +218,9 @@ outputs:
         - rllib --help
 
   - name: ray-serve
+    build:
+      entry_points:
+        - serve = ray.serve.scripts:cli
     requirements:
       host:
         - python
