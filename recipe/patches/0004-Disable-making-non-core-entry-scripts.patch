@@ -1,0 +1,31 @@
+From 8a1a5c64bd41172ebc4fac39cc93baac56137cac Mon Sep 17 00:00:00 2001
+From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Date: Tue, 10 Nov 2020 23:26:35 +0300
+Subject: [PATCH 04/13] Disable making non-core entry scripts
+
+---
+ python/setup.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index 590020158..ea6925e25 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -444,10 +444,10 @@ setuptools.setup(
+     entry_points={
+         "console_scripts": [
+             "ray=ray.scripts.scripts:main",
+-            "rllib=ray.rllib.scripts:cli [rllib]",
+-            "tune=ray.tune.scripts:cli",
+-            "ray-operator=ray.ray_operator.operator:main",
+-            "serve=ray.serve.scripts:cli",
++            #"rllib=ray.rllib.scripts:cli [rllib]",
++            #"tune=ray.tune.scripts:cli",
++            #"ray-operator=ray.ray_operator.operator:main",
++            #"serve=ray.serve.scripts:cli",
+         ]
+     },
+     include_package_data=True,
+-- 
+2.30.2
+
