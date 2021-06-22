@@ -1,0 +1,28 @@
+From 19d8518add9095bd14b780d4cd6a5e32ea956b99 Mon Sep 17 00:00:00 2001
+From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Date: Wed, 11 Nov 2020 01:08:16 +0300
+Subject: [PATCH 13/14] Ignore warnings in event.cc and logging.cc
+
+Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
+---
+ .bazelrc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/.bazelrc b/.bazelrc
+index e4d94d44a..ada7f919d 100644
+--- a/.bazelrc
++++ b/.bazelrc
+@@ -34,6 +34,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
+ build:msvc     --per_file_copt="-\\.(asm|S)$@-WX"
+ # Ignore warnings for protobuf generated files and external projects.
+ build --per_file_copt="\\.pb\\.cc$@-w"
++# Ignore one specific warning
++build --per_file_copt="event\\.cc$@-w"
++build --per_file_copt="logging\\.cc$@-w"
+ build --per_file_copt="-\\.(asm|S)$,external/.*@-w"
+ #build --per_file_copt="external/.*@-Wno-unused-result"
+ # Ignore minor warnings for host tools, which we generally can't control
+-- 
+2.28.0
+

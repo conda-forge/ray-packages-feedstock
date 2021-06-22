@@ -1,4 +1,4 @@
-{% set version = "1.2.0" %}
+{% set version = "1.3.0" %}
 
 package:
   name: ray-packages
@@ -6,26 +6,25 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: e4c9aa0cbfecf4d1112a43de473606a81f6fbba5c3f0b3013644268b366e2b75
+  sha256: 66c65a6b7f5838726c908ebcc9d6c985f59ddbb0f22a700730422dde997d48d2
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
     - patches/0003-Fix-plasma-linking-for-ancient-glibc.patch
     - patches/0004-Redis-deps-now-build-but-do-not-link.patch
     - patches/0005-Disable-making-non-core-entry-scripts.patch
-    - patches/0006-Ignore-warnings-for-one-file.patch
-    - patches/0007-Contain-bazel-root-and-output-dir-right-above-SRC_DI.patch
-    - patches/0008-Do-not-crash-if-BAZEL_SH-not-set-on-Windows.patch
-    - patches/0009-Convert-symlinks-to-junctions-on-Windows-before-buil.patch
-    - patches/0010-Add-workaround-for-os.path.isdir-on-Windows.patch
-    - patches/0011-Include-process.h-for-getpid-explicitly-on-Windows.patch
-    - patches/0012-Empty-install-requirements-installed-by-conda-build.patch
-    - patches/0013-permit-python-3.9.patch
-    - patches/0014-Update-redis-patch-for-redis-6.0.9.patch
-    - patches/0015-Ignore-warnings-in-logging.cc.patch
+    - patches/0006-Contain-bazel-root-and-output-dir-right-above-SRC_DI.patch
+    - patches/0007-Do-not-crash-if-BAZEL_SH-not-set-on-Windows.patch
+    - patches/0008-Convert-symlinks-to-junctions-on-Windows-before-buil.patch
+    - patches/0009-Add-workaround-for-os.path.isdir-on-Windows.patch
+    - patches/0010-Include-process.h-for-getpid-explicitly-on-Windows.patch
+    - patches/0011-Empty-install-requirements-installed-by-conda-build.patch
+    - patches/0012-permit-python-3.9.patch
+    - patches/0013-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0014-Disable-runfiles-on-windows.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
@@ -35,8 +34,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - bazel <=3.4.1  # [not win]
-    - bazel <3.7     # [win]
+    - bazel <=3.7.2
     - cython >=0.29
     - curl
     - make
@@ -91,6 +89,7 @@ outputs:
         - click >=7.0
         - colorama
         - colorful
+        - dataclasses  # [py<37]
         - filelock
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
@@ -102,7 +101,7 @@ outputs:
         - opencensus
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
-        - protobuf >=3.8.0
+        - protobuf >=3.15.3
         - psutil
         - pyyaml
         - requests
@@ -120,7 +119,7 @@ outputs:
         # init-code seemingly depends on platform or other ambient things;
         # the following doesn't get triggered in CI, but was a problem in
         # https://github.com/conda-forge/ray-packages-feedstock/issues/16
-        - ray.metrics_agent
+        - ray._private.metrics_agent
       commands:
         - python -c "import ray; ray.init()"
 
@@ -219,18 +218,20 @@ outputs:
         - rllib --help
 
   - name: ray-serve
+    build:
+      entry_points:
+        - serve = ray.serve.scripts:cli
     requirements:
       host:
         - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - dataclasses  # [py<37]
-        - flask
-        - pydantic <1.7
-        - requests
-        - starlette
         - uvicorn
+        - requests
+        - pydantic >=1.8
+        - starlette
+        - fastapi
     test:
       imports:
         - ray.serve
@@ -245,7 +246,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - dataclasses  # [py<37]
         - pandas
         - tabulate
         - tensorboardX
