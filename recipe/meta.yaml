@@ -119,7 +119,7 @@ outputs:
         # init-code seemingly depends on platform or other ambient things;
         # the following doesn't get triggered in CI, but was a problem in
         # https://github.com/conda-forge/ray-packages-feedstock/issues/16
-        - ray.metrics_agent
+        - ray._private.metrics_agent
       commands:
         - python -c "import ray; ray.init()"
 
