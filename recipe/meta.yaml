@@ -1,4 +1,4 @@
-{% set version = "1.3.0" %}
+{% set version = "1.4.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 66c65a6b7f5838726c908ebcc9d6c985f59ddbb0f22a700730422dde997d48d2
+  sha256: 1ad04845dad6824220ad7750d666e7186f6b9186fb99294aae7d0e35f8e75018
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -63,7 +63,7 @@ outputs:
         - ray
 
   - name: ray-core
-    script: build-core.sh   # [not win]
+    script: build-core.sh  # [not win]
     script: build-core.bat  # [win]
     requirements:
       build:
