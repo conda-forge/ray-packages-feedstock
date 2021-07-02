@@ -27,7 +27,7 @@ build:
   number: 1
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
-  skip: true  # [osx]
+  # skip: true  # [osx]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
