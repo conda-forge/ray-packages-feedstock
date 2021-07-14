@@ -152,7 +152,12 @@ outputs:
         - ray.autoscaler
 
   - name: ray-dashboard
-    script: cd python/ray/new_dashboard/client && npm install && npm ci && npm run build
+    build:
+      script:
+        - cd python/ray/new_dashboard/client
+        - npm install
+        - npm ci
+        - npm run build
     requirements:
       host:
         - nodejs
