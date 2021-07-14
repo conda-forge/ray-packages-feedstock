@@ -158,6 +158,8 @@ outputs:
         - npm install
         - npm ci
         - npm run build
+        # not sure why this seems to get copied on windows but not linux...
+        - cp -R ./build $SP_DIR/ray/new_dashboard/client/build  # [not win]
     requirements:
       host:
         - nodejs
