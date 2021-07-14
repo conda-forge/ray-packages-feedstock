@@ -24,7 +24,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
@@ -152,8 +152,10 @@ outputs:
         - ray.autoscaler
 
   - name: ray-dashboard
+    script: cd python/ray/new_dashboard/client && npm install && npm ci && npm run build
     requirements:
       host:
+        - nodejs
         - python
       run:
         - python
@@ -161,6 +163,8 @@ outputs:
     test:
       imports:
         - ray.new_dashboard
+      commands:
+        - python -c "import ray; ray.init()"
 
   - name: ray-debug
     build:
