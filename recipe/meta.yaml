@@ -164,7 +164,7 @@ outputs:
       imports:
         - ray.new_dashboard
       commands:
-        - python -c "import ray; ray.init()"
+        - python -c "import ray; ray.init(include_dashboard=True)"
 
   - name: ray-debug
     build:
