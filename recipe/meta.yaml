@@ -159,6 +159,7 @@ outputs:
         - npm ci
         - npm run build
         # not sure why this seems to get copied on windows but not linux...
+        - mkdir -p $SP_DIR/ray/new_dashboard/client             # [not win]
         - cp -R ./build $SP_DIR/ray/new_dashboard/client/build  # [not win]
     requirements:
       host:
