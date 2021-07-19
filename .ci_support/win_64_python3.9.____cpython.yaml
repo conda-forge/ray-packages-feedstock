@@ -8,6 +8,10 @@ curl:
 - '7'
 cxx_compiler:
 - vs2017
+nodejs:
+- '14'
+- '15'
+- '16'
 pin_run_as_build:
   curl:
     max_pin: x
