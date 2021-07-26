@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.5.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 1ad04845dad6824220ad7750d666e7186f6b9186fb99294aae7d0e35f8e75018
+  sha256: 88f6721c0fa77065ccbb8949f5f1dfa1d47ec683174d6e8e7b5ffc645a892a94
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -24,7 +24,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
@@ -63,7 +63,7 @@ outputs:
         - ray
 
   - name: ray-core
-    script: build-core.sh   # [not win]
+    script: build-core.sh  # [not win]
     script: build-core.bat  # [win]
     requirements:
       build:
