@@ -1,22 +1,20 @@
-From e4339570f80880bea34420af7d2310ad6ba44892 Mon Sep 17 00:00:00 2001
-From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
-Date: Fri, 20 Nov 2020 15:32:19 +0300
-Subject: [PATCH 07/13] Convert symlinks to junctions on Windows before
+From 43facb9ebd39f154ac1df430ed8896a3a4d563da Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Wed, 4 Aug 2021 11:37:31 +0100
+Subject: [PATCH 07/12] Convert symlinks to junctions on Windows before
  building
 
-Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
-Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
 ---
- python/setup.py | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ python/setup.py | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index ac937da29..020acc922 100644
+index ec94ab71e..02dcbb189 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -216,6 +216,48 @@ def download_pickle5(pickle5_dir):
-             finally:
+@@ -230,6 +230,51 @@ def download_pickle5(pickle5_dir):
                  wzf.close()
+ 
  
 +def replace_symlinks_with_junctions():
 +    _LINKS = {
@@ -58,12 +56,15 @@ index ac937da29..020acc922 100644
 +            print('Setting {} -> {}'.format(link, target))
 +            subprocess.check_call('MKLINK /J "{}" "{}"'.format(os.path.basename(link), target), shell=True, cwd=os.path.dirname(path))
 +
++
 +if is_native_windows_or_msys():
 +    replace_symlinks_with_junctions()
- 
- def build(build_python, build_java):
++
++
+ def build(build_python, build_java, build_cpp):
      if tuple(sys.version_info[:2]) not in SUPPORTED_PYTHONS:
-@@ -234,6 +276,7 @@ def build(build_python, build_java):
+         msg = ("Detected Python version {}, which is not supported. "
+@@ -247,6 +292,7 @@ def build(build_python, build_java, build_cpp):
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
  
      if is_native_windows_or_msys():
@@ -72,5 +73,5 @@ index ac937da29..020acc922 100644
          if SHELL:
              bazel_env.setdefault("BAZEL_SH", os.path.normpath(SHELL))
 -- 
-2.30.2
+2.26.2
 

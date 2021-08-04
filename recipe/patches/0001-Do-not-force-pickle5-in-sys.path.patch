@@ -1,18 +1,19 @@
-From 578717348bb90cd268d339e94b9302d349012929 Mon Sep 17 00:00:00 2001
+From c048761a74cd8c2c32939b194b016699473e16bc Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 12:04:25 +0300
-Subject: [PATCH 01/13] Do not force pickle5 in sys.path
+Subject: [PATCH 01/12] Do not force pickle5 in sys.path
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Signed-off-by: Kai Fricke <kai@anyscale.com>
 ---
  python/ray/__init__.py | 6 ------
  1 file changed, 6 deletions(-)
 
 diff --git a/python/ray/__init__.py b/python/ray/__init__.py
-index 4f18b9411..45753e5a1 100644
+index 4ecf2f2a6..3635d568a 100644
 --- a/python/ray/__init__.py
 +++ b/python/ray/__init__.py
-@@ -33,12 +33,6 @@ def _configure_system():
+@@ -34,12 +34,6 @@ def _configure_system():
                       "override this by explicitly setting OMP_NUM_THREADS.")
          os.environ["OMP_NUM_THREADS"] = "1"
  
@@ -26,5 +27,5 @@ index 4f18b9411..45753e5a1 100644
      # initialized.
      thirdparty_files = os.path.join(
 -- 
-2.30.2
+2.26.2
 

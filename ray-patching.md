@@ -1,3 +1,10 @@
+## How to create a new patch stack
+
+```sh
+git apply --check path/to/0001-example.patch
+
+```
+
 ## How to prepare or adapt patches for third party Ray components (using Redis as the example)
 
 ### Prepare sources

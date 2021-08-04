@@ -1,9 +1,10 @@
-From 8936e498f38abd5d12bf0e970f7ddcf276f453f9 Mon Sep 17 00:00:00 2001
+From bb16f782ab226f7fa552bbb59ce69fc584aa35ef Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 17:05:44 +0300
-Subject: [PATCH 02/13] Fix redis build for non-default compiler drivers
+Subject: [PATCH 02/12] Fix redis build for non-default compiler drivers
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Signed-off-by: Kai Fricke <kai@anyscale.com>
 ---
  bazel/BUILD.redis | 2 ++
  1 file changed, 2 insertions(+)
@@ -29,5 +30,5 @@ index f428f7b36..9ec69d433 100644
  
  # This library is for internal hiredis use, because hiredis assumes a
 -- 
-2.30.2
+2.26.2
 

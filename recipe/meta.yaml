@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.5.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 1ad04845dad6824220ad7750d666e7186f6b9186fb99294aae7d0e35f8e75018
+  sha256: f4aeeca4a8144e15179dfd4a2a5eea0256364f375c9e28572475f6b92cf614d0
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -18,9 +18,8 @@ source:
     - patches/0008-Add-workaround-for-os.path.isdir-on-Windows.patch
     - patches/0009-Include-process.h-for-getpid-explicitly-on-Windows.patch
     - patches/0010-Empty-install-requirements-installed-by-conda-build.patch
-    - patches/0011-permit-python-3.9.patch
-    - patches/0012-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0013-Disable-runfiles-on-windows.patch
+    - patches/0011-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0012-Disable-runfiles-on-windows.patch
 
 
 build:
@@ -83,29 +82,19 @@ outputs:
         - pickle5  # [py<38]
       run:
         - python
-        - aiohttp
-        - aiohttp-cors
-        - aioredis
         - click >=7.0
         - colorama
-        - colorful
         - dataclasses  # [py<37]
         - filelock
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
-        - gpustat  # [not win]
         - grpcio >=1.28.1
-        - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.16
-        - opencensus
         - pickle5  # [py<38]
-        - prometheus_client >=0.7.1
         - protobuf >=3.15.3
         - psutil
-        - pydantic >=1.8
         - pyyaml
-        - requests
         - redis-py >=3.5.0
         - setproctitle =1.1.10
     test:
@@ -123,6 +112,28 @@ outputs:
         - ray._private.metrics_agent
       commands:
         - python -c "import ray; ray.init()"
+
+  - name: ray-default
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - aiohttp
+        - aiohttp-cors
+        - aioredis <2
+        - colorful
+        - jsonschema
+        - requests
+        - gpustat  # [not win]
+        - opencensus
+        - prometheus_client >=0.7.1
+
+    test:
+      imports:
+        # there doesn't appear to be a k8s module, not sure how to test this
+        - ray
 
   - name: ray-autoscaler
     build:
@@ -199,6 +210,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - kubernetes
+        - urllib3
     test:
       imports:
         # there doesn't appear to be a k8s module, not sure how to test this
@@ -214,14 +226,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
-        - atari_py
         - dm-tree
         - gym
         - lz4
-        # until there is a build of opencv-python-headless which does not require
-        # full graphics stack we have to rely on user system having needed
-        #  graphics libraries installed
-        - opencv <=4.30.0
+        - scikit-image
         - pyyaml
         - scipy
     test:
@@ -259,6 +267,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
+        - requests
         - tabulate
         - tensorboardX
     test:

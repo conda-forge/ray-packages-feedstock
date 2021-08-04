@@ -1,20 +1,19 @@
-From d4460b8fa513c5d3acf6c0ee65d1337cfa32a6be Mon Sep 17 00:00:00 2001
-From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
-Date: Mon, 23 Nov 2020 13:14:24 +0300
-Subject: [PATCH 08/13] Add workaround for os.path.isdir on Windows
+From ad3baa62d67e247abf54212ccddc13a21ea23783 Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Wed, 4 Aug 2021 11:39:06 +0100
+Subject: [PATCH 08/12] Add workaround for os.path.isdir on Windows
 
-Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 ---
- python/setup.py | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ python/setup.py | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index 020acc922..f29fd74df 100644
+index 02dcbb189..df87c1d42 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -216,6 +216,24 @@ def download_pickle5(pickle5_dir):
-             finally:
+@@ -230,6 +230,25 @@ def download_pickle5(pickle5_dir):
                  wzf.close()
+ 
  
 +def patch_isdir():
 +    '''
@@ -34,17 +33,18 @@ index 020acc922..f29fd74df 100644
 +        return orig_isdir(path)
 +    os.path.isdir = fixed_isdir
 +
++
  def replace_symlinks_with_junctions():
      _LINKS = {
          r'ray\new_dashboard': '../../dashboard',
-@@ -257,6 +275,7 @@ def replace_symlinks_with_junctions():
-             subprocess.check_call('MKLINK /J "{}" "{}"'.format(os.path.basename(link), target), shell=True, cwd=os.path.dirname(path))
+@@ -272,6 +291,7 @@ def replace_symlinks_with_junctions():
+ 
  
  if is_native_windows_or_msys():
 +    patch_isdir()
      replace_symlinks_with_junctions()
  
- def build(build_python, build_java):
+ 
 -- 
-2.30.2
+2.26.2
 
