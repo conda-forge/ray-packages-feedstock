@@ -1,0 +1,25 @@
+From cc060f97f3817f3529261f22dc6dc41859d45edd Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Wed, 4 Aug 2021 15:17:42 +0100
+Subject: [PATCH 13/13] Set bazel linkopts
+
+---
+ python/setup.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/python/setup.py b/python/setup.py
+index b3aaf048e..fae3ee23f 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -310,6 +310,8 @@ def build(build_python, build_java, build_cpp):
+         raise OSError(msg)
+ 
+     bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
++    bazel_env.setdefault("BAZEL_LINKOPTS", "-static-libstdc++:-lm")
++    bazel_env.setdefault("BAZEL_LINKLIBS", "-l%:libstdc++.a")
+ 
+     if is_native_windows_or_msys():
+         replace_symlinks_with_junctions()
+-- 
+2.26.2
+
