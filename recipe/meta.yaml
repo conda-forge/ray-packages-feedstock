@@ -237,7 +237,7 @@ outputs:
         - pyyaml
         - scipy
         # Remove in next release (1.6.0)
-        - opencv-python-headless <=4.3.0.36
+        - opencv <=4.30.0
 
     test:
       imports:
