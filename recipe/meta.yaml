@@ -98,6 +98,14 @@ outputs:
         - pyyaml
         - redis-py >=3.5.0
         - setproctitle =1.1.10
+        # Move these to default in next release (1.6.0)
+        - aiohttp
+        - aiohttp-cors
+        - aioredis <2
+        - requests
+        - gpustat  # [not win]
+        - opencensus
+        - prometheus_client >=0.7.1
     test:
       imports:
         - ray
@@ -121,15 +129,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp
-        - aiohttp-cors
-        - aioredis <2
         - colorful
-        - jsonschema
-        - requests
-        - gpustat  # [not win]
-        - opencensus
-        - prometheus_client >=0.7.1
 
     test:
       imports:
