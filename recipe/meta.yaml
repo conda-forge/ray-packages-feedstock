@@ -102,6 +102,7 @@ outputs:
         - aiohttp
         - aiohttp-cors
         - aioredis <2
+        - jsonschema
         - requests
         - gpustat  # [not win]
         - opencensus
