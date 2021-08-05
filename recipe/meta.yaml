@@ -98,6 +98,8 @@ outputs:
         - pyyaml
         - redis-py >=3.5.0
         - setproctitle =1.1.10
+        # Remove in the next release (1.6.0)
+        - pydantic >=1.8
         # Move these to default in next release (1.6.0)
         - aiohttp
         - aiohttp-cors
@@ -234,6 +236,9 @@ outputs:
         - scikit-image
         - pyyaml
         - scipy
+        # Remove in next release (1.6.0)
+        - opencv-python-headless <=4.3.0.36
+
     test:
       imports:
         - ray.rllib
