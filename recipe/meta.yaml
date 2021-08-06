@@ -20,6 +20,7 @@ source:
     - patches/0010-Empty-install-requirements-installed-by-conda-build.patch
     - patches/0011-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0012-Disable-runfiles-on-windows.patch
+    - patches/0013-Add-bazel-linkopts-libs.patch
 
 
 build:
