@@ -35,7 +35,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - bazel <=3.7.2
-    - cython >=0.29
+    - cython >=0.29.15
     - curl
     - make
     - m2-patch       # [win]
@@ -72,7 +72,7 @@ outputs:
         - bazel <=3.4.1  # [not win]
         - bazel <3.7     # [win]
         - curl
-        - cython >=0.29
+        - cython >=0.29.15
         - make
       host:
         - python
@@ -97,7 +97,8 @@ outputs:
         - grpcio >=1.28.1
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
-        - numpy >=1.16
+        - numpy >=1.16  # [py<39]
+        - numpy >=1.19.3  # [py>=39]
         - opencensus
         - pickle5  # [py<38]
         - prometheus_client >=0.7.1
