@@ -1,7 +1,7 @@
 From bfb149410ec41c4e1062a317d4f52374e5ace836 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 18 Nov 2020 18:47:40 +0300
-Subject: [PATCH 05/12] Contain bazel root and output dir right above $SRC_DIR
+Subject: [PATCH 05/13] Contain bazel root and output dir right above $SRC_DIR
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---

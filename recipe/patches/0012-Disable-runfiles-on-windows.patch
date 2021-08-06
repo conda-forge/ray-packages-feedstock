@@ -1,7 +1,7 @@
 From f219e59ca27d9ba5649a6f6f0e26a53d0d61410e Mon Sep 17 00:00:00 2001
 From: Gregory Shimansky <gregory.shimansky@intel.com>
 Date: Tue, 15 Jun 2021 17:17:34 -0500
-Subject: [PATCH 12/12] Disable runfiles on windows
+Subject: [PATCH 12/13] Disable runfiles on windows
 
 because otherwise build-runfiles insists on creating symlinks
 that require elevated privileges during the build.

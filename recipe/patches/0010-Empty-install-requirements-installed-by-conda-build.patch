@@ -1,7 +1,7 @@
 From 353efadf23e790e831f87021ae5d4517331e9a2d Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 6 Aug 2021 11:36:40 +0100
-Subject: [PATCH 10/12] Empty install requirements - installed by conda build
+Subject: [PATCH 10/13] Empty install requirements - installed by conda build
 
 ---
  python/setup.py | 29 ++---------------------------
