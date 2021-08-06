@@ -18,9 +18,8 @@ source:
     - patches/0008-Add-workaround-for-os.path.isdir-on-Windows.patch
     - patches/0009-Include-process.h-for-getpid-explicitly-on-Windows.patch
     - patches/0010-Empty-install-requirements-installed-by-conda-build.patch
-    - patches/0011-permit-python-3.9.patch
-    - patches/0012-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0013-Disable-runfiles-on-windows.patch
+    - patches/0011-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0012-Disable-runfiles-on-windows.patch
 
 
 build:
