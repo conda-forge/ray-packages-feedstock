@@ -1,22 +1,22 @@
-From b9a0c4e81af7ca757bdcff2a057437b253261e41 Mon Sep 17 00:00:00 2001
+From b4bbc82ee9d987f5f2e5d6617ac3563fbea00cc3 Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
-Date: Fri, 20 Nov 2020 15:32:19 +0300
-Subject: [PATCH 07/13] Convert symlinks to junctions on Windows before
+Date: Mon, 9 Aug 2021 11:49:41 +0100
+Subject: [PATCH 07/13] Convert symlinks to junctions on Windows before 
  building
 
 Signed-off-by: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
 ---
- python/setup.py | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ python/setup.py | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index 248f1cf85..b4f35220f 100644
+index 06584f0f0..2920014b1 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -217,6 +217,48 @@ def download_pickle5(pickle5_dir):
-             finally:
+@@ -230,6 +230,51 @@ def download_pickle5(pickle5_dir):
                  wzf.close()
+ 
  
 +def replace_symlinks_with_junctions():
 +    _LINKS = {
@@ -58,12 +58,15 @@ index 248f1cf85..b4f35220f 100644
 +            print('Setting {} -> {}'.format(link, target))
 +            subprocess.check_call('MKLINK /J "{}" "{}"'.format(os.path.basename(link), target), shell=True, cwd=os.path.dirname(path))
 +
++
 +if is_native_windows_or_msys():
 +    replace_symlinks_with_junctions()
- 
- def build(build_python, build_java):
++
++
+ def build(build_python, build_java, build_cpp):
      if tuple(sys.version_info[:2]) not in SUPPORTED_PYTHONS:
-@@ -235,6 +277,7 @@ def build(build_python, build_java):
+         msg = ("Detected Python version {}, which is not supported. "
+@@ -247,6 +292,7 @@ def build(build_python, build_java, build_cpp):
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
  
      if is_native_windows_or_msys():

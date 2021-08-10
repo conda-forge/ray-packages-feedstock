@@ -1,4 +1,4 @@
-From f219e59ca27d9ba5649a6f6f0e26a53d0d61410e Mon Sep 17 00:00:00 2001
+From 29713848a02f5c763ce4e83295903feb2532e024 Mon Sep 17 00:00:00 2001
 From: Gregory Shimansky <gregory.shimansky@intel.com>
 Date: Tue, 15 Jun 2021 17:17:34 -0500
 Subject: [PATCH 12/13] Disable runfiles on windows
@@ -12,10 +12,10 @@ Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 26d450a13..c7964b399 100644
+index 2d7a617ff..a3568a2de 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -329,12 +329,15 @@ def build(build_python, build_java):
+@@ -345,13 +345,16 @@ def build(build_python, build_java, build_cpp):
          if not os.path.exists(d):
              os.makedirs(d)
  
@@ -24,6 +24,7 @@ index 26d450a13..c7964b399 100644
 +        bazel_options.append("--enable_runfiles=false")
      bazel_targets = []
      bazel_targets += ["//:ray_pkg"] if build_python else []
+     bazel_targets += ["//cpp:ray_cpp_pkg"] if build_cpp else []
      bazel_targets += ["//java:ray_java_pkg"] if build_java else []
      return bazel_invoke(
          subprocess.check_call,

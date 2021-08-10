@@ -1,4 +1,4 @@
-From 353efadf23e790e831f87021ae5d4517331e9a2d Mon Sep 17 00:00:00 2001
+From 9571c7ee131ad64f930445246a28cbc0a32f7eae Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 6 Aug 2021 11:36:40 +0100
 Subject: [PATCH 10/13] Empty install requirements - installed by conda build
@@ -8,10 +8,10 @@ Subject: [PATCH 10/13] Empty install requirements - installed by conda build
  1 file changed, 2 insertions(+), 27 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index a9a4fdf52..26d450a13 100644
+index f894e6199..2d7a617ff 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -118,32 +118,7 @@ extras["all"] = list(set(chain.from_iterable(extras.values())))
+@@ -130,32 +130,7 @@ extras["all"] = list(set(chain.from_iterable(extras.values())))
  # These are the main dependencies for users of ray. This list
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements/requirements.txt
@@ -45,7 +45,7 @@ index a9a4fdf52..26d450a13 100644
  
  
  def is_native_windows_or_msys():
-@@ -520,7 +495,7 @@ setuptools.setup(
+@@ -539,7 +514,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=install_requires,

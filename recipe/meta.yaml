@@ -1,4 +1,4 @@
-{% set version = "1.4.1" %}
+{% set version = "1.5.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: a5fcaeb405fc9e6ddf084d55d202f72c919e974dac736d0426a8b569f7022e4a
+  sha256: 88f6721c0fa77065ccbb8949f5f1dfa1d47ec683174d6e8e7b5ffc645a892a94
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -24,7 +24,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<36]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
@@ -47,6 +47,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         # autoscaler is completely disabled for now as it's missing a bunch of dependencies
         # and there's not much interest in adding them (yet).
         # autoscaler does not work on Windows, no point of building it; see below
@@ -84,31 +85,33 @@ outputs:
         - pickle5  # [py<38]
       run:
         - python
-        - aiohttp
-        - aiohttp-cors
-        - aioredis
         - click >=7.0
         - colorama
-        - colorful
         - dataclasses  # [py<37]
         - filelock
+        - grpcio >=1.28.1
+        - msgpack-python >=1.0.0, <2.0.0
+        - numpy >=1.16
+        - pickle5  # [py<38]
+        - protobuf >=3.15.3
+        - psutil
+        - pyyaml
+        - redis-py >=3.5.0
+        - setproctitle =1.1.10
+        # Remove in the next release (1.6.0)
+        - pydantic >=1.8
+        # Move these to default in next release (1.6.0)
+        - aiohttp
+        - aiohttp-cors
+        - aioredis <2
+        - jsonschema
+        - requests
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
-        - grpcio >=1.28.1
-        - jsonschema
-        - msgpack-python >=1.0.0, <2.0.0
-        - numpy >=1.16
         - opencensus
-        - pickle5  # [py<38]
         - prometheus_client >=0.7.1
-        - protobuf >=3.15.3
-        - psutil
-        - pydantic >=1.8
-        - pyyaml
-        - requests
-        - redis-py >=3.5.0
-        - setproctitle =1.1.10
+
     test:
       imports:
         - ray
@@ -124,6 +127,19 @@ outputs:
         - ray._private.metrics_agent
       commands:
         - python -c "import ray; ray.init()"
+
+  - name: ray-default
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - colorful
+
+    test:
+      imports:
+        - ray
 
   - name: ray-autoscaler
     build:
@@ -200,6 +216,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - kubernetes
+        - urllib3
     test:
       imports:
         # there doesn't appear to be a k8s module, not sure how to test this
@@ -215,16 +232,18 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
-        - atari_py
         - dm-tree
         - gym
         - lz4
+        - pyyaml
+        - scikit-image
+        - scipy
+        # Remove in next release (1.6.0)
         # until there is a build of opencv-python-headless which does not require
         # full graphics stack we have to rely on user system having needed
-        #  graphics libraries installed
+        # graphics libraries installed
         - opencv <=4.30.0
-        - pyyaml
-        - scipy
+
     test:
       imports:
         - ray.rllib
@@ -260,6 +279,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
+        - requests
         - tabulate
         - tensorboardX
     test:

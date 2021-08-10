@@ -1,4 +1,4 @@
-From 2ad3ba43d6f33a9e18b86a5680e15c816b21f980 Mon Sep 17 00:00:00 2001
+From 8542769403c02a1d009946a7ba70c0ff12ec6842 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 17:05:44 +0300
 Subject: [PATCH 02/13] Fix redis build for non-default compiler drivers
