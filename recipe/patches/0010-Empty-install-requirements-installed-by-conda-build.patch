@@ -1,6 +1,6 @@
-From 3c5886d8d47152735536fc7809908bbbad8041dd Mon Sep 17 00:00:00 2001
-From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
-Date: Fri, 4 Dec 2020 12:49:34 +0300
+From 353efadf23e790e831f87021ae5d4517331e9a2d Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Fri, 6 Aug 2021 11:36:40 +0100
 Subject: [PATCH 10/13] Empty install requirements - installed by conda build
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH 10/13] Empty install requirements - installed by conda build
  1 file changed, 2 insertions(+), 27 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index f29fd74df..3c42da44c 100644
+index a9a4fdf52..26d450a13 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -118,32 +118,7 @@ extras["all"] = list(set(chain.from_iterable(extras.values())))
@@ -30,7 +30,8 @@ index f29fd74df..3c42da44c 100644
 -    "grpcio >= 1.28.1",
 -    "jsonschema",
 -    "msgpack >= 1.0.0, < 2.0.0",
--    "numpy >= 1.16",
+-    "numpy >= 1.16; python_version < '3.9'",
+-    "numpy >= 1.19.3; python_version >= '3.9'",
 -    "protobuf >= 3.15.3",
 -    "py-spy >= 0.2.0",
 -    "pydantic >= 1.8",
@@ -40,20 +41,19 @@ index f29fd74df..3c42da44c 100644
 -    "opencensus",
 -    "prometheus_client >= 0.7.1",
 -]
--
-+install_requires = [] # everything should be installed via conda build recipe
++install_requires = []
+ 
  
  def is_native_windows_or_msys():
-     """Check to see if we are running on native Windows,
-@@ -507,7 +482,7 @@ setuptools.setup(
+@@ -520,7 +495,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=install_requires,
--    setup_requires=["cython >= 0.29.14", "wheel"],
+-    setup_requires=["cython >= 0.29.15", "wheel"],
 +    setup_requires=[],
      extras_require=extras,
      entry_points={
          "console_scripts": [
 -- 
-2.30.2
+2.26.2
 

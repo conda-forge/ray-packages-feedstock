@@ -201,5 +201,6 @@ Feedstock Maintainers
 
 * [@dHannasch](https://github.com/dHannasch/)
 * [@h-vetinari](https://github.com/h-vetinari/)
+* [@krfricke](https://github.com/krfricke/)
 * [@vnlitvinov](https://github.com/vnlitvinov/)
 

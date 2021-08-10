@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.4.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 1ad04845dad6824220ad7750d666e7186f6b9186fb99294aae7d0e35f8e75018
+  sha256: a5fcaeb405fc9e6ddf084d55d202f72c919e974dac736d0426a8b569f7022e4a
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
@@ -18,9 +18,9 @@ source:
     - patches/0008-Add-workaround-for-os.path.isdir-on-Windows.patch
     - patches/0009-Include-process.h-for-getpid-explicitly-on-Windows.patch
     - patches/0010-Empty-install-requirements-installed-by-conda-build.patch
-    - patches/0011-permit-python-3.9.patch
-    - patches/0012-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0013-Disable-runfiles-on-windows.patch
+    - patches/0011-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0012-Disable-runfiles-on-windows.patch
+    - patches/0013-Add-bazel-linkopts-libs.patch
 
 
 build:
@@ -71,6 +71,7 @@ outputs:
         - {{ compiler('cxx') }}
         - bazel <=3.4.1  # [not win]
         - bazel <3.7     # [win]
+        - sysroot_linux-64 2.17  # [linux64]
         - curl
         - cython >=0.29
         - make
@@ -305,3 +306,4 @@ extra:
     - dHannasch
     - h-vetinari
     - vnlitvinov
+    - krfricke
