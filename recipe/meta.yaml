@@ -104,11 +104,11 @@ outputs:
         - aiohttp
         - aiohttp-cors
         - aioredis <2
-        - jsonschema
-        - requests
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
+        - jsonschema
+        - requests
         - opencensus
         - prometheus_client >=0.7.1
 
