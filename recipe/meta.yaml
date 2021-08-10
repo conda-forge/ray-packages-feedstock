@@ -139,6 +139,7 @@ outputs:
 
     test:
       imports:
+        # ray-default is a convenience wrapper with no imports of its own
         - ray
 
   - name: ray-autoscaler
