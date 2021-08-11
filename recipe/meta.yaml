@@ -46,7 +46,6 @@ outputs:
       host:
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         # autoscaler is completely disabled for now as it's missing a bunch of dependencies
         # and there's not much interest in adding them (yet).
