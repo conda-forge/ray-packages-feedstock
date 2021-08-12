@@ -32,11 +32,6 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - bazel <=3.7.2
-    - cython >=0.29
-    - curl
-    - make
-    - m2-patch       # [win]
 
 outputs:
   - name: ray-all
