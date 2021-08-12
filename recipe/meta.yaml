@@ -63,7 +63,8 @@ outputs:
         - curl
         - cython >=0.29.32
         - make
-        - m2-bash  # [win]
+        - m2-bash     # [win]
+        - pkg-config  # [osx]
         - psutil
         - python
         - setproctitle ==1.3.2
