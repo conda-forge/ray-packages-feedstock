@@ -68,6 +68,7 @@ outputs:
         - curl
         - cython >=0.29
         - make
+        - pkg-config     # [osx]
       host:
         - python
         - pip
