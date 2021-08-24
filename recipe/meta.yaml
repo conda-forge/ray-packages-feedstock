@@ -235,6 +235,9 @@ outputs:
         - gym
         - lz4
         - matplotlib !=3.4.3
+        # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
+        # pinning pooch to <1.5 solves this issue for now
+        - pooch <1.5
         - pyyaml
         - scikit-image
         - scipy
