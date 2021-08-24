@@ -1,4 +1,4 @@
-From 07aaa8ea4d803a0efe4488a9aa6eecd70a9584b7 Mon Sep 17 00:00:00 2001
+From 2807bbc926212d2486a8f127cb2cb07194893377 Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 6 Aug 2021 12:36:05 +0100
 Subject: [PATCH 13/13] Add bazel linkopts/libs
@@ -8,10 +8,10 @@ Subject: [PATCH 13/13] Add bazel linkopts/libs
  1 file changed, 2 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index a3568a2de..044479191 100644
+index a0cc87c45..77fb018d7 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -285,6 +285,8 @@ def build(build_python, build_java, build_cpp):
+@@ -335,6 +335,8 @@ def build(build_python, build_java, build_cpp):
          raise OSError(msg)
  
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)

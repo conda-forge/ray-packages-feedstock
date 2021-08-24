@@ -1,4 +1,4 @@
-From f266426d7e99c8e2e1369ac0fc00830d86f7157a Mon Sep 17 00:00:00 2001
+From adbd2dba70497d8f2219ce97ee8510cc3df0e4b2 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 6 Nov 2020 00:55:05 +0300
 Subject: [PATCH 03/13] Redis deps now build but do not link

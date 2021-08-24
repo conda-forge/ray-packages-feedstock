@@ -1,18 +1,17 @@
-From 932a401d4e5a08cd9359fa0c64a375512aae49be Mon Sep 17 00:00:00 2001
+From 8a0e9425d228588156fc4cb82acff5509499dadd Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
-Date: Wed, 18 Nov 2020 18:47:40 +0300
-Subject: [PATCH 05/13] Contain bazel root and output dir right above $SRC_DIR
+Date: Tue, 24 Aug 2021 09:53:26 +0200
+Subject: [PATCH 05/13] Contain bazel root and output dir right above
 
-Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 ---
  python/setup.py | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 781581089..5496c13b1 100644
+index 987c2c8b1..5a16334ef 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -298,13 +298,19 @@ def build(build_python, build_java, build_cpp):
+@@ -359,6 +359,12 @@ def build(build_python, build_java, build_cpp):
          logger.warning("Expected Bazel version {} but found {}".format(
              ".".join(map(str, SUPPORTED_BAZEL)), bazel_version_str))
  
@@ -25,11 +24,12 @@ index 781581089..5496c13b1 100644
      bazel_targets = []
      bazel_targets += ["//:ray_pkg"] if build_python else []
      bazel_targets += ["//cpp:ray_cpp_pkg"] if build_cpp else []
-     bazel_targets += ["//java:ray_java_pkg"] if build_java else []
+@@ -370,7 +376,7 @@ def build(build_python, build_java, build_cpp):
+ 
      return bazel_invoke(
          subprocess.check_call,
--        ["build", "--verbose_failures", "--"] + bazel_targets,
-+        ["--output_user_root=" + root_dir, "--output_base=" + out_dir, "build", "--verbose_failures", "--"] + bazel_targets,
+-        ["build"] + bazel_flags + ["--"] + bazel_targets,
++        ["--output_user_root=" + root_dir, "--output_base=" + out_dir, "build"] + bazel_flags + ["--"] + bazel_targets,
          env=bazel_env)
  
  

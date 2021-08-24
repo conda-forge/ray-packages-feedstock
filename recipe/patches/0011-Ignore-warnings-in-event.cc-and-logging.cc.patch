@@ -1,4 +1,4 @@
-From 1b9a268431ad5f069cc6873ff4c6409ddd596dec Mon Sep 17 00:00:00 2001
+From ca5a07d1de602eca1d38b41561a84711e57b7096 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Wed, 11 Nov 2020 01:08:16 +0300
 Subject: [PATCH 11/13] Ignore warnings in event.cc and logging.cc
@@ -10,7 +10,7 @@ Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/.bazelrc b/.bazelrc
-index cd0bd72c8..a785a2c55 100644
+index a8740c684..07dce40ed 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -37,6 +37,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
