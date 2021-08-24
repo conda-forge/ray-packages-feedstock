@@ -1,4 +1,4 @@
-From 947f7a5a9798e3b115fea3e8ecda7f6897d84daf Mon Sep 17 00:00:00 2001
+From ef732f1ba3d62bd01916ba318b25b9a1c6453e0a Mon Sep 17 00:00:00 2001
 From: Vasilij Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 24 Nov 2020 00:20:34 +0300
 Subject: [PATCH 09/13] Include <process.h> for getpid() explicitly on Windows

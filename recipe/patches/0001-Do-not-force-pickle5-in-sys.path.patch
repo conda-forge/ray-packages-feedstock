@@ -1,4 +1,4 @@
-From bda2a61b68f2e770bc4fd4c07f187f7da11f0756 Mon Sep 17 00:00:00 2001
+From ae9a5f4126221a93f58715fda105396881787581 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Thu, 5 Nov 2020 12:04:25 +0300
 Subject: [PATCH 01/13] Do not force pickle5 in sys.path
@@ -9,7 +9,7 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
  1 file changed, 6 deletions(-)
 
 diff --git a/python/ray/__init__.py b/python/ray/__init__.py
-index ec428a1f7..487df2c63 100644
+index 3118cd19a..3a6601170 100644
 --- a/python/ray/__init__.py
 +++ b/python/ray/__init__.py
 @@ -34,12 +34,6 @@ def _configure_system():
