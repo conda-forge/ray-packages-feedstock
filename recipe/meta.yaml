@@ -1,4 +1,4 @@
-{% set version = "1.6.0" %}
+{% set version = "1.7.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b96a8d864b91dc1c2cfdc3d27602a3c9afaedbc7765330d6cba10c1f0ab56628
+  sha256: 3451bf648978d056d1d0545abb0554e72fbaefe5c3eeb5c6a4def5abcdc4b403
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Fix-redis-build-for-non-default-compiler-drivers.patch
