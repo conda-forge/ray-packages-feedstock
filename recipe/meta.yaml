@@ -54,6 +54,7 @@ outputs:
         - {{ pin_subpackage('ray-dashboard', exact=True) }}
         #- {{ pin_subpackage('ray-debug', exact=True) }}  # turned off for now, see below
         - {{ pin_subpackage('ray-k8s', exact=True) }}
+        - {{ pin_subpackage('ray-observability', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
         - {{ pin_subpackage('ray-tune', exact=True) }}
@@ -221,6 +222,22 @@ outputs:
         # there doesn't appear to be a k8s module, not sure how to test this
         - ray
 
+  - name: ray-observability
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - opentelemetry-api ==1.1.0
+        - opentelemetry-exporter-otlp ==1.1.0
+        - opentelemetry-sdk ==1.1.0
+        - urllib3
+    test:
+      imports:
+        # there doesn't appear to be a k8s module, not sure how to test this
+        - ray
+
   - name: ray-rllib
     build:
       entry_points:
@@ -235,9 +252,6 @@ outputs:
         - gym
         - lz4
         - matplotlib !=3.4.3
-        # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
-        # pinning pooch to <1.5 solves this issue for now
-        - pooch <1.5
         - pyyaml
         - scikit-image
         - scipy
