@@ -1,7 +1,7 @@
-From adbd2dba70497d8f2219ce97ee8510cc3df0e4b2 Mon Sep 17 00:00:00 2001
+From 981504ccc851ef9996c35d8a8fd939dfd50ea0d6 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 6 Nov 2020 00:55:05 +0300
-Subject: [PATCH 03/13] Redis deps now build but do not link
+Subject: [PATCH 3/7] Redis deps now build but do not link
 
 Includes update for redis-6.0.9
 
@@ -50,10 +50,10 @@ index 9ec69d433..06d79b72a 100644
  
  # This library is for internal hiredis use, because hiredis assumes a
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 33afb91f7..30327d5e7 100644
+index 1925aedfa..15470202e 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -91,6 +91,7 @@ def ray_deps_setup():
+@@ -99,6 +99,7 @@ def ray_deps_setup():
          sha256 = "900cb82227bac58242c9b7668e7113cd952253b256fe04bbdab1b78979cf255a",
          patches = [
              "//thirdparty/patches:redis-quiet.patch",
@@ -142,5 +142,5 @@ index 000000000..36497c4b6
 +2.11.0
 +
 -- 
-2.26.2
+2.32.0.windows.2
 

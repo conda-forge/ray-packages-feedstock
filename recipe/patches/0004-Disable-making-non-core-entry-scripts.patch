@@ -1,17 +1,17 @@
-From e1c84846778801517375cc282aa6bcb38075f212 Mon Sep 17 00:00:00 2001
+From 72fce70785d1d6365c5922ea916b4df227488b19 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
-Subject: [PATCH 04/13] Disable making non-core entry scripts
+Subject: [PATCH 4/7] Disable making non-core entry scripts
 
 ---
  python/setup.py | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index b8671970c..987c2c8b1 100644
+index 056c1ef05..7ebc0a894 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -534,10 +534,10 @@ setuptools.setup(
+@@ -666,10 +666,10 @@ setuptools.setup(
      entry_points={
          "console_scripts": [
              "ray=ray.scripts.scripts:main",
@@ -27,5 +27,5 @@ index b8671970c..987c2c8b1 100644
      },
      include_package_data=True,
 -- 
-2.26.2
+2.32.0.windows.2
 
