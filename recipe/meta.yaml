@@ -69,11 +69,11 @@ outputs:
         - sysroot_linux-64 2.17  # [linux64]
         - curl
         - cython >=0.29
+        - setuptools
         - make
       host:
         - python
         - pip
-        - setuptools
         - packaging
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
