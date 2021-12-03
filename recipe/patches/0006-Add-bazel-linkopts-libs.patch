@@ -1,0 +1,26 @@
+From b5fe0fa9b38222be0753e594f152cb94056e36e3 Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Fri, 3 Dec 2021 11:04:33 -0800
+Subject: [PATCH 6/6] Add bazel linkopts/libs
+
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
+---
+ python/setup.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/python/setup.py b/python/setup.py
+index f70018f27..565237825 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -380,6 +380,8 @@ def build(build_python, build_java, build_cpp):
+         raise OSError(msg)
+ 
+     bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
++    bazel_env.setdefault("BAZEL_LINKOPTS", "-static-libstdc++:-lm")
++    bazel_env.setdefault("BAZEL_LINKLIBS", "-l%:libstdc++.a")
+ 
+     if is_native_windows_or_msys():
+         SHELL = bazel_env.get("SHELL")
+-- 
+2.30.1 (Apple Git-130)
+

@@ -1,0 +1,27 @@
+From b8c4c38817bb88a84e3cf8b266bb36bfd9485438 Mon Sep 17 00:00:00 2001
+From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Date: Fri, 3 Dec 2021 10:59:10 -0800
+Subject: [PATCH 5/6] Ignore warnings in event.cc and logging.cc
+
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
+---
+ .bazelrc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/.bazelrc b/.bazelrc
+index 161c65148..8c15ce5cf 100644
+--- a/.bazelrc
++++ b/.bazelrc
+@@ -38,6 +38,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
+ build:msvc-cl     --per_file_copt="-\\.(asm|S)$@-WX"
+ # Ignore warnings for protobuf generated files and external projects.
+ build --per_file_copt="\\.pb\\.cc$@-w"
++# Ignore one specific warning
++build --per_file_copt="event\\.cc$@-w"
++build --per_file_copt="logging\\.cc$@-w"
+ build --per_file_copt="-\\.(asm|S)$,external/.*@-w"
+ #build --per_file_copt="external/.*@-Wno-unused-result"
+ # Ignore minor warnings for host tools, which we generally can't control
+-- 
+2.30.1 (Apple Git-130)
+
