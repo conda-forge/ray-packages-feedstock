@@ -14,6 +14,7 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     - patches/0005-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0006-Add-bazel-linkopts-libs.patch
+    - patches/0007-Remove-bazel-version-check.patch
 
 
 build:
