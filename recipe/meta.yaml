@@ -28,7 +28,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - bazel =4.2.1
+    - bazel <=3.7.2
     - cython >=0.29
     - curl
     - make
@@ -63,7 +63,8 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - bazel =4.2.1
+        - bazel <=3.4.1 # [not win]
+        - bazel <3.7    # [win]
         - sysroot_linux-64 2.17  # [linux64]
         - curl
         - cython >=0.29.15
