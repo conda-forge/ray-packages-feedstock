@@ -39,7 +39,7 @@ outputs:
     requirements:
       host:
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-default', exact=True) }}
         # autoscaler is completely disabled for now as it's missing a bunch of dependencies
         # and there's not much interest in adding them (yet).
@@ -69,14 +69,14 @@ outputs:
         - cython >=0.29.15
         - make
       host:
-        - python
+        - python <3.10
         - pip
         - packaging
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
         - pickle5  # [py<38]
       run:
-        - python
+        - python <3.10
         - attrs
         - click >=7.0
         - colorama
@@ -107,9 +107,9 @@ outputs:
   - name: ray-default
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp
         - aiohttp-cors
@@ -144,9 +144,9 @@ outputs:
       skip: true  # [win]
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - azure-cli-core ==2.4.0
         - azure-mgmt-compute ==12.0.0
@@ -173,9 +173,9 @@ outputs:
     requirements:
       host:
         - nodejs
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-default', exact=True) }}
     test:
       imports:
@@ -190,9 +190,9 @@ outputs:
       skip: true
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - py-spy >=0.2.0
     test:
@@ -203,9 +203,9 @@ outputs:
   - name: ray-k8s
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - kubernetes
         - urllib3
@@ -220,9 +220,9 @@ outputs:
         - rllib = ray.rllib.scripts:cli
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
         - gym
@@ -247,9 +247,9 @@ outputs:
         - serve = ray.serve.scripts:cli
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - uvicorn
         - requests
@@ -265,9 +265,9 @@ outputs:
         - tune = ray.tune.scripts:cli
     requirements:
       host:
-        - python
+        - python <3.10
       run:
-        - python
+        - python <3.10
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
         - requests
