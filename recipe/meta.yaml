@@ -38,8 +38,9 @@ outputs:
   - name: ray-all
     requirements:
       host:
-      run:
         - python <3.10
+      run:
+        - python
         - {{ pin_subpackage('ray-default', exact=True) }}
         # autoscaler is completely disabled for now as it's missing a bunch of dependencies
         # and there's not much interest in adding them (yet).
@@ -76,7 +77,7 @@ outputs:
         # to install it and it fails on conda-forge Windows CI
         - pickle5  # [py<38]
       run:
-        - python <3.10
+        - python
         - attrs
         - click >=7.0
         - colorama
@@ -109,7 +110,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp
         - aiohttp-cors
@@ -146,7 +147,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - azure-cli-core ==2.4.0
         - azure-mgmt-compute ==12.0.0
@@ -175,7 +176,7 @@ outputs:
         - nodejs
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-default', exact=True) }}
     test:
       imports:
@@ -192,7 +193,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - py-spy >=0.2.0
     test:
@@ -205,7 +206,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - kubernetes
         - urllib3
@@ -222,7 +223,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
         - gym
@@ -249,7 +250,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - uvicorn
         - requests
@@ -267,7 +268,7 @@ outputs:
       host:
         - python <3.10
       run:
-        - python <3.10
+        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
         - requests
