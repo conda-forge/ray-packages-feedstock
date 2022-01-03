@@ -33,6 +33,7 @@ requirements:
     - curl
     - make
     - m2-patch       # [win]
+    - python <3.10
 
 outputs:
   - name: ray-all
@@ -69,6 +70,7 @@ outputs:
         - curl
         - cython >=0.29.15
         - make
+        - python <3.10
       host:
         - python <3.10
         - pip
