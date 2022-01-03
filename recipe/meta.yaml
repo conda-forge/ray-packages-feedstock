@@ -166,13 +166,13 @@ outputs:
   - name: ray-dashboard
     build:
       script:
-        - cd python/ray/new_dashboard/client
+        - cd python/ray/dashboard/client
         - npm install
         - npm ci
         - npm run build
         # not sure why this seems to get copied on windows but not linux...
-        - mkdir -p $SP_DIR/ray/new_dashboard/client             # [not win]
-        - cp -R ./build $SP_DIR/ray/new_dashboard/client/build  # [not win]
+        - mkdir -p $SP_DIR/ray/dashboard/client             # [not win]
+        - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
     requirements:
       host:
         - nodejs
@@ -182,7 +182,7 @@ outputs:
         - {{ pin_subpackage('ray-default', exact=True) }}
     test:
       imports:
-        - ray.new_dashboard
+        - ray.dashboard
       commands:
         - python -c "import ray; ray.init(include_dashboard=True)"
 
