@@ -109,7 +109,7 @@ outputs:
   - name: ray-default
     requirements:
       host:
-        - python <3.10
+        - python <3.9
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
