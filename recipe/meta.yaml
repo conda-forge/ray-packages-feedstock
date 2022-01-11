@@ -33,13 +33,13 @@ requirements:
     - curl
     - make
     - m2-patch       # [win]
-    - python <3.10
+    - python
 
 outputs:
   - name: ray-all
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
@@ -70,9 +70,9 @@ outputs:
         - curl
         - cython >=0.29.15
         - make
-        - python <3.10
+        - python
       host:
-        - python <3.10
+        - python
         - pip
         - packaging
         # pickle5 needs to be here, otherwise setup.py tries
@@ -146,7 +146,7 @@ outputs:
       skip: true  # [win]
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
@@ -177,7 +177,7 @@ outputs:
         - nodejs <16.6.2
       host:
         - nodejs <16.6.2
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
@@ -194,7 +194,7 @@ outputs:
       skip: true
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
@@ -207,7 +207,7 @@ outputs:
   - name: ray-k8s
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
@@ -224,7 +224,7 @@ outputs:
         - rllib = ray.rllib.scripts:cli
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
@@ -251,7 +251,7 @@ outputs:
         - serve = ray.serve.scripts:cli
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
@@ -269,7 +269,7 @@ outputs:
         - tune = ray.tune.scripts:cli
     requirements:
       host:
-        - python <3.10
+        - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
