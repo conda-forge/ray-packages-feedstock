@@ -15,6 +15,7 @@ source:
     - patches/0005-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0006-Add-bazel-linkopts-libs.patch
     - patches/0007-Remove-bazel-version-check.patch
+    - patches/0008-Debug-dashboard.patch
 
 
 build:
