@@ -4,6 +4,7 @@ Date: Fri, 3 Dec 2021 10:59:10 -0800
 Subject: [PATCH 5/6] Ignore warnings in event.cc and logging.cc
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---
  .bazelrc | 3 +++
  1 file changed, 3 insertions(+)

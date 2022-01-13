@@ -5,6 +5,7 @@ Subject: [PATCH 2/6] Redis deps now build but do not link
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---
  bazel/BUILD.redis                      | 12 ++++-
  bazel/ray_deps_setup.bzl               |  1 +
