@@ -70,6 +70,7 @@ outputs:
         - curl
         - cython >=0.29.15
         - make
+        - m2-bash  # [win]
         - python
       host:
         - python
