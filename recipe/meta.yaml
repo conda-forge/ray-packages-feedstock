@@ -182,6 +182,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
+        - typing-extensions
     test:
       imports:
         - ray.dashboard
