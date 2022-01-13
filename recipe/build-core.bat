@@ -1,5 +1,6 @@
 cd python
 set SKIP_THIRDPARTY_INSTALL=1
+set BAZEL_SH="C:\Program Files\Git\bin\bash.exe"
 "%PYTHON%" setup.py install
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
