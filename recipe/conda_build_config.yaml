@@ -6,3 +6,8 @@ cudnn:                                          # [linux64]
   - undefined                                   # [linux64]
 cdt_name:                                       # [linux64]
   - cos7                                        # [linux64]
+
+c_compiler:                                     # [win]
+- vs2019                                        # [win]
+cxx_compiler:                                   # [win]
+- vs2019                                        # [win]
