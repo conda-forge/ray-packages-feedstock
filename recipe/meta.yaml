@@ -16,6 +16,7 @@ source:
     - patches/0006-Add-bazel-linkopts-libs.patch
     - patches/0007-Remove-bazel-version-check.patch
     - patches/0008-Fix-C-17-support-on-windows.patch
+    - patches/0009-Fix-replace_symlinks_with_junctions.patch
 
 
 build:
