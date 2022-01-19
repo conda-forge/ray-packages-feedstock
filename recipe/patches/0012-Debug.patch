@@ -1,0 +1,25 @@
+From c9d45565096f14b75ee6cf8219acffb778f5efce Mon Sep 17 00:00:00 2001
+From: Jiajun Yao <jeromeyjj@gmail.com>
+Date: Tue, 18 Jan 2022 22:06:13 -0800
+Subject: [PATCH 12/12] Debug
+
+---
+ python/setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index f9206469f..4afc79482 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -347,7 +347,7 @@ def replace_symlinks_with_junctions():
+                     # For regular directories deletion is done with rmdir call.
+                     os.rmdir(path)
+             else:
+-                raise ValueError(f"Unexpected type of entry: '{path}'")
++                raise ValueError(f"Unexpected type of entry: '{path}' {root_dir} {str(__file__)}")
+             target = os.path.abspath(
+                 os.path.join(os.path.dirname(path), target))
+             logger.info("Setting {} -> {}".format(link, target))
+-- 
+2.30.1 (Apple Git-130)
+
