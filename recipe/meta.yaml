@@ -5,8 +5,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b7d565e4fe2ca1c145ee82aed47d5360ea0217c87d0a7b555e33a1d4b719ce42
+  git_url: https://github.com/ray-project/ray.git
+  git_rev: ray-1.7.0
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Redis-deps-now-build-but-do-not-link.patch
@@ -18,7 +18,6 @@ source:
     - patches/0008-Fix-C-17-support-on-windows.patch
     - patches/0009-Fix-replace_symlinks_with_junctions.patch
     - patches/0010-Remove-streaming.patch
-    - patches/0012-Debug.patch
 
 
 build:
