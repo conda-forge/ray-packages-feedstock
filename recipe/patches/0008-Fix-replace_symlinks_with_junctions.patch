@@ -1,7 +1,7 @@
 From 495a4d5d5056d7bbf6aac1f0e6816ebc5899ee4b Mon Sep 17 00:00:00 2001
 From: Jiajun Yao <jjyao@anyscale.com>
 Date: Tue, 18 Jan 2022 09:40:46 -0800
-Subject: [PATCH 9/9] Fix replace_symlinks_with_junctions
+Subject: [PATCH 8/8] Fix replace_symlinks_with_junctions
 
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---

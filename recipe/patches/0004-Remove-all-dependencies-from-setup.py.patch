@@ -1,30 +1,34 @@
-From bf491f11f47e136e297d654ea1c9b9229d76e706 Mon Sep 17 00:00:00 2001
+From 819d30cab089b9c352169942008753c409e6e93d Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 4/6] Remove all dependencies from setup.py
 
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---
- python/setup.py | 52 ++++++++-----------------------------------------
- 1 file changed, 8 insertions(+), 44 deletions(-)
+ python/setup.py | 58 ++++++++-----------------------------------------
+ 1 file changed, 9 insertions(+), 49 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 7ebc0a894..f70018f27 100644
+index b24a9537e..3aa990703 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -184,25 +184,11 @@ ray_files += [
+@@ -185,29 +185,12 @@ ray_files += [
  # in this directory
  if setup_spec.type == SetupType.RAY:
      setup_spec.extras = {
+-        "data": [
+-            "pandas",
+-            "pyarrow>=4.0.1",
+-            "fsspec",
+-        ],
 -        "default": [
--            "aiohttp",
+-            "aiohttp >= 3.7",
 -            "aiohttp_cors",
 -            "aioredis < 2",
 -            "colorful",
 -            "py-spy >= 0.2.0",
--            "jsonschema",
 -            "requests",
--            "gpustat",
+-            "gpustat >= 1.0.0b1",  # for windows
 -            "opencensus",
 -            "prometheus_client >= 0.7.1",
 -        ],
@@ -35,6 +39,7 @@ index 7ebc0a894..f70018f27 100644
 -            "opentelemetry-api==1.1.0", "opentelemetry-sdk==1.1.0",
 -            "opentelemetry-exporter-otlp==1.1.0"
 -        ],
++        "data": [],
 +        "default": [],
 +        "serve": [],
 +        "tune": [],
@@ -43,7 +48,7 @@ index 7ebc0a894..f70018f27 100644
      }
  
      if RAY_EXTRA_CPP:
-@@ -211,17 +197,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -216,17 +199,7 @@ if setup_spec.type == SetupType.RAY:
      if sys.version_info >= (3, 7, 0):
          setup_spec.extras["k8s"].append("kopf")
  
@@ -62,7 +67,7 @@ index 7ebc0a894..f70018f27 100644
  
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values())))
-@@ -230,19 +206,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -235,20 +208,7 @@ if setup_spec.type == SetupType.RAY:
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements/requirements.txt
  if setup_spec.type == SetupType.RAY:
@@ -72,6 +77,7 @@ index 7ebc0a894..f70018f27 100644
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
 -        "grpcio >= 1.28.1",
+-        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
 -        "numpy >= 1.19.3; python_version >= '3.9'",
@@ -83,7 +89,7 @@ index 7ebc0a894..f70018f27 100644
  
  
  def is_native_windows_or_msys():
-@@ -661,7 +625,7 @@ setuptools.setup(
+@@ -690,7 +650,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
