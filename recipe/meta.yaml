@@ -111,7 +111,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp <3.8
+        - aiohttp >=3.7, <3.8
         - aiohttp-cors
         - aioredis <2
         - colorful
