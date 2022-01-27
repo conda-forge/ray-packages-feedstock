@@ -1,4 +1,4 @@
-{% set version = "1.8.0" %}
+{% set version = "1.9.2" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b34d20f65aa9be5a0a82d468f67643ad9174a23ac5b90f1ab92c1e55fe5817d9
+  sha256: 33bd1afcfe2f8d0f416e80bf21e4b36fe6f9ec74c55b034a5581553270fdf8e8
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Redis-deps-now-build-but-do-not-link.patch
