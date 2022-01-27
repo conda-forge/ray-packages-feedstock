@@ -112,9 +112,11 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp >=3.7
+        - aiosignal
         - aiohttp-cors
         - aioredis <2
         - colorful
+        - frozenlist
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
@@ -122,6 +124,7 @@ outputs:
         - requests
         - opencensus
         - prometheus_client >=0.7.1
+        - smart_open
         - py-spy >=0.2.0
 
     test:
