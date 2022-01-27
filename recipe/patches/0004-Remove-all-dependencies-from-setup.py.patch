@@ -1,18 +1,18 @@
-From 819d30cab089b9c352169942008753c409e6e93d Mon Sep 17 00:00:00 2001
+From 5ba4c3b61656a28326469356f286d64e29a1e957 Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 4/6] Remove all dependencies from setup.py
 
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---
- python/setup.py | 58 ++++++++-----------------------------------------
- 1 file changed, 9 insertions(+), 49 deletions(-)
+ python/setup.py | 61 ++++++++-----------------------------------------
+ 1 file changed, 9 insertions(+), 52 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index b24a9537e..3aa990703 100644
+index c361a6880..3dc3e5777 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -185,29 +185,12 @@ ray_files += [
+@@ -192,32 +192,12 @@ ray_files += [
  # in this directory
  if setup_spec.type == SetupType.RAY:
      setup_spec.extras = {
@@ -23,14 +23,17 @@ index b24a9537e..3aa990703 100644
 -        ],
 -        "default": [
 -            "aiohttp >= 3.7",
+-            "aiosignal",
 -            "aiohttp_cors",
 -            "aioredis < 2",
 -            "colorful",
+-            "frozenlist",
 -            "py-spy >= 0.2.0",
 -            "requests",
 -            "gpustat >= 1.0.0b1",  # for windows
 -            "opencensus",
 -            "prometheus_client >= 0.7.1",
+-            "smart_open"
 -        ],
 -        "serve": ["uvicorn", "requests", "starlette", "fastapi"],
 -        "tune": ["pandas", "tabulate", "tensorboardX>=1.9", "requests"],
@@ -47,8 +50,8 @@ index b24a9537e..3aa990703 100644
 +        "observability": [],
      }
  
-     if RAY_EXTRA_CPP:
-@@ -216,17 +199,7 @@ if setup_spec.type == SetupType.RAY:
+     if sys.version_info >= (3, 7):
+@@ -234,17 +214,7 @@ if setup_spec.type == SetupType.RAY:
      if sys.version_info >= (3, 7, 0):
          setup_spec.extras["k8s"].append("kopf")
  
@@ -67,7 +70,7 @@ index b24a9537e..3aa990703 100644
  
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values())))
-@@ -235,20 +208,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -253,20 +223,7 @@ if setup_spec.type == SetupType.RAY:
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements/requirements.txt
  if setup_spec.type == SetupType.RAY:
@@ -89,7 +92,7 @@ index b24a9537e..3aa990703 100644
  
  
  def is_native_windows_or_msys():
-@@ -690,7 +650,7 @@ setuptools.setup(
+@@ -710,7 +667,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
