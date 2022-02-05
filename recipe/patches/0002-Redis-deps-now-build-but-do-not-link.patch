@@ -14,7 +14,7 @@ Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
  create mode 100644 thirdparty/patches/redis-deps-ar.patch
 
 diff --git a/bazel/BUILD.redis b/bazel/BUILD.redis
-index f488d607f..9ec95ca2d 100644
+index f488d607f..234d72e68 100644
 --- a/bazel/BUILD.redis
 +++ b/bazel/BUILD.redis
 @@ -14,13 +14,17 @@ genrule(
@@ -37,16 +37,18 @@ index f488d607f..9ec95ca2d 100644
          mv "$${tmpdir}"/src/redis-server $(location redis-server)
          chmod +x $(location redis-server)
          mv "$${tmpdir}"/src/redis-cli $(location redis-cli)
-@@ -64,4 +68,9 @@ cc_library(
-         ":_hiredis",
-     ],
+@@ -28,6 +32,11 @@ genrule(
+         rm -r -f -- "$${tmpdir}"
+     """,
      visibility = ["//visibility:public"],
 +    toolchains = [
 +        "@bazel_tools//tools/cpp:current_cc_toolchain",
 +        "@bazel_tools//tools/cpp:current_cc_host_toolchain",
 +        "@bazel_tools//tools/cpp:cc_flags",
 +    ],
+     tags = ["local"],
  )
+
  # This library is for internal hiredis use, because hiredis assumes a
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 1925aedfa..15470202e 100644
