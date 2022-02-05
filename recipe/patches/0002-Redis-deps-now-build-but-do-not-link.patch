@@ -7,20 +7,21 @@ Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 ---
- bazel/BUILD.redis                      | 12 ++++-
+ bazel/BUILD.redis                      | 13 ++++-
  bazel/ray_deps_setup.bzl               |  1 +
  thirdparty/patches/redis-deps-ar.patch | 74 ++++++++++++++++++++++++++
- 3 files changed, 86 insertions(+), 1 deletion(-)
+ 3 files changed, 86 insertions(+), 2 deletion(-)
  create mode 100644 thirdparty/patches/redis-deps-ar.patch
 
 diff --git a/bazel/BUILD.redis b/bazel/BUILD.redis
-index 9cd2e7af9..98a404c74 100644
+index f488d607f..9ec95ca2d 100644
 --- a/bazel/BUILD.redis
 +++ b/bazel/BUILD.redis
-@@ -15,12 +15,17 @@ genrule(
+@@ -14,13 +14,17 @@ genrule(
+         "redis-cli",
      ],
      cmd = """
-         unset CC LDFLAGS CXX CXXFLAGS
+-        unset CC LDFLAGS CXX CXXFLAGS
 +        export CC=$(CC)
 +        export CFLAGS=$(CC_FLAGS)
 +        export AR=$${CC/gnu-cc/gnu-ar}
@@ -36,9 +37,9 @@ index 9cd2e7af9..98a404c74 100644
          mv "$${tmpdir}"/src/redis-server $(location redis-server)
          chmod +x $(location redis-server)
          mv "$${tmpdir}"/src/redis-cli $(location redis-cli)
-@@ -28,6 +33,11 @@ genrule(
-         rm -r -f -- "$${tmpdir}"
-     """,
+@@ -64,4 +68,9 @@ cc_library(
+         ":_hiredis",
+     ],
      visibility = ["//visibility:public"],
 +    toolchains = [
 +        "@bazel_tools//tools/cpp:current_cc_toolchain",
@@ -46,7 +47,6 @@ index 9cd2e7af9..98a404c74 100644
 +        "@bazel_tools//tools/cpp:cc_flags",
 +    ],
  )
- 
  # This library is for internal hiredis use, because hiredis assumes a
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 1925aedfa..15470202e 100644

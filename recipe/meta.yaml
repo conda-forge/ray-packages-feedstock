@@ -9,6 +9,7 @@ source:
   sha256: 33bd1afcfe2f8d0f416e80bf21e4b36fe6f9ec74c55b034a5581553270fdf8e8
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
+    - patches/0002-Redis-deps-now-build-but-do-not-link.patch
     - patches/0003-Disable-making-non-core-entry-scripts.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     - patches/0005-Ignore-warnings-in-event.cc-and-logging.cc.patch
