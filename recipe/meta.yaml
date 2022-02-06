@@ -148,9 +148,9 @@ outputs:
         - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
     requirements:
       build:
-        - nodejs <16.6.2
+        - nodejs
       host:
-        - nodejs <16.6.2
+        - nodejs
         - python
       run:
         - python
