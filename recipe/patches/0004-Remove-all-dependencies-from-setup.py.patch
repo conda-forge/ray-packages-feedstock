@@ -35,7 +35,7 @@ index c361a6880..3dc3e5777 100644
 -            "prometheus_client >= 0.7.1",
 -            "smart_open"
 -        ],
--        "serve": ["uvicorn", "requests", "starlette", "fastapi"],
+-        "serve": ["uvicorn", "requests", "starlette", "fastapi", "aiorwlock"],
 -        "tune": ["pandas", "tabulate", "tensorboardX>=1.9", "requests"],
 -        "k8s": ["kubernetes", "urllib3"],
 -        "observability": [
