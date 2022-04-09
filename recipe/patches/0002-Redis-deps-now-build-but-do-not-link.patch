@@ -54,11 +54,11 @@ diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 1925aedfa..15470202e 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -99,6 +99,7 @@ def ray_deps_setup():
+@@ -102,6 +102,7 @@ def ray_deps_setup():
          sha256 = "900cb82227bac58242c9b7668e7113cd952253b256fe04bbdab1b78979cf255a",
          patches = [
-             "//thirdparty/patches:redis-quiet.patch",
-+            "//thirdparty/patches:redis-deps-ar.patch",
+             "@com_github_ray_project_ray//thirdparty/patches:redis-quiet.patch",
++            "@com_github_ray_project_ray//thirdparty/patches:redis-deps-ar.patch",
          ],
      )
  
