@@ -65,7 +65,7 @@ outputs:
         - bazel =4.2.1
         - sysroot_linux-64 2.17  # [linux64]
         - curl
-        - cython >=0.29.15
+        - cython >=0.29.26
         - make
         - m2-bash  # [win]
         - python
@@ -83,7 +83,7 @@ outputs:
         - colorama
         - dataclasses  # [py<37]
         - filelock
-        - grpcio >=1.28.1
+        - grpcio >=1.28.1, <=1.43.0
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
         - pickle5  # [py<38]
@@ -184,7 +184,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
-        - pyarrow >=4.0.1
+        - pyarrow >=4.0.1, <7.0.0
         - fsspec
     test:
       imports:
@@ -201,7 +201,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym
+        - gym <0.22
         - lz4
         - matplotlib !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
@@ -227,7 +227,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn
+        - uvicorn =0.16.0
         - requests
         - starlette
         - fastapi

@@ -12,13 +12,13 @@ diff --git a/python/setup.py b/python/setup.py
 index c361a6880..3dc3e5777 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -192,32 +192,12 @@ ray_files += [
+@@ -192,34 +192,12 @@ ray_files += [
  # in this directory
  if setup_spec.type == SetupType.RAY:
      setup_spec.extras = {
 -        "data": [
 -            "pandas",
--            "pyarrow>=4.0.1",
+-            "pyarrow >= 4.0.1, < 7.0.0",
 -            "fsspec",
 -        ],
 -        "default": [
@@ -35,7 +35,9 @@ index c361a6880..3dc3e5777 100644
 -            "prometheus_client >= 0.7.1",
 -            "smart_open"
 -        ],
--        "serve": ["uvicorn", "requests", "starlette", "fastapi"],
+-        "serve": [
+-            "uvicorn==0.16.0", "requests", "starlette", "fastapi", "aiorwlock"
+-        ],
 -        "tune": ["pandas", "tabulate", "tensorboardX>=1.9", "requests"],
 -        "k8s": ["kubernetes", "urllib3"],
 -        "observability": [
@@ -57,7 +59,7 @@ index c361a6880..3dc3e5777 100644
  
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
--        "gym",
+-        "gym<0.22",
 -        "lz4",
 -        # matplotlib (dependency of scikit-image) 3.4.3 breaks docker build
 -        # Todo: Remove this when safe?
@@ -79,7 +81,7 @@ index c361a6880..3dc3e5777 100644
 -        "click >= 7.0",
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
--        "grpcio >= 1.28.1",
+-        "grpcio >= 1.28.1, <= 1.43.0",
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
@@ -96,7 +98,7 @@ index c361a6880..3dc3e5777 100644
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
--    setup_requires=["cython >= 0.29.15", "wheel"],
+-    setup_requires=["cython >= 0.29.26", "wheel"],
 +    setup_requires=[],
      extras_require=setup_spec.extras,
      entry_points={
