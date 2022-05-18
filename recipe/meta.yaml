@@ -121,7 +121,7 @@ outputs:
         - jsonschema
         - requests
         - opencensus
-        - prometheus_client >=0.7.1
+        - prometheus_client >=0.7.1, <0.14.0
         - smart_open
         - py-spy >=0.2.0
 
