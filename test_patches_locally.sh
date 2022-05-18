@@ -14,7 +14,12 @@ tar zxf "${FILENAME}"
 for f in *.patch; do
   echo "---"
   echo "Applying patch: $f"
-  patch -fNd "${DIRNAME}" -p1 < "$f" || echo "Patch failed!"
+  patch -fNd "${DIRNAME}" -p1 < "$f"
+  if [ $? -ne 0 ]; then
+    echo "Patch failed!"
+    find . -name '*.rej' -exec cat {} \;
+    break
+  fi
 done
 
 popd || exit 1

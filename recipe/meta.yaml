@@ -1,4 +1,4 @@
-{% set version = "1.10.0" %}
+{% set version = "1.11.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: f97d6c8d0b18c8bac20a1f87627342f517e7a8bec283243f142f734edd477a2f
+  sha256: efc36ce277bc650eaeb4cec959f5280b348b0a25347e30dfd9e57fa6e5e0760b
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Redis-deps-now-build-but-do-not-link.patch
@@ -14,7 +14,6 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     - patches/0005-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0006-Add-bazel-linkopts-libs.patch
-    - patches/0007-Fix-replace_symlinks_with_junctions.patch
 
 
 build:
@@ -64,7 +63,7 @@ outputs:
         - bazel =4.2.1
         - sysroot_linux-64 2.17  # [linux64]
         - curl
-        - cython >=0.29.15
+        - cython >=0.29.26
         - make
         - m2-bash  # [win]
         - python
@@ -82,7 +81,7 @@ outputs:
         - colorama
         - dataclasses  # [py<37]
         - filelock
-        - grpcio >=1.28.1
+        - grpcio >=1.28.1, <=1.43.0
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
         - pickle5  # [py<38]
@@ -183,7 +182,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas
-        - pyarrow >=4.0.1
+        - pyarrow >=4.0.1, <7.0.0
         - fsspec
     test:
       imports:
@@ -200,7 +199,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym
+        - gym <0.22
         - lz4
         - matplotlib !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
@@ -226,7 +225,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn
+        - uvicorn =0.16.0
         - requests
         - starlette
         - fastapi
