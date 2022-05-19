@@ -90,6 +90,7 @@ outputs:
         - protobuf >=3.15.3
         - psutil
         - pyyaml
+        - redis-py >=3.5.0  # [win]
         - requests
         - setproctitle =1.2.2
         - virtualenv
