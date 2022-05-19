@@ -12,7 +12,7 @@ diff --git a/python/setup.py b/python/setup.py
 index c361a6880..3dc3e5777 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -192,34 +192,12 @@ ray_files += [
+@@ -192,30 +192,12 @@ ray_files += [
  # in this directory
  if setup_spec.type == SetupType.RAY:
      setup_spec.extras = {
@@ -23,26 +23,22 @@ index c361a6880..3dc3e5777 100644
 -        ],
 -        "default": [
 -            "aiohttp >= 3.7",
--            "aiosignal",
 -            "aiohttp_cors",
--            "aioredis < 2",
 -            "colorful",
--            "frozenlist",
 -            "py-spy >= 0.2.0",
 -            "requests",
 -            "gpustat >= 1.0.0b1",  # for windows
 -            "opencensus",
 -            "prometheus_client >= 0.7.1, < 0.14.0",
--            "smart_open"
+-            "smart_open",
 -        ],
--        "serve": [
--            "uvicorn==0.16.0", "requests", "starlette", "fastapi", "aiorwlock"
--        ],
+-        "serve": ["uvicorn==0.16.0", "requests", "starlette", "fastapi", "aiorwlock"],
 -        "tune": ["pandas", "tabulate", "tensorboardX>=1.9", "requests"],
 -        "k8s": ["kubernetes", "urllib3"],
 -        "observability": [
--            "opentelemetry-api==1.1.0", "opentelemetry-sdk==1.1.0",
--            "opentelemetry-exporter-otlp==1.1.0"
+-            "opentelemetry-api==1.1.0",
+-            "opentelemetry-sdk==1.1.0",
+-            "opentelemetry-exporter-otlp==1.1.0",
 -        ],
 +        "data": [],
 +        "default": [],
@@ -72,7 +68,7 @@ index c361a6880..3dc3e5777 100644
  
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values())))
-@@ -253,20 +223,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -253,23 +223,7 @@ if setup_spec.type == SetupType.RAY:
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements/requirements.txt
  if setup_spec.type == SetupType.RAY:
@@ -88,7 +84,10 @@ index c361a6880..3dc3e5777 100644
 -        "numpy >= 1.19.3; python_version >= '3.9'",
 -        "protobuf >= 3.15.3",
 -        "pyyaml",
--        "redis >= 3.5.0",
+-        "aiosignal",
+-        "frozenlist",
+-        "requests",
+-        "virtualenv",  # For pip runtime env.
 -    ]
 +    setup_spec.install_requires = []
  
