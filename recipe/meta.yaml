@@ -1,4 +1,4 @@
-{% set version = "1.11.0" %}
+{% set version = "1.11.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: efc36ce277bc650eaeb4cec959f5280b348b0a25347e30dfd9e57fa6e5e0760b
+  sha256: d70993007205c74227cfebd3960774e021afc66736d2b6149ba3fd74a6f1ff2d
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Redis-deps-now-build-but-do-not-link.patch
@@ -121,7 +121,7 @@ outputs:
         - jsonschema
         - requests
         - opencensus
-        - prometheus_client >=0.7.1
+        - prometheus_client >=0.7.1, <0.14.0
         - smart_open
         - py-spy >=0.2.0
 
