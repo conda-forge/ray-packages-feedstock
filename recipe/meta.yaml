@@ -1,4 +1,4 @@
-{% set version = "1.11.1" %}
+{% set version = "1.12.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: d70993007205c74227cfebd3960774e021afc66736d2b6149ba3fd74a6f1ff2d
+  sha256: f358a942c35890c8939706ef0362569bcd3aca225109b6875492c4832caf2fe7
   patches:
     - patches/0001-Do-not-force-pickle5-in-sys.path.patch
     - patches/0002-Redis-deps-now-build-but-do-not-link.patch
@@ -76,11 +76,13 @@ outputs:
         - pickle5  # [py<38]
       run:
         - python
+        - aiosignal
         - attrs
         - click >=7.0
         - colorama
         - dataclasses  # [py<37]
         - filelock
+        - frozenlist
         - grpcio >=1.28.1, <=1.43.0
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
@@ -88,8 +90,10 @@ outputs:
         - protobuf >=3.15.3
         - psutil
         - pyyaml
-        - redis-py >=3.5.0
+        - redis-py >=3.5.0  # [win]
+        - requests
         - setproctitle =1.2.2
+        - virtualenv
 
     test:
       imports:
@@ -110,18 +114,16 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp >=3.7
-        - aiosignal
         - aiohttp-cors
         - aioredis <2
         - colorful
-        - frozenlist
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
         - jsonschema
-        - requests
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
+        - requests
         - smart_open
         - py-spy >=0.2.0
 

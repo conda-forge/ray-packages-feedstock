@@ -4,12 +4,19 @@ FILENAME="ray-${VERSION}.tar.gz"
 URL="https://github.com/ray-project/ray/archive/${FILENAME}"
 DIRNAME="ray-ray-${VERSION}"
 
+CACHED="$TMPDIR/$FILENAME"
+
+if [ ! -f $CACHED ]; then
+  echo "Downloading $FILENAME to $CACHED"
+  curl -Lqo "$CACHED" "$URL"
+fi
+
 TMPDIR=$(mktemp -d)
 cp -rf recipe/patches/*.patch $TMPDIR
 
 pushd "${TMPDIR}" || exit 1
 echo $TMPDIR
-curl -LO "${URL}"
+cp -rf "$CACHED" .
 tar zxf "${FILENAME}"
 for f in *.patch; do
   echo "---"
