@@ -17,7 +17,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<36 or py>39]
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
