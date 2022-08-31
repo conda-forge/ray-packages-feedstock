@@ -1,4 +1,4 @@
-{% set version = "1.7.0" %}
+{% set version = "1.13.0" %}
 
 package:
   name: ray-packages
@@ -6,17 +6,13 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b7d565e4fe2ca1c145ee82aed47d5360ea0217c87d0a7b555e33a1d4b719ce42
+  sha256: f877891804c60b404ddb6eabe5896902ffdf5b6e8830e8150803a2b64b56a79f
   patches:
-    - patches/0001-Do-not-force-pickle5-in-sys.path.patch
-    - patches/0002-Redis-deps-now-build-but-do-not-link.patch
-    - patches/0003-Disable-making-non-core-entry-scripts.patch
-    - patches/0004-Remove-all-dependencies-from-setup.py.patch
-    - patches/0005-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0006-Add-bazel-linkopts-libs.patch
-    - patches/0007-Remove-bazel-version-check.patch
-    - patches/0008-Fix-C-17-support-on-windows.patch
-    - patches/0009-Fix-replace_symlinks_with_junctions.patch
+    - patches/0001-Redis-deps-now-build-but-do-not-link.patch
+    - patches/0002-Disable-making-non-core-entry-scripts.patch
+    - patches/0003-Remove-all-dependencies-from-setup.py.patch
+    - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0005-Add-bazel-linkopts-libs.patch
 
 
 build:
@@ -29,7 +25,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - bazel =4.2.1
+    - bazel =4.2.2
     - cython >=0.29
     - curl
     - make
@@ -44,13 +40,9 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        # autoscaler is completely disabled for now as it's missing a bunch of dependencies
-        # and there's not much interest in adding them (yet).
-        # autoscaler does not work on Windows, no point of building it; see below
-        #- {{ pin_subpackage('ray-autoscaler', exact=True) }}  # [not win]
         - {{ pin_subpackage('ray-dashboard', exact=True) }}
-        #- {{ pin_subpackage('ray-debug', exact=True) }}  # turned off for now, see below
         - {{ pin_subpackage('ray-k8s', exact=True) }}
+        - {{ pin_subpackage('ray-data', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
         - {{ pin_subpackage('ray-tune', exact=True) }}
@@ -66,10 +58,10 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - bazel =4.2.1
+        - bazel =4.2.2
         - sysroot_linux-64 2.17  # [linux64]
         - curl
-        - cython >=0.29.15
+        - cython >=0.29.26
         - make
         - m2-bash  # [win]
         - python
@@ -82,20 +74,24 @@ outputs:
         - pickle5  # [py<38]
       run:
         - python
+        - aiosignal
         - attrs
-        - click >=7.0
+        - click >=7.0, <=8.0.4
         - colorama
         - dataclasses  # [py<37]
         - filelock
-        - grpcio >=1.28.1
+        - frozenlist
+        - grpcio >=1.28.1, <=1.43.0
         - msgpack-python >=1.0.0, <2.0.0
-        - numpy >=1.19.3
+        - numpy >=1.20
         - pickle5  # [py<38]
-        - protobuf >=3.15.3
+        - protobuf >=3.15.3, <4.0.0
         - psutil
         - pyyaml
-        - redis-py >=3.5.0
+        - redis-py >=3.5.0  # [win]
+        - requests
         - setproctitle =1.2.2
+        - virtualenv
 
     test:
       imports:
@@ -115,7 +111,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp <3.8
+        - aiohttp >=3.7
         - aiohttp-cors
         - aioredis <2
         - colorful
@@ -123,9 +119,10 @@ outputs:
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
         - jsonschema
-        - requests
         - opencensus
-        - prometheus_client >=0.7.1
+        - prometheus_client >=0.7.1, <0.14.0
+        - requests
+        - smart_open
         - py-spy >=0.2.0
 
     test:
@@ -136,33 +133,6 @@ outputs:
         # the following doesn't get triggered in CI, but was a problem in
         # https://github.com/conda-forge/ray-packages-feedstock/issues/16
         - ray._private.metrics_agent
-
-  - name: ray-autoscaler
-    build:
-      # skip autoscaler altogether because right now it's missing a lot of dependencies
-      # and no one has volunteered to update those
-      skip: true
-      # ray autoscaler relies heavily on using POSIX-compliant OpenSSH and rsync,
-      # neither of which are available on Windows; they are in WSL, but that is
-      # effectively a Linux version from conda point of view
-      skip: true  # [win]
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - azure-cli-core ==2.4.0
-        - azure-mgmt-compute ==12.0.0
-        - azure-mgmt-msi ==1.0.0
-        - azure-mgmt-network ==10.1.0
-        - boto3 ==1.4.8
-        - google-api-python-client ==1.7.8
-        - google-auth
-        - kubernetes
-    test:
-      imports:
-        - ray.autoscaler
 
   - name: ray-dashboard
     build:
@@ -176,9 +146,9 @@ outputs:
         - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
     requirements:
       build:
-        - nodejs <16.6.2
+        - nodejs
       host:
-        - nodejs <16.6.2
+        - nodejs
         - python
       run:
         - python
@@ -189,23 +159,6 @@ outputs:
         - ray.dashboard
       commands:
         - python -c "import ray; ray.init(include_dashboard=True)"
-
-  - name: ray-debug
-    build:
-      # some weird incompatibility when installing during tests... disabling for now
-      # wild guess is it is caused by py-spy using newer sysroot/glibc
-      skip: true
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - py-spy >=0.2.0
-    test:
-      imports:
-        # there doesn't appear to be a debug specific module
-        - ray
 
   - name: ray-k8s
     requirements:
@@ -221,6 +174,20 @@ outputs:
         # there doesn't appear to be a k8s module, not sure how to test this
         - ray
 
+  - name: ray-data
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - pandas
+        - pyarrow >=6.0.1, <7.0.0
+        - fsspec
+    test:
+      imports:
+        - ray.data
+
   - name: ray-rllib
     build:
       entry_points:
@@ -232,7 +199,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym
+        - gym <0.22
         - lz4
         - matplotlib !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
@@ -258,10 +225,11 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn
+        - uvicorn =0.16.0
         - requests
         - starlette
         - fastapi
+        - aiorwlock
     test:
       imports:
         - ray.serve
