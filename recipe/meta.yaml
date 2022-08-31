@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 1
+  number: 2
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
 
