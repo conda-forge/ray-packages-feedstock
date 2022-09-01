@@ -1,4 +1,4 @@
-{% set version = "1.13.0" %}
+{% set version = "2.0.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: f877891804c60b404ddb6eabe5896902ffdf5b6e8830e8150803a2b64b56a79f
+  sha256: 333841d6e8ad328e0bcbaa2a1adc4ea1ddb302016debb955acc23eeb121417bf
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
 
