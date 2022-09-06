@@ -81,7 +81,8 @@ outputs:
         - dataclasses  # [py<37]
         - filelock
         - frozenlist
-        - grpcio >=1.28.1, <=1.43.0
+        - grpcio >=1.28.1, <=1.43.0  # [py<310]
+        - grpcio >=1.42.0, <=1.43.0  # [py>=310]
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
         - pickle5  # [py<38]
@@ -91,6 +92,7 @@ outputs:
         - redis-py >=3.5.0  # [win]
         - requests
         - setproctitle =1.2.2
+        - typing_extensions  # [py<38]
         - virtualenv
 
     test:
@@ -121,6 +123,7 @@ outputs:
         - jsonschema
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
+        - pydantic
         - requests
         - smart_open
         - py-spy >=0.2.0
@@ -181,7 +184,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - pandas
+        - numpy >= 1.19  # [py<37]
+        - numpy >= 1.20  # [py>=37]
+        - pandas >= 1.0.5  # [py<37]
+        - pandas >= 1.3  # [py>=37]
         - pyarrow >=6.0.1, <7.0.0
         - fsspec
     test:
@@ -199,7 +205,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym <0.22
+        - gym >=0.21.0, <0.22
         - lz4
         - matplotlib !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
