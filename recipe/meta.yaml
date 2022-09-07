@@ -184,10 +184,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - numpy >= 1.19  # [py<37]
-        - numpy >= 1.20  # [py>=37]
-        - pandas >= 1.0.5  # [py<37]
-        - pandas >= 1.3  # [py>=37]
+        - numpy >=1.19  # [py<37]
+        - numpy >=1.20  # [py>=37]
+        - pandas >=1.0.5  # [py<37]
+        - pandas >=1.3  # [py>=37]
         - pyarrow >=6.0.1, <7.0.0
         - fsspec
     test:
