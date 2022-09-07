@@ -83,6 +83,7 @@ outputs:
         - frozenlist
         - grpcio >=1.28.1, <=1.43.0  # [py<310]
         - grpcio >=1.42.0, <=1.43.0  # [py>=310]
+        - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
         - pickle5  # [py<38]
@@ -120,7 +121,6 @@ outputs:
         # gpustat-0.6.0 has a dependency which does not exist on Windows;
         # skip it there until gpustat is fixed as it is optional
         - gpustat  # [not win]
-        - jsonschema
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
         - pydantic
