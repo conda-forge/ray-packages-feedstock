@@ -102,8 +102,8 @@ outputs:
         - ray._raylet
         - ray.actor
         - ray.runtime_context
-        - ray.state
-        - ray.worker
+        - ray._private.state
+        - ray._private.worker
       commands:
         - python -c "import ray; ray.init()"
 
