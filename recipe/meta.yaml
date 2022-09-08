@@ -1,4 +1,4 @@
-{% set version = "1.13.0" %}
+{% set version = "2.0.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: f877891804c60b404ddb6eabe5896902ffdf5b6e8830e8150803a2b64b56a79f
+  sha256: 333841d6e8ad328e0bcbaa2a1adc4ea1ddb302016debb955acc23eeb121417bf
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 2
+  number: 0
   # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
   skip: true  # [osx]
 
@@ -81,7 +81,9 @@ outputs:
         - dataclasses  # [py<37]
         - filelock
         - frozenlist
-        - grpcio >=1.28.1, <=1.43.0
+        # We override the 1.43.0 upper-bound in setup.py here,
+        # see https://github.com/conda-forge/ray-packages-feedstock/pull/70#discussion_r965718590
+        - grpcio >=1.28.1, <=1.46.0
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
@@ -92,6 +94,7 @@ outputs:
         - redis-py >=3.5.0  # [win]
         - requests
         - setproctitle =1.2.2
+        - typing_extensions  # [py<38]
         - virtualenv
 
     test:
@@ -100,8 +103,8 @@ outputs:
         - ray._raylet
         - ray.actor
         - ray.runtime_context
-        - ray.state
-        - ray.worker
+        - ray._private.state
+        - ray._private.worker
       commands:
         - python -c "import ray; ray.init()"
 
@@ -121,6 +124,7 @@ outputs:
         - gpustat  # [not win]
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
+        - pydantic
         - requests
         - smart_open
         - py-spy >=0.2.0
@@ -181,7 +185,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - pandas
+        - numpy >=1.19  # [py<37]
+        - numpy >=1.20  # [py>=37]
+        - pandas >=1.0.5  # [py<37]
+        - pandas >=1.3  # [py>=37]
         - pyarrow >=6.0.1, <7.0.0
         - fsspec
     test:
@@ -199,7 +206,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym <0.22
+        - gym >=0.21.0, <0.24
         - lz4
         - matplotlib !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
