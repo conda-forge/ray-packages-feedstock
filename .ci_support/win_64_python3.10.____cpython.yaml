@@ -9,7 +9,7 @@ curl:
 cxx_compiler:
 - vs2019
 nodejs:
-- '14'
+- '18'
 pin_run_as_build:
   curl:
     max_pin: x
