@@ -3,6 +3,7 @@ set -xe
 
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
+export RAY_INSTALL_JAVA=1
 "${PYTHON}" setup.py build
 # bazel by default makes everything read-only,
 # which leads to patchelf failing to fix rpath in binaries.
