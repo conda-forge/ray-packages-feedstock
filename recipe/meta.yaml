@@ -83,8 +83,8 @@ outputs:
         - filelock
         - frozenlist
         # We override the 1.43.0 upper-bound in setup.py here,
-        # see https://github.com/conda-forge/ray-packages-feedstock/pull/70#discussion_r965718590
-        - grpcio >=1.28.1, <=1.46.0
+        # see https://github.com/ray-project/ray/issues/28354
+        - grpcio >=1.28.1,<1.48
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
