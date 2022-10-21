@@ -11,8 +11,6 @@ cxx_compiler:
 nodejs:
 - '14'
 pin_run_as_build:
-  curl:
-    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x
