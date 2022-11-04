@@ -11,7 +11,7 @@ diff --git a/python/setup.py b/python/setup.py
 index 056c1ef05..7ebc0a894 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -666,10 +666,10 @@ setuptools.setup(
+@@ -771,10 +771,10 @@ setuptools.setup(
      entry_points={
          "console_scripts": [
              "ray=ray.scripts.scripts:main",
