@@ -17,8 +17,6 @@ source:
 
 build:
   number: 0
-  # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
-  skip: true  # [osx]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
