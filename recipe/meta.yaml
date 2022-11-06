@@ -17,6 +17,8 @@ source:
 
 build:
   number: 0
+  # skip on MacOS, needs macos 10.15
+  skip: true  # [osx]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
