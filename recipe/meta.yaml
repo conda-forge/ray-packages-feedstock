@@ -216,9 +216,9 @@ outputs:
 
     test:
       commands:
-        - python -m pip install gym
-        - python -c "import ray.rllib"
-        - rllib --help
+        - python -m pip install gym     # [not win]
+        - python -c "import ray.rllib"  # [not win]
+        - rllib --help                  # [not win]
 
   - name: ray-serve
     build:
