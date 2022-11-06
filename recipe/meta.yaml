@@ -82,7 +82,7 @@ outputs:
         - frozenlist
         # We override the 1.43.0 upper-bound in setup.py here,
         # see https://github.com/ray-project/ray/issues/28354
-        - grpcio >=1.28.1,<1.48
+        - grpcio >=1.32.0,<1.48
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
@@ -206,6 +206,7 @@ outputs:
         # - gym >=0.21.0, <0.24
         - lz4
         - matplotlib-base !=3.4.3
+        - pip
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
         # pinning pooch to <1.5 solves this issue for now
         - pooch <1.5
@@ -214,9 +215,9 @@ outputs:
         - scipy
 
     test:
-      imports:
-        - ray.rllib
       commands:
+        - python -m pip install gym
+        - python -c "import ray.rllib"
         - rllib --help
 
   - name: ray-serve
