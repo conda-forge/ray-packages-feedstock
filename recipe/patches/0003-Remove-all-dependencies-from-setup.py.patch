@@ -1,3 +1,15 @@
+Original ray v2.0.0 patch had this header
+From 5ba4c3b61656a28326469356f286d64e29a1e957 Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Fri, 3 Dec 2021 10:55:23 -0800
+Subject: [PATCH 4/6] Remove all dependencies from setup.py
+
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
+---
+ python/setup.py | 61 ++++++++-----------------------------------------
+ 1 file changed, 9 insertions(+), 52 deletions(-)
+It was subsequently modified by mattip for ray v2.0.1
+
 diff --git a/python/setup.py b/python/setup.py
 index df3e1a62de..f7f8e9962f 100644
 --- a/python/setup.py
