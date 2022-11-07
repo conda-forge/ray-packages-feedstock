@@ -67,7 +67,6 @@ outputs:
         - python
       host:
         - python
-        - pip
         - packaging
         # pickle5 needs to be here, otherwise setup.py tries
         # to install it and it fails on conda-forge Windows CI
@@ -208,7 +207,6 @@ outputs:
         - gym >=0.21.0, <0.24
         - lz4
         - matplotlib-base !=3.4.3
-        - pip
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
         # pinning pooch to <1.5 solves this issue for now
         - pooch <1.5
@@ -217,8 +215,9 @@ outputs:
         - scipy
 
     test:
+      imports:
+        - ray.rllib
       commands:
-        - python -c "import ray.rllib"
         - rllib --help
 
   - name: ray-serve
