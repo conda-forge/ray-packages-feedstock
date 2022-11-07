@@ -31,6 +31,8 @@ requirements:
     - make
     - m2-patch       # [win]
     - python
+    - openjdk =11
+    - maven
 
 outputs:
   - name: ray-all
