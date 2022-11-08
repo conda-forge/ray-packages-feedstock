@@ -1,18 +1,19 @@
-From 5ba4c3b61656a28326469356f286d64e29a1e957 Mon Sep 17 00:00:00 2001
+From 6fa5f3ca104a9eb34eb95c4ee61fa73cd94c848c Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
-Subject: [PATCH 4/6] Remove all dependencies from setup.py
+Subject: [PATCH 3/5] Remove all dependencies from setup.py
 
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
+Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
- python/setup.py | 61 ++++++++-----------------------------------------
- 1 file changed, 9 insertions(+), 52 deletions(-)
+ python/setup.py | 85 ++++++-------------------------------------------
+ 1 file changed, 9 insertions(+), 76 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index c361a6880..3dc3e5777 100644
+index 2d70a80e4..a21d6d3b2 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -192,49 +192,13 @@ ray_files += [
+@@ -204,49 +204,13 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -67,8 +68,8 @@ index c361a6880..3dc3e5777 100644
 +        "observability": [],
      }
  
-     if sys.version_info >= (3, 7):
-@@ -234,17 +214,7 @@ if setup_spec.type == SetupType.RAY:
+     # Ray Serve depends on the Ray dashboard components.
+@@ -260,18 +224,7 @@ if setup_spec.type == SetupType.RAY:
      if sys.version_info >= (3, 7, 0):
          setup_spec.extras["k8s"].append("kopf")
  
@@ -83,11 +84,12 @@ index c361a6880..3dc3e5777 100644
 -        "pyyaml",
 -        "scipy",
 -    ]
-+    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + []
+-
++    setup_spec.extras["rllib"] = setup_spec.extras["tune"]
+     setup_spec.extras["train"] = setup_spec.extras["tune"]
  
-     setup_spec.extras["all"] = list(
-         set(chain.from_iterable(setup_spec.extras.values())))
-@@ -253,27 +223,7 @@ if setup_spec.type == SetupType.RAY:
+     # Ray AI Runtime should encompass Data, Tune, and Serve.
+@@ -292,27 +245,7 @@ if setup_spec.type == SetupType.RAY:
  # should be carefully curated. If you change it, please reflect
  # the change in the matching section of requirements/requirements.txt
  if setup_spec.type == SetupType.RAY:
@@ -96,7 +98,7 @@ index c361a6880..3dc3e5777 100644
 -        "click >= 7.0, <= 8.0.4",
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
--        "grpcio >= 1.28.1, <= 1.43.0; python_version < '3.10'",
+-        "grpcio >= 1.32.0, <= 1.43.0; python_version < '3.10'",
 -        "grpcio >= 1.42.0, <= 1.43.0; python_version >= '3.10'",
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
@@ -116,7 +118,7 @@ index c361a6880..3dc3e5777 100644
  
  
  def is_native_windows_or_msys():
-@@ -710,7 +667,7 @@ setuptools.setup(
+@@ -766,7 +699,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -126,5 +128,5 @@ index c361a6880..3dc3e5777 100644
      entry_points={
          "console_scripts": [
 -- 
-2.30.1 (Apple Git-130)
+2.38.1.windows.1
 

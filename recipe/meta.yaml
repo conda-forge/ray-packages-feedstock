@@ -1,4 +1,4 @@
-{% set version = "2.0.0" %}
+{% set version = "2.0.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 333841d6e8ad328e0bcbaa2a1adc4ea1ddb302016debb955acc23eeb121417bf
+  sha256: b8b2f0a99d2ac4c001ff11c78b4521b217e2a02df95fb6270fd621412143f28b
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
@@ -16,8 +16,8 @@ source:
 
 
 build:
-  number: 1
-  # skip on MacOS as there's some weird compilation issue and I have no MacOS to develop on
+  number: 0
+  # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
 # Need these up here for conda-smithy to handle them properly.
@@ -26,7 +26,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - bazel =4.2.2
-    - cython >=0.29
+    - cython >=0.29.26
     - curl
     - make
     - m2-patch       # [win]
@@ -84,7 +84,7 @@ outputs:
         - frozenlist
         # We override the 1.43.0 upper-bound in setup.py here,
         # see https://github.com/ray-project/ray/issues/28354
-        - grpcio >=1.28.1,<1.48
+        - grpcio >=1.32.0,<1.48
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
@@ -120,9 +120,7 @@ outputs:
         - aiohttp-cors
         - aioredis <2
         - colorful
-        # gpustat-0.6.0 has a dependency which does not exist on Windows;
-        # skip it there until gpustat is fixed as it is optional
-        - gpustat  # [not win]
+        - gpustat
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
         - pydantic
@@ -209,7 +207,7 @@ outputs:
         - dm-tree
         - gym >=0.21.0, <0.24
         - lz4
-        - matplotlib !=3.4.3
+        - matplotlib-base !=3.4.3
         # scikit-image uses a deprecated import for pooch, causing rllib to fail on import
         # pinning pooch to <1.5 solves this issue for now
         - pooch <1.5
@@ -301,3 +299,4 @@ extra:
     - h-vetinari
     - vnlitvinov
     - krfricke
+    - mattip
