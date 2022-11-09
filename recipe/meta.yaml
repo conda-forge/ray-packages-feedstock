@@ -92,6 +92,8 @@ outputs:
         - ray._private.state
         - ray._private.worker
       commands:
+        - python -c "import ray; ray.init(include_dashboard=False)"
+        - python -c "print('\n' * 10)"
         - python -c "import ray; ray.init()"
 
   - name: ray-default
