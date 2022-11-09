@@ -63,9 +63,6 @@ outputs:
         - python
         - pip
         - packaging
-        # pickle5 needs to be here, otherwise setup.py tries
-        # to install it and it fails on conda-forge Windows CI
-        - pickle5  # [py<38]
         - openjdk =11
       run:
         - python
@@ -73,7 +70,6 @@ outputs:
         - attrs
         - click >=7.0, <=8.0.4
         - colorama
-        - dataclasses  # [py<37]
         - filelock
         - frozenlist
         # We override the 1.43.0 upper-bound in setup.py here,
@@ -82,14 +78,12 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
-        - pickle5  # [py<38]
         - protobuf >=3.15.3, <4.0.0
         - psutil
         - pyyaml
         - redis-py >=3.5.0  # [win]
         - requests
         - setproctitle =1.2.2
-        - typing_extensions  # [py<38]
         - virtualenv
 
     test:
@@ -178,10 +172,8 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - numpy >=1.19  # [py<37]
-        - numpy >=1.20  # [py>=37]
-        - pandas >=1.0.5  # [py<37]
-        - pandas >=1.3  # [py>=37]
+        - numpy >=1.20
+        - pandas >=1.3
         - pyarrow >=6.0.1, <7.0.0
         - fsspec
     test:
