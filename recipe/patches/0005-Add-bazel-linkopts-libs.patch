@@ -1,4 +1,4 @@
-From cc7ed1a82240b750eb6f8e4acefce402c1e05ce9 Mon Sep 17 00:00:00 2001
+From fcda3379e8615b0caf8a4eaa1e4d07d2fdb87a0c Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 11:04:33 -0800
 Subject: [PATCH 5/5] Add bazel linkopts/libs

@@ -1,4 +1,4 @@
-From 7dd66d73a8fd1066eff55bb3a9369f461fe20f64 Mon Sep 17 00:00:00 2001
+From 700742771dfcd7305ec19a4634613165fbf93c47 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:59:10 -0800
 Subject: [PATCH 4/5] Ignore warnings in event.cc and logging.cc

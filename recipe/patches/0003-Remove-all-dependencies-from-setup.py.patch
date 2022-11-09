@@ -1,4 +1,4 @@
-From c8e20362db9b76134ee1657635e34d97d2df75ca Mon Sep 17 00:00:00 2001
+From e0ec9c68e7b5f060e29cfd5e33579bb9700d63af Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 3/5] Remove all dependencies from setup.py

@@ -1,4 +1,4 @@
-From 3aa3629ce4eb95001401b3b9a81ac896f7258b1c Mon Sep 17 00:00:00 2001
+From 762223c2a4df0c861c4a1248ac32328e5cbaf11a Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
 Subject: [PATCH 2/5] Disable making non-core entry scripts
