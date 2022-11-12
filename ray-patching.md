@@ -39,8 +39,8 @@ Rebase to new version or ray:
   * `git commit --date="<date_of_deadbeef>" --author="<author_of_deadbeef>"` (commit message is kept as-is automatically while rebasing)
   * `git rebase --continue`
 * `git format-patch tags/ray-<new_version>`
-* copy resulting patches over to recipe and update `meta.yaml`
-* remove all other patches in the `patches`  folder
+* remove all patches in the `patches`  folder
+* copy patches produced by `git format-patch` over to recipe and update `meta.yaml`
 
 ## How to prepare or adapt patches for third party Ray components (using Redis as the example)
 
@@ -78,7 +78,7 @@ git checkout -b 7.0.5-patched 7.0.5
 ```
 3. Apply relevant upstream patches first (2.1.0 has only one patch) and commit them:
 ```sh
-patch -p1 < patch -p1 < ../ray/thirdparty/patches/redis-quiet.patch
+patch -p1 < ../ray/thirdparty/patches/redis-quiet.patch
 git add -u
 git commit -m 'Upstream Ray patches'
 ```
