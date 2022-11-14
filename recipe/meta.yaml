@@ -68,20 +68,20 @@ outputs:
         - python
         - aiosignal
         - attrs
-        - click >=7.0, <=8.0.4
+        - click >=7.0
         - colorama
         - filelock
         - frozenlist
         # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio =1.49.1=*_1
+        - grpcio =1.49.1
         - jsonschema
-        - msgpack-python >=1.0.0, <2.0.0
+        - msgpack-python >=1.0.0
         - numpy >=1.20
-        - protobuf 4.21.6
+        - protobuf >=3.15.3,!=3.19.5
         - psutil
         - pyyaml
         - requests
-        - setproctitle =1.2.2
+        - setproctitle
         - virtualenv
 
     test:
@@ -107,7 +107,7 @@ outputs:
         - colorful
         - gpustat >=1.0.0
         - opencensus
-        - prometheus_client >=0.7.1, <0.14.0
+        - prometheus_client >=0.7.1
         - pydantic
         - requests
         - smart_open
