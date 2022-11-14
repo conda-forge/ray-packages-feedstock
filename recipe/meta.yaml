@@ -77,7 +77,7 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0, <2.0.0
         - numpy >=1.20
-        - protobuf 3.21.6
+        - protobuf 4.21.6
         - psutil
         - pyyaml
         - requests
