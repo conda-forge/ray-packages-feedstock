@@ -14,7 +14,9 @@ Development: https://github.com/ray-project/ray
 Documentation: https://ray.readthedocs.io/
 
 Ray is a fast and simple framework for building and running
-distributed applications.
+distributed applications. It is split into ray-core, ray-default,
+ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune, and
+ray-all packages.
 
 
 Current build status
