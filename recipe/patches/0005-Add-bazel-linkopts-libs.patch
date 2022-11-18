@@ -1,4 +1,4 @@
-From 4d6b848a1a089d642c1c0a705b676b042bd9507b Mon Sep 17 00:00:00 2001
+From fcda3379e8615b0caf8a4eaa1e4d07d2fdb87a0c Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 11:04:33 -0800
 Subject: [PATCH 5/5] Add bazel linkopts/libs
@@ -9,10 +9,10 @@ Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index a21d6d3b2..4aa7110dd 100644
+index c6ee62a96..c5e4f839e 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -423,6 +423,8 @@ def build(build_python, build_java, build_cpp):
+@@ -434,6 +434,8 @@ def build(build_python, build_java, build_cpp):
          raise OSError(msg)
  
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)

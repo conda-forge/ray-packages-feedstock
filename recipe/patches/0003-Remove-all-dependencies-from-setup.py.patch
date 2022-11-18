@@ -1,4 +1,4 @@
-From 6fa5f3ca104a9eb34eb95c4ee61fa73cd94c848c Mon Sep 17 00:00:00 2001
+From e0ec9c68e7b5f060e29cfd5e33579bb9700d63af Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 3/5] Remove all dependencies from setup.py
@@ -6,14 +6,14 @@ Subject: [PATCH 3/5] Remove all dependencies from setup.py
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
- python/setup.py | 85 ++++++-------------------------------------------
- 1 file changed, 9 insertions(+), 76 deletions(-)
+ python/setup.py | 80 ++++++-------------------------------------------
+ 1 file changed, 9 insertions(+), 71 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 2d70a80e4..a21d6d3b2 100644
+index 1b8c8e156..c6ee62a96 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -204,49 +204,13 @@ ray_files += [
+@@ -211,43 +211,13 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -40,19 +40,13 @@ index 2d70a80e4..a21d6d3b2 100644
 -            "colorful",
 -            "py-spy >= 0.2.0",
 -            "requests",
--            "gpustat >= 1.0.0b1",  # for windows
+-            "gpustat >= 1.0.0",  # for windows
 -            "opencensus",
 -            "pydantic",
 -            "prometheus_client >= 0.7.1, < 0.14.0",
 -            "smart_open",
 -        ],
--        "serve": [
--            "uvicorn==0.16.0",
--            "requests",
--            "starlette",
--            "fastapi",
--            "aiorwlock",
--        ],
+-        "serve": ["uvicorn", "requests", "starlette", "fastapi", "aiorwlock"],
 -        "tune": ["pandas", "tabulate", "tensorboardX>=1.9", "requests"],
 -        "k8s": ["kubernetes", "urllib3"],
 -        "observability": [
@@ -69,7 +63,7 @@ index 2d70a80e4..a21d6d3b2 100644
      }
  
      # Ray Serve depends on the Ray dashboard components.
-@@ -260,18 +224,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -261,18 +231,7 @@ if setup_spec.type == SetupType.RAY:
      if sys.version_info >= (3, 7, 0):
          setup_spec.extras["k8s"].append("kopf")
  
@@ -89,22 +83,23 @@ index 2d70a80e4..a21d6d3b2 100644
      setup_spec.extras["train"] = setup_spec.extras["tune"]
  
      # Ray AI Runtime should encompass Data, Tune, and Serve.
-@@ -292,27 +245,7 @@ if setup_spec.type == SetupType.RAY:
- # should be carefully curated. If you change it, please reflect
- # the change in the matching section of requirements/requirements.txt
+@@ -297,28 +256,7 @@ if setup_spec.type == SetupType.RAY:
+ # install-core-prerelease-dependencies.sh so we can test
+ # new releases candidates.
  if setup_spec.type == SetupType.RAY:
 -    setup_spec.install_requires = [
 -        "attrs",
 -        "click >= 7.0, <= 8.0.4",
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
--        "grpcio >= 1.32.0, <= 1.43.0; python_version < '3.10'",
--        "grpcio >= 1.42.0, <= 1.43.0; python_version >= '3.10'",
+-        "grpcio >= 1.32.0; python_version < '3.10'",
+-        "grpcio >= 1.42.0; python_version >= '3.10'",
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
 -        "numpy >= 1.19.3; python_version >= '3.9'",
--        "protobuf >= 3.15.3, < 4.0.0",
+-        "packaging; python_version >= '3.10'",
+-        "protobuf >= 3.15.3, != 3.19.5",
 -        "pyyaml",
 -        "aiosignal",
 -        "frozenlist",
@@ -112,13 +107,13 @@ index 2d70a80e4..a21d6d3b2 100644
 -        # Light weight requirement, can be replaced with "typing" once
 -        # we deprecate Python 3.7 (this will take a while).
 -        "typing_extensions; python_version < '3.8'",
--        "virtualenv",  # For pip runtime env.
+-        "virtualenv>=20.0.24",  # For pip runtime env.
 -    ]
 +    setup_spec.install_requires = []
  
  
  def is_native_windows_or_msys():
-@@ -766,7 +699,7 @@ setuptools.setup(
+@@ -772,7 +710,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,

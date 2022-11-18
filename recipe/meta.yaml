@@ -1,4 +1,4 @@
-{% set version = "2.0.1" %}
+{% set version = "2.1.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b8b2f0a99d2ac4c001ff11c78b4521b217e2a02df95fb6270fd621412143f28b
+  sha256: 61d2ba82fe0d61d6d85394fff72766e5439c4e1ba25924ba8eadf38928fef463
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -68,21 +68,21 @@ outputs:
         - python
         - aiosignal
         - attrs
-        - click >=7.0, <=8.0.4
+        - click >=7.0
         - colorama
         - filelock
         - frozenlist
-        # We override the 1.43.0 upper-bound in setup.py here,
-        # see https://github.com/ray-project/ray/issues/28354
-        - grpcio >=1.32.0,<1.48
+        # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
+        - grpcio >=1.42,<1.49
         - jsonschema
-        - msgpack-python >=1.0.0, <2.0.0
+        - msgpack-python >=1.0.0
         - numpy >=1.20
-        - protobuf >=3.15.3, <4.0.0
+        - packaging  # [py>=310]
+        - protobuf >=3.15.3,!=3.19.5
         - psutil
         - pyyaml
         - requests
-        - setproctitle =1.2.2
+        - setproctitle
         - virtualenv
 
     test:
@@ -94,7 +94,7 @@ outputs:
         - ray._private.state
         - ray._private.worker
       commands:
-        - python -c "import ray; ray.init()"
+        - python -c "import ray; ray.init(include_dashboard=False)"
 
   - name: ray-default
     requirements:
@@ -106,7 +106,7 @@ outputs:
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
-        - gpustat
+        - gpustat >=1.0.0
         - opencensus
         - prometheus_client >=0.7.1, <0.14.0
         - pydantic
@@ -212,7 +212,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - uvicorn =0.16.0
+        - uvicorn
         - requests
         - starlette
         - fastapi
@@ -270,7 +270,9 @@ about:
   summary: Ray is a fast and simple framework for building and running distributed applications.
   description: |
     Ray is a fast and simple framework for building and running
-    distributed applications.
+    distributed applications. It is split into ray-core, ray-default,
+    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune, and
+    ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
 
