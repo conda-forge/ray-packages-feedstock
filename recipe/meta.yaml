@@ -77,7 +77,7 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0
         - numpy >=1.20
-        - packaging  # [py==310]
+        - packaging  # [py>=310]
         - protobuf >=3.15.3,!=3.19.5
         - psutil
         - pyyaml
