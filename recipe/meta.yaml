@@ -73,10 +73,11 @@ outputs:
         - filelock
         - frozenlist
         # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio <1.49.0
+        - grpcio >=1.42,<1.49
         - jsonschema
         - msgpack-python >=1.0.0
         - numpy >=1.20
+        - packaging  # [py==310]
         - protobuf >=3.15.3,!=3.19.5
         - psutil
         - pyyaml
@@ -107,7 +108,7 @@ outputs:
         - colorful
         - gpustat >=1.0.0
         - opencensus
-        - prometheus_client >=0.7.1
+        - prometheus_client >=0.7.1, <0.14.0
         - pydantic
         - requests
         - smart_open
