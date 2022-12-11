@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -34,7 +34,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - {{ pin_subpackage('ray-dashboard', exact=True) }}
         - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
@@ -103,6 +102,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-dashboard', exact=True) }}
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
@@ -141,7 +141,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - {{ pin_subpackage('ray-core', exact=True) }}
         - typing-extensions
     test:
       imports:
@@ -211,7 +211,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         - uvicorn
         - requests
         - starlette
@@ -230,7 +230,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         - pandas
         - requests
         - tabulate
