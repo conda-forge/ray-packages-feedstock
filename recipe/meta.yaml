@@ -81,7 +81,6 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle
         - virtualenv
 
     test:
@@ -195,6 +194,8 @@ outputs:
         - pyyaml
         - scikit-image
         - scipy
+        - typer
+        - rich
 
     test:
       imports:
