@@ -1,4 +1,4 @@
-From db3dd41c755aa9aeaca3ea419e02d6503d52f45a Mon Sep 17 00:00:00 2001
+From a439f3419ebff6e7850c04c9161d773b9032a97d Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:46:36 -0800
 Subject: [PATCH 1/5] Redis deps now build but do not link
@@ -15,7 +15,7 @@ Signed-off-by: H. Vetinari <h.vetinari@gmx.com>
  rename thirdparty/patches/{redis-quiet.patch => 0001-keep-redis-quiet-and-override-AR.patch} (53%)
 
 diff --git a/bazel/BUILD.redis b/bazel/BUILD.redis
-index 9edccf578..60e070028 100644
+index 9edccf5780..60e070028f 100644
 --- a/bazel/BUILD.redis
 +++ b/bazel/BUILD.redis
 @@ -42,13 +42,17 @@ make(
@@ -50,7 +50,7 @@ index 9edccf578..60e070028 100644
      tags = ["local"],
  )
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index fd844d66d..be72f6cbf 100644
+index 31d5f06b95..24c6badfe1 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -102,7 +102,7 @@ def ray_deps_setup():
@@ -66,7 +66,7 @@ diff --git a/thirdparty/patches/redis-quiet.patch b/thirdparty/patches/0001-keep
 similarity index 53%
 rename from thirdparty/patches/redis-quiet.patch
 rename to thirdparty/patches/0001-keep-redis-quiet-and-override-AR.patch
-index d03438759..27c01310e 100644
+index d034387596..27c01310ed 100644
 --- a/thirdparty/patches/redis-quiet.patch
 +++ b/thirdparty/patches/0001-keep-redis-quiet-and-override-AR.patch
 @@ -1,14 +1,45 @@
@@ -199,5 +199,5 @@ index d03438759..27c01310e 100644
 +2.38.1.windows.1
 +
 -- 
-2.38.1.windows.1
+2.25.1
 
