@@ -81,6 +81,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
+        - setproctitle==1.2.2
         - virtualenv
 
     test:
