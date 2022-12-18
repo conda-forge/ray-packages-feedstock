@@ -202,7 +202,9 @@ outputs:
       imports:
         - ray.rllib
       commands:
-        - rllib --help
+        # some interaction with rich and the test runner in azure
+        # xref https://github.com/Textualize/rich/issues/2411 ?
+        - python -X utf8 -c "import subprocess; subprocess.run(['rllib', '--help'], capture_output=True, check=True)"
 
   - name: ray-serve
     build:
@@ -241,6 +243,45 @@ outputs:
       imports:
         - ray.tune
 
+  - name: ray-train
+    # exactly equivalent to ray-tune
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-default', exact=True) }}
+        - pandas
+        - requests
+        - tabulate
+        - tensorboardX >=1.9
+    test:
+      imports:
+        - ray.train
+
+  - name: ray-air
+    # all the depenencies of train, tune, data, and serve
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-default', exact=True) }}
+        - aiorwlock
+        - fastapi
+        - fsspec
+        - numpy >=1.20
+        - pandas >=1.3
+        - pyarrow >=6.0.1, <7.0.0
+        - requests
+        - starlette
+        - tabulate
+        - tensorboardX >=1.9
+        - uvicorn
+    test:
+      imports:
+        - ray.air
+
 about:
   home: https://github.com/ray-project/ray
   license: Apache-2.0
@@ -273,8 +314,8 @@ about:
   description: |
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
-    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune, and
-    ray-all packages.
+    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune,
+    ray-train, ray-air and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
 
