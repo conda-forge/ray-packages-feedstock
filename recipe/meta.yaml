@@ -204,7 +204,7 @@ outputs:
       commands:
         # some interaction with rich and the test runner in azure
         # xref https://github.com/Textualize/rich/issues/2411 ?
-        - python -X utf8 -c "import subprocess; subprocess.run(['rllib', '--help'], capture_output=True, check=True)"
+        - python -c "import subprocess, os; os.environ['PYTHONIOENCODING']='utf-8'; subprocess.run(['rllib', '--help'], capture_output=True, check=True)"
 
   - name: ray-serve
     build:
