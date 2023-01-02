@@ -39,6 +39,7 @@ outputs:
         - {{ pin_subpackage('ray-data', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
+        - {{ pin_subpackage('ray-train', exact=True) }}
         - {{ pin_subpackage('ray-tune', exact=True) }}
     test:
       imports:
