@@ -214,7 +214,6 @@ outputs:
         - scipy
         - typer
         - rich
-
     test:
       imports:
         - ray.rllib
@@ -261,17 +260,12 @@ outputs:
         - ray.tune
 
   - name: ray-train
-    # exactly equivalent to ray-tune
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
-        - pandas
-        - requests
-        - tabulate
-        - tensorboardX >=1.9
+        - {{ pin_subpackage('ray-tune', exact=True) }}
     test:
       imports:
         - ray.train
