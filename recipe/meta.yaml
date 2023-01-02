@@ -33,6 +33,7 @@ outputs:
         - python
       run:
         - python
+        - {{ pin_subpackage('ray-air', exact=True) }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
@@ -94,6 +95,30 @@ outputs:
         - ray._private.worker
       commands:
         - python -c "import ray; ray.init(include_dashboard=False)"
+
+  # the various ray[extra] installs, alphabetically
+  - name: ray-air
+    # all the depenencies of train, tune, data, and serve
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-default', exact=True) }}
+        - aiorwlock
+        - fastapi
+        - fsspec
+        - numpy >=1.20
+        - pandas >=1.3
+        - pyarrow >=6.0.1
+        - requests
+        - starlette
+        - tabulate
+        - tensorboardX >=1.9
+        - uvicorn
+    test:
+      imports:
+        - ray.air
 
   - name: ray-default
     requirements:
@@ -258,29 +283,6 @@ outputs:
     test:
       imports:
         - ray.train
-
-  - name: ray-air
-    # all the depenencies of train, tune, data, and serve
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
-        - aiorwlock
-        - fastapi
-        - fsspec
-        - numpy >=1.20
-        - pandas >=1.3
-        - pyarrow >=6.0.1
-        - requests
-        - starlette
-        - tabulate
-        - tensorboardX >=1.9
-        - uvicorn
-    test:
-      imports:
-        - ray.air
 
 about:
   home: https://github.com/ray-project/ray
