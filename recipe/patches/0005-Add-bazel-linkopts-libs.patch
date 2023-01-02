@@ -1,4 +1,4 @@
-From fcda3379e8615b0caf8a4eaa1e4d07d2fdb87a0c Mon Sep 17 00:00:00 2001
+From e42938fdc68489e578a1898df71213db3d1729a9 Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 11:04:33 -0800
 Subject: [PATCH 5/5] Add bazel linkopts/libs
@@ -9,10 +9,10 @@ Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/python/setup.py b/python/setup.py
-index c6ee62a96..c5e4f839e 100644
+index 83a7171d83..dcd9ee8789 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -434,6 +434,8 @@ def build(build_python, build_java, build_cpp):
+@@ -414,6 +414,8 @@ def build(build_python, build_java, build_cpp):
          raise OSError(msg)
  
      bazel_env = dict(os.environ, PYTHON3_BIN_PATH=sys.executable)
@@ -22,5 +22,5 @@ index c6ee62a96..c5e4f839e 100644
      if is_native_windows_or_msys():
          SHELL = bazel_env.get("SHELL")
 -- 
-2.38.1.windows.1
+2.25.1
 

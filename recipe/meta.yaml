@@ -1,4 +1,4 @@
-{% set version = "2.1.0" %}
+{% set version = "2.2.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 61d2ba82fe0d61d6d85394fff72766e5439c4e1ba25924ba8eadf38928fef463
+  sha256: 1379fa18d9df2d07f501f326a194140b853b676a4dd211bf093c8e1cf3be4878
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 1
+  number: 0
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -33,11 +33,13 @@ outputs:
         - python
       run:
         - python
+        - {{ pin_subpackage('ray-air', exact=True) }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
+        - {{ pin_subpackage('ray-train', exact=True) }}
         - {{ pin_subpackage('ray-tune', exact=True) }}
     test:
       imports:
@@ -81,7 +83,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle
+        - setproctitle==1.2.2
         - virtualenv
 
     test:
@@ -94,6 +96,21 @@ outputs:
         - ray._private.worker
       commands:
         - python -c "import ray; ray.init(include_dashboard=False)"
+
+  # the various ray[extra] installs, alphabetically
+  - name: ray-air
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-data', exact=True) }}
+        - {{ pin_subpackage('ray-serve', exact=True) }}
+        - {{ pin_subpackage('ray-train', exact=True) }}
+        - {{ pin_subpackage('ray-tune', exact=True) }}
+    test:
+      imports:
+        - ray.air
 
   - name: ray-default
     requirements:
@@ -172,7 +189,7 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
         - numpy >=1.20
         - pandas >=1.3
-        - pyarrow >=6.0.1, <7.0.0
+        - pyarrow >=6.0.1
         - fsspec
     test:
       imports:
@@ -195,12 +212,15 @@ outputs:
         - pyyaml
         - scikit-image
         - scipy
-
+        - typer
+        - rich
     test:
       imports:
         - ray.rllib
       commands:
-        - rllib --help
+        # some interaction with rich and the test runner in azure
+        # xref https://github.com/Textualize/rich/issues/2411 ?
+        - python -c "import subprocess, os; os.environ['PYTHONIOENCODING']='utf-8'; subprocess.run(['rllib', '--help'], capture_output=True, check=True)"
 
   - name: ray-serve
     build:
@@ -239,6 +259,17 @@ outputs:
       imports:
         - ray.tune
 
+  - name: ray-train
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-tune', exact=True) }}
+    test:
+      imports:
+        - ray.train
+
 about:
   home: https://github.com/ray-project/ray
   license: Apache-2.0
@@ -271,8 +302,8 @@ about:
   description: |
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
-    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune, and
-    ray-all packages.
+    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune,
+    ray-train, ray-air and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
 

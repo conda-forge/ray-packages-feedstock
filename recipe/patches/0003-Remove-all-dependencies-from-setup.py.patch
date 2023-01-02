@@ -1,4 +1,4 @@
-From e0ec9c68e7b5f060e29cfd5e33579bb9700d63af Mon Sep 17 00:00:00 2001
+From 9617d0d44f432b2d4081a2af4d1f623c7a04102c Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 3/5] Remove all dependencies from setup.py
@@ -6,14 +6,14 @@ Subject: [PATCH 3/5] Remove all dependencies from setup.py
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
- python/setup.py | 80 ++++++-------------------------------------------
- 1 file changed, 9 insertions(+), 71 deletions(-)
+ python/setup.py | 107 +++++-------------------------------------------
+ 1 file changed, 11 insertions(+), 96 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 1b8c8e156..c6ee62a96 100644
+index e7d838a0c7..83a7171d83 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -211,43 +211,13 @@ ray_files += [
+@@ -209,85 +209,21 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -23,13 +23,19 @@ index 1b8c8e156..c6ee62a96 100644
 -    else:
 -        # Pandas dropped python 3.6 support in 1.2.
 -        pandas_dep = "pandas >= 1.0.5"
--        # Numpy dropped python 3.6 support in 1.20.
+-        # NumPy dropped python 3.6 support in 1.20.
 -        numpy_dep = "numpy >= 1.19"
+-    if sys.version_info >= (3, 7) and sys.platform != "win32":
+-        pyarrow_dep = "pyarrow >= 6.0.1, < 8.0.0"
+-    else:
+-        # pyarrow dropped python 3.6 support in 7.0.0.
+-        # Serialization workaround for pyarrow 7.0.0+ doesn't work for Windows.
+-        pyarrow_dep = "pyarrow >= 6.0.1, < 7.0.0"
      setup_spec.extras = {
 -        "data": [
 -            numpy_dep,
 -            pandas_dep,
--            "pyarrow >= 6.0.1, < 7.0.0",
+-            pyarrow_dep,
 -            "fsspec",
 -        ],
 -        "default": [
@@ -60,12 +66,18 @@ index 1b8c8e156..c6ee62a96 100644
 +        "tune": [],
 +        "k8s": [],
 +        "observability": [],
++        "rllib": [],
++        "train": [],
++        "air": [],
      }
  
-     # Ray Serve depends on the Ray dashboard components.
-@@ -261,18 +231,7 @@ if setup_spec.type == SetupType.RAY:
-     if sys.version_info >= (3, 7, 0):
-         setup_spec.extras["k8s"].append("kopf")
+-    # Ray Serve depends on the Ray dashboard components.
+-    setup_spec.extras["serve"] = list(
+-        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
+-    )
+-
+     if RAY_EXTRA_CPP:
+         setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
  
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
@@ -77,19 +89,32 @@ index 1b8c8e156..c6ee62a96 100644
 -        "scikit-image",
 -        "pyyaml",
 -        "scipy",
+-        "typer",
+-        "rich",
 -    ]
 -
-+    setup_spec.extras["rllib"] = setup_spec.extras["tune"]
-     setup_spec.extras["train"] = setup_spec.extras["tune"]
- 
-     # Ray AI Runtime should encompass Data, Tune, and Serve.
-@@ -297,28 +256,7 @@ if setup_spec.type == SetupType.RAY:
+-    setup_spec.extras["train"] = setup_spec.extras["tune"]
+-
+-    # Ray AI Runtime should encompass Data, Tune, and Serve.
+-    setup_spec.extras["air"] = list(
+-        set(
+-            setup_spec.extras["tune"]
+-            + setup_spec.extras["data"]
+-            + setup_spec.extras["train"]
+-            + setup_spec.extras["serve"]
+-        )
+-    )
+-
+     setup_spec.extras["all"] = list(
+         set(chain.from_iterable(setup_spec.extras.values()))
+     )
+@@ -300,28 +236,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
 -    setup_spec.install_requires = [
 -        "attrs",
--        "click >= 7.0, <= 8.0.4",
+-        "click >= 7.0",
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
 -        "grpcio >= 1.32.0; python_version < '3.10'",
@@ -113,7 +138,7 @@ index 1b8c8e156..c6ee62a96 100644
  
  
  def is_native_windows_or_msys():
-@@ -772,7 +710,7 @@ setuptools.setup(
+@@ -775,7 +690,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -123,5 +148,5 @@ index 1b8c8e156..c6ee62a96 100644
      entry_points={
          "console_scripts": [
 -- 
-2.38.1.windows.1
+2.25.1
 

@@ -29,8 +29,9 @@ ls -d ../path/to/feedstock/recipe/patches/ | xargs git am
 ```
 
 Rebase to new version or ray:
-* `git rebase -i tags/ray-<new_version>` (the `-i` is optional, but you can
-  use it to drop patches that you know where upstreamed even if git doesn't auto-recognize them)
+* `git rebase -i tags/ray-<new_version>`. The `-i` is recommended. Use it to
+  drop changesets that are not part of the feedstock patches. You should be
+  left with only the feedstock patches to merge on top of the new tag)
 * Fix eventual conflicts, taking care to keep the original patch attribution
   (if you make substantial changes, add a `Co-Authored-By: ...`)
   * I.e. if git tells you it couldn't apply commit `deadbeef`, then, after fixing the conflicts, do
