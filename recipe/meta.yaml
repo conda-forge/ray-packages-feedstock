@@ -112,6 +112,47 @@ outputs:
       imports:
         - ray.air
 
+  - name: ray-dashboard
+    build:
+      script:
+        - cd python/ray/dashboard/client
+        - npm install
+        - npm ci
+        - npm run build
+        # not sure why this seems to get copied on windows but not linux...
+        - mkdir -p $SP_DIR/ray/dashboard/client             # [not win]
+        - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
+    requirements:
+      build:
+        - nodejs
+      host:
+        - nodejs
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - typing-extensions
+    test:
+      imports:
+        - ray.dashboard
+      commands:
+        - python -c "import ray; ray.init(include_dashboard=True)"
+
+  - name: ray-data
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - numpy >=1.20
+        - pandas >=1.3
+        - pyarrow >=6.0.1
+        - fsspec
+    test:
+      imports:
+        - ray.data
+
   - name: ray-default
     requirements:
       host:
@@ -140,32 +181,6 @@ outputs:
         # https://github.com/conda-forge/ray-packages-feedstock/issues/16
         - ray._private.metrics_agent
 
-  - name: ray-dashboard
-    build:
-      script:
-        - cd python/ray/dashboard/client
-        - npm install
-        - npm ci
-        - npm run build
-        # not sure why this seems to get copied on windows but not linux...
-        - mkdir -p $SP_DIR/ray/dashboard/client             # [not win]
-        - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
-    requirements:
-      build:
-        - nodejs
-      host:
-        - nodejs
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - typing-extensions
-    test:
-      imports:
-        - ray.dashboard
-      commands:
-        - python -c "import ray; ray.init(include_dashboard=True)"
-
   - name: ray-k8s
     requirements:
       host:
@@ -179,21 +194,6 @@ outputs:
       imports:
         # there doesn't appear to be a k8s module, not sure how to test this
         - ray
-
-  - name: ray-data
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - numpy >=1.20
-        - pandas >=1.3
-        - pyarrow >=6.0.1
-        - fsspec
-    test:
-      imports:
-        - ray.data
 
   - name: ray-rllib
     build:
