@@ -10,6 +10,8 @@ cxx_compiler:
 - vs2019
 nodejs:
 - '14'
+- '16'
+- '18'
 pin_run_as_build:
   python:
     min_pin: x.x

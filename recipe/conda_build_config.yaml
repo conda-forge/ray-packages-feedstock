@@ -7,14 +7,6 @@ cudnn:                                          # [linux64]
 cdt_name:                                       # [linux64]
   - cos7                                        # [linux64]
 
-c_compiler:                                     # [win]
-- vs2019                                        # [win]
-cxx_compiler:                                   # [win]
-- vs2019                                        # [win]
-
-nodejs:
-- '14'
-
 MACOSX_DEPLOYMENT_TARGET: # [osx and x86_64]
   - "10.15"               # [osx and x86_64]
 MACOSX_SDK_VERSION:       # [osx and x86_64]

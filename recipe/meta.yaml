@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -34,6 +34,9 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-air', exact=True) }}
+        # cannot pin exactly due to ray-dashboard being built
+        # for different nodejs versions in the same CI job
+        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
@@ -112,34 +115,6 @@ outputs:
       imports:
         - ray.air
 
-  - name: ray-default
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - {{ pin_subpackage('ray-dashboard', exact=True) }}
-        - aiohttp >=3.7
-        - aiohttp-cors
-        - colorful
-        - gpustat >=1.0.0
-        - opencensus
-        - prometheus_client >=0.7.1, <0.14.0
-        - pydantic
-        - requests
-        - smart_open
-        - py-spy >=0.2.0
-
-    test:
-      imports:
-        # ray-default is a convenience wrapper with no imports of its own
-        - ray
-        # init-code seemingly depends on platform or other ambient things;
-        # the following doesn't get triggered in CI, but was a problem in
-        # https://github.com/conda-forge/ray-packages-feedstock/issues/16
-        - ray._private.metrics_agent
-
   - name: ray-dashboard
     build:
       script:
@@ -166,20 +141,6 @@ outputs:
       commands:
         - python -c "import ray; ray.init(include_dashboard=True)"
 
-  - name: ray-k8s
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - kubernetes
-        - urllib3
-    test:
-      imports:
-        # there doesn't appear to be a k8s module, not sure how to test this
-        - ray
-
   - name: ray-data
     requirements:
       host:
@@ -194,6 +155,50 @@ outputs:
     test:
       imports:
         - ray.data
+
+  - name: ray-default
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        # cannot pin exactly due to ray-dashboard being built
+        # for different nodejs versions in the same CI job
+        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
+        - aiohttp >=3.7
+        - aiohttp-cors
+        - colorful
+        - gpustat >=1.0.0
+        - opencensus
+        - prometheus_client >=0.7.1, <0.14.0
+        - pydantic
+        - requests
+        - smart_open
+        - py-spy >=0.2.0
+
+    test:
+      imports:
+        # ray-default is a convenience wrapper with no imports of its own
+        - ray
+        # init-code seemingly depends on platform or other ambient things;
+        # the following doesn't get triggered in CI, but was a problem in
+        # https://github.com/conda-forge/ray-packages-feedstock/issues/16
+        - ray._private.metrics_agent
+
+  - name: ray-k8s
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - kubernetes
+        - urllib3
+    test:
+      imports:
+        # there doesn't appear to be a k8s module, not sure how to test this
+        - ray
 
   - name: ray-rllib
     build:
