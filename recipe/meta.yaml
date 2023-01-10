@@ -16,7 +16,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -34,6 +34,9 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-air', exact=True) }}
+        # cannot pin exactly due to ray-dashboard being built
+        # for different nodejs versions in the same CI job
+        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-k8s', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
@@ -160,7 +163,9 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - {{ pin_subpackage('ray-dashboard', exact=True) }}
+        # cannot pin exactly due to ray-dashboard being built
+        # for different nodejs versions in the same CI job
+        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
