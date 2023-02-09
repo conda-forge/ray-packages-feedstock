@@ -25,7 +25,7 @@ Initial setup:
 * apply all the patches from the current feedstock (which are known to be good);
   since they're sorted in the `patches/` folder, you can even use `xargs`, e.g.
 ```sh
-ls -d ../path/to/feedstock/recipe/patches/ | xargs git am
+find ../path/to/feedstock/recipe/patches/ | xargs git am
 ```
 
 Rebase to new version or ray:
