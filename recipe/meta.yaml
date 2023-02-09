@@ -11,9 +11,8 @@ source:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
     - patches/0003-Remove-all-dependencies-from-setup.py.patch
-    - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0004-Ignore-warnings.patch
     - patches/0005-Add-bazel-linkopts-libs.patch
-    - patches/0006-Disable-stringop-overflow-protobuf.patch
 
 
 build:
