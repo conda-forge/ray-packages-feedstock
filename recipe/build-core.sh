@@ -1,6 +1,12 @@
 #!/bin/bash
 set -xe
 
+if [[ "${target_platform}" == osx-* ]]; then
+  export LDFLAGS="${LDFLAGS} -lz -framework CoreFoundation -Xlinker -undefined -Xlinker dynamic_lookup"
+else
+  export LDFLAGS="${LDFLAGS} -lrt"
+fi
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
 "${PYTHON}" setup.py build
