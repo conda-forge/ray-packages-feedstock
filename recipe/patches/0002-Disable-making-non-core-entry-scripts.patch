@@ -1,4 +1,4 @@
-From 9ffdee26e7ba1f2df8eccf9140a0663666cf1663 Mon Sep 17 00:00:00 2001
+From 2dc928f645f28ddcd394c61e4a5587a728b36ab1 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
 Subject: [PATCH 2/5] Disable making non-core entry scripts
@@ -8,7 +8,7 @@ Subject: [PATCH 2/5] Disable making non-core entry scripts
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 0773027a30..e7d838a0c7 100644
+index c9d9ae574..6c60acbc5 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -780,9 +780,9 @@ setuptools.setup(
@@ -25,5 +25,5 @@ index 0773027a30..e7d838a0c7 100644
      },
      package_data={
 -- 
-2.25.1
+2.38.1.windows.1
 
