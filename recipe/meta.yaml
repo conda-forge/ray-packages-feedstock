@@ -77,8 +77,8 @@ outputs:
         - colorama
         - filelock
         - frozenlist
-        # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio >=1.42,<1.49
+        # TODO: unvendor grpc
+        - grpcio >=1.42,<=1.49.1
         - jsonschema
         - msgpack-python >=1.0.0
         - numpy >=1.20
@@ -172,7 +172,7 @@ outputs:
         - colorful
         - gpustat >=1.0.0
         - opencensus
-        - prometheus_client >=0.7.1, <0.14.0
+        - prometheus_client >=0.7.1
         - pydantic
         - requests
         - smart_open
@@ -212,7 +212,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gym >=0.21.0, <0.24
+        - gymnasium ==0.26.3
         - lz4
         - matplotlib-base !=3.4.3
         - pyyaml
