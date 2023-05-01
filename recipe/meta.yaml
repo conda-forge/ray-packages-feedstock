@@ -56,7 +56,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - bazel =4.2.2
+        - bazel =5.4.0
         - sysroot_linux-64 2.17  # [linux64]
         - patchelf  # [linux]
         - curl
