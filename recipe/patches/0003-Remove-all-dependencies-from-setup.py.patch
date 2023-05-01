@@ -1,4 +1,4 @@
-From cef3150908795045cc870326b598ac3778a4efc9 Mon Sep 17 00:00:00 2001
+From e0393030155231b8579c523bc0c3111a5ea1928b Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 3/5] Remove all dependencies from setup.py
@@ -6,14 +6,14 @@ Subject: [PATCH 3/5] Remove all dependencies from setup.py
 Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
 Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
- python/setup.py | 107 +++++-------------------------------------------
- 1 file changed, 11 insertions(+), 96 deletions(-)
+ python/setup.py | 108 +++++-------------------------------------------
+ 1 file changed, 11 insertions(+), 97 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 6c60acbc5..aa63c8d7d 100644
+index 8d988292f0..6d1f3e7eb1 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -209,82 +209,21 @@ ray_files += [
+@@ -225,82 +225,21 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -105,7 +105,7 @@ index 6c60acbc5..aa63c8d7d 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -297,31 +236,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -313,32 +252,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -115,10 +115,11 @@ index 6c60acbc5..aa63c8d7d 100644
 -        "dataclasses; python_version < '3.7'",
 -        "filelock",
 -        # Tracking issue: https://github.com/ray-project/ray/issues/30984
--        "grpcio >= 1.32.0, <= 1.49.1; python_version < '3.10' and sys_platform == 'darwin'",  # noqa
--        "grpcio >= 1.42.0, <= 1.49.1; python_version >= '3.10' and sys_platform == 'darwin'",  # noqa
--        "grpcio >= 1.32.0; python_version < '3.10' and sys_platform != 'darwin'",
--        "grpcio >= 1.42.0; python_version >= '3.10' and sys_platform != 'darwin'",
+-        "grpcio >= 1.32.0, <= 1.49.1; python_version < '3.10' and sys_platform == 'darwin'",  # noqa:E501
+-        "grpcio >= 1.42.0, <= 1.49.1; python_version >= '3.10' and sys_platform == 'darwin'",  # noqa:E501
+-        # Original issue: https://github.com/ray-project/ray/issues/33833
+-        "grpcio >= 1.32.0, <= 1.51.3; python_version < '3.10' and sys_platform != 'darwin'",  # noqa:E501
+-        "grpcio >= 1.42.0, <= 1.51.3; python_version >= '3.10' and sys_platform != 'darwin'",  # noqa:E501
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
@@ -132,13 +133,13 @@ index 6c60acbc5..aa63c8d7d 100644
 -        # Light weight requirement, can be replaced with "typing" once
 -        # we deprecate Python 3.7 (this will take a while).
 -        "typing_extensions; python_version < '3.8'",
--        "virtualenv>=20.0.24",  # For pip runtime env.
+-        "virtualenv >=20.0.24, < 20.21.1",  # For pip runtime env.
 -    ]
 +    setup_spec.install_requires = []
  
  
  def is_native_windows_or_msys():
-@@ -775,7 +690,7 @@ setuptools.setup(
+@@ -792,7 +706,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -148,5 +149,5 @@ index 6c60acbc5..aa63c8d7d 100644
      entry_points={
          "console_scripts": [
 -- 
-2.38.1.windows.1
+2.34.1
 
