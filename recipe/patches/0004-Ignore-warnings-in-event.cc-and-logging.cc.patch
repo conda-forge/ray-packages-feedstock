@@ -1,4 +1,4 @@
-From 74e4d4fd2b90427e842a5cd6710530234dff09a8 Mon Sep 17 00:00:00 2001
+From 867a47d52564ad507d3126c62ffcf93cd0f1c81c Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:59:10 -0800
 Subject: [PATCH 4/5] Ignore warnings in event.cc and logging.cc
@@ -10,10 +10,10 @@ Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/.bazelrc b/.bazelrc
-index 1b98b8f72..a04690969 100644
+index f8b916446e..e2d8e40ab9 100644
 --- a/.bazelrc
 +++ b/.bazelrc
-@@ -41,6 +41,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
+@@ -44,6 +44,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
  build:msvc-cl     --per_file_copt="-\\.(asm|S)$@-WX"
  # Ignore warnings for protobuf generated files and external projects.
  build --per_file_copt="\\.pb\\.cc$@-w"
@@ -24,5 +24,5 @@ index 1b98b8f72..a04690969 100644
  #build --per_file_copt="external/.*@-Wno-unused-result"
  # Ignore minor warnings for host tools, which we generally can't control
 -- 
-2.38.1.windows.1
+2.34.1
 
