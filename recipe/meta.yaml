@@ -17,7 +17,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -79,8 +79,9 @@ outputs:
         - filelock
         - frozenlist
         # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio >=1.42,<1.49
-        - jsonschema
+        - grpcio >=1.42,<1.49.1  # [darwin]
+        - grpcio >=1.42.0,<=1.51.3   # [not darwin]
+        - jsonschema <4.18
         - msgpack-python >=1.0.0,<2.0.0
         - numpy >=1.20
         - packaging  # [py>=310]
