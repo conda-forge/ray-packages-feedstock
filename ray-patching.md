@@ -24,9 +24,13 @@ Initial setup:
 * `git checkout -b conda`
 * apply all the patches from the current feedstock (which are known to be good);
   since they're sorted in the `patches/` folder, you can even use `xargs`, e.g.
-```sh
-find ../path/to/feedstock/recipe/patches/ | xargs git am
-```
+  ```sh
+  find ../path/to/feedstock/recipe/patches/ | xargs git am
+  ```
+  On windows this works as follows:
+  ```sh
+  for /f %f in ('dir /b /S ..\path\to\feedstock\recipe\patches') do git am %f
+  ```
 
 Rebase to new version or ray:
 * `git rebase -i tags/ray-<new_version>`. The `-i` is recommended. Use it to
