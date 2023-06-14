@@ -2,7 +2,12 @@ cd python
 set SKIP_THIRDPARTY_INSTALL=1
 set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
-"%PYTHON%" setup.py install
+
+echo ==========================================================
+echo calling pip install
+echo ==========================================================
+
+"%PYTHON%" -m pip install . -vv
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
 
