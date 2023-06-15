@@ -1,7 +1,18 @@
 cd python
+echo on
 set SKIP_THIRDPARTY_INSTALL=1
 set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
+
+echo ==========================================================
+echo try to work around https://github.com/bazelbuild/bazel/issues/18592
+echo ==========================================================
+set BAZEL_VC=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC
+echo dir %BAZEL_VC%
+dir "%BAZEL_VC%"
+rmdir /q /s "%BAZEL_VC%\vcpkg"
+echo dir %BAZEL_VC%
+dir "%BAZEL_VC%"
 
 echo ==========================================================
 echo calling pip install
