@@ -1,4 +1,4 @@
-{% set version = "2.4.0" %}
+{% set version = "2.5.0" %}
 
 package:
   name: ray-packages
@@ -6,15 +6,13 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: b0110a84630b2f6d10cd13e8ac955875c3658373eb6cabcc77cf316de3c28066
+  sha256: dab69614f6cde69d636cd35c94d49cdc87dac3af4850ae7019c7a8d52fd7ead9
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-non-core-entry-scripts.patch
-    - patches/0003-Remove-all-dependencies-from-setup.py.patch
+    - patches/0003-Add-bazel-linkopts-libs.patch
     - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0005-Add-bazel-linkopts-libs.patch
-    - patches/0006-Add-include-for-newer-MSVC.patch
-
+    - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
 build:
   number: 0
@@ -60,11 +58,14 @@ outputs:
         - bazel =5.4.0
         - sysroot_linux-64 2.17  # [linux64]
         - patchelf  # [linux]
+        - colorama
         - curl
-        - cython >=0.29.26
+        - cython >=0.29.32
         - make
         - m2-bash  # [win]
+        - psutil
         - python
+        - setproctitle==1.2.2
       host:
         - python
         - pip
@@ -83,13 +84,12 @@ outputs:
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - numpy >=1.20
-        - packaging  # [py>=310]
+        - packaging
         - protobuf >=3.15.3,!=3.19.5
         - psutil
         - pyyaml
         - requests
         - setproctitle==1.2.2
-        - virtualenv
 
     test:
       imports:
@@ -178,6 +178,7 @@ outputs:
         - requests
         - smart_open
         - py-spy >=0.2.0
+        - virtualenv >=20.0.24,<20.21.1
 
     test:
       imports:
@@ -215,7 +216,6 @@ outputs:
         - dm-tree
         - gymnasium ==0.26.3
         - lz4
-        - matplotlib-base !=3.4.3
         - pyyaml
         - scikit-image
         - scipy
@@ -259,8 +259,8 @@ outputs:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
         - pandas
+        - pyarrow >=6.0.1
         - requests
-        - tabulate
         - tensorboardX >=1.9
     test:
       imports:
@@ -276,6 +276,21 @@ outputs:
     test:
       imports:
         - ray.train
+
+  - name: ray-observability
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-default', exact=True) }}
+        - opentelemetry-api
+        - opentelemetry-sdk
+        - opentelemetry-exporter-otlp
+    test:
+      commands:
+        - echo "no tests for ray-observability, it is a convenience bundle"
+
 
 about:
   home: https://github.com/ray-project/ray
@@ -310,7 +325,7 @@ about:
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
     ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune,
-    ray-train, ray-air and ray-all packages.
+    ray-train, ray-air, ray-observability and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
 

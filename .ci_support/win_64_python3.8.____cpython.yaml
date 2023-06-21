@@ -9,7 +9,6 @@ curl:
 cxx_compiler:
 - vs2019
 nodejs:
-- '14'
 - '16'
 - '18'
 pin_run_as_build:
