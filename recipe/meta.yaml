@@ -15,7 +15,7 @@ source:
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 0
+  number: 1
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -101,6 +101,7 @@ outputs:
         - ray._private.worker
       commands:
         - python -c "import ray; ray.init(include_dashboard=False)"
+        - ray --help
 
   # the various ray[extra] installs, alphabetically
   - name: ray-air
