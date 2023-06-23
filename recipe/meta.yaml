@@ -101,6 +101,7 @@ outputs:
         - ray._private.worker
       commands:
         - python -c "import ray; ray.init(include_dashboard=False)"
+        - ray --help
 
   # the various ray[extra] installs, alphabetically
   - name: ray-air
