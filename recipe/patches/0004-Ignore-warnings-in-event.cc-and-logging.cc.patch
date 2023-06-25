@@ -1,4 +1,4 @@
-From c72bb8402461a864e434ae347313ae34cc991593 Mon Sep 17 00:00:00 2001
+From 9e2ad93b9f4f740746f415da686fcafdeb492444 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:59:10 -0800
 Subject: [PATCH 4/5] Ignore warnings in event.cc and logging.cc
@@ -24,5 +24,5 @@ index e81c646c15..f697edbbae 100644
  build:macos --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration"
  # Ignore minor warnings for host tools, which we generally can't control
 -- 
-2.34.1
+2.38.1.windows.1
 
