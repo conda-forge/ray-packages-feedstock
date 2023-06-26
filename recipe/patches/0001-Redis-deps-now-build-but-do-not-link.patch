@@ -1,4 +1,4 @@
-From 1a9376bb278d4005bff0e432a08abf314d64c0ff Mon Sep 17 00:00:00 2001
+From 7fd0231b447a1fb83165721d42c64649b934ef9a Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:46:36 -0800
 Subject: [PATCH 1/5] Redis deps now build but do not link
@@ -199,5 +199,5 @@ index d034387596..27c01310ed 100644
 +2.38.1.windows.1
 +
 -- 
-2.34.1
+2.38.1.windows.1
 

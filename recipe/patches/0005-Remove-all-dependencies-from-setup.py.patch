@@ -1,4 +1,4 @@
-From d8fb07467ed7b3cdf99d46ffcd86a98c6e86828f Mon Sep 17 00:00:00 2001
+From f5c72219a33b4da74f758fd2550028295b653824 Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 5/5] Remove all dependencies from setup.py
@@ -10,7 +10,7 @@ Signed-off-by: Matti Picus <matti.picus@gmail.com>
  1 file changed, 8 insertions(+), 90 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 9eef7cca46..74eb56681a 100644
+index 04e5f6ef1e..f6bf4fe530 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -225,76 +225,18 @@ ray_files += [
@@ -139,5 +139,5 @@ index 9eef7cca46..74eb56681a 100644
      entry_points={
          "console_scripts": [
 -- 
-2.34.1
+2.38.1.windows.1
 
