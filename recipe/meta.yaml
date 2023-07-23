@@ -13,6 +13,7 @@ source:
     - patches/0003-Add-bazel-linkopts-libs.patch
     - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
+    - patches/0006-Allow-bazel-5.4.0.patch
 
 build:
   number: 0
@@ -58,7 +59,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - bazel =5.4.1
+        - bazel =5.4.0
         - sysroot_linux-64 2.17  # [linux64]
         - patchelf  # [linux]
         - colorama

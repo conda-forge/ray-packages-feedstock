@@ -43,7 +43,7 @@ Rebase to new version or ray:
   * `git show deadbeef`
   * `git commit --date="<date_of_deadbeef>" --author="<author_of_deadbeef>"` (commit message is kept as-is automatically while rebasing)
   * `git rebase --continue`
-* `git format-patch tags/ray-<new_version>`
+* `git format-patch tags/ray-<new_version> --no-signature`
 * remove all patches in the `patches`  folder
 * copy patches produced by `git format-patch` over to recipe and update `meta.yaml`
 
