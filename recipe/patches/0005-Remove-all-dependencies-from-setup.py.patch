@@ -1,4 +1,4 @@
-From f5c72219a33b4da74f758fd2550028295b653824 Mon Sep 17 00:00:00 2001
+From dc32b341c09175ae0e5bf77186d1e1279c533ef8 Mon Sep 17 00:00:00 2001
 From: Kai Fricke <kai@anyscale.com>
 Date: Fri, 3 Dec 2021 10:55:23 -0800
 Subject: [PATCH 5/5] Remove all dependencies from setup.py
@@ -10,10 +10,10 @@ Signed-off-by: Matti Picus <matti.picus@gmail.com>
  1 file changed, 8 insertions(+), 90 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 04e5f6ef1e..f6bf4fe530 100644
+index affa582097..a26f61f8fb 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,76 +225,18 @@ ray_files += [
+@@ -226,82 +226,18 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -41,14 +41,20 @@ index 04e5f6ef1e..f6bf4fe530 100644
 -            "requests",
 -            "gpustat >= 1.0.0",  # for windows
 -            "opencensus",
--            "pydantic",
+-            "pydantic < 2",  # 2.0.0 brings breaking changes
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
 -            "virtualenv >=20.0.24, < 20.21.1",  # For pip runtime env.
 -        ],
+-        "client": [
+-            # The Ray client needs a specific range of gRPC to work:
+-            # Tracking issues: https://github.com/grpc/grpc/issues/33714
+-            "grpcio != 1.56.0"
+-            if sys.platform == "darwin"
+-            else "grpcio",
+-        ],
 -        "serve": ["uvicorn", "requests", "starlette", "fastapi", "aiorwlock"],
 -        "tune": ["pandas", "tensorboardX>=1.9", "requests", pyarrow_dep],
--        "k8s": ["kubernetes", "urllib3"],
 -        "observability": [
 -            "opentelemetry-api",
 -            "opentelemetry-sdk",
@@ -56,9 +62,9 @@ index 04e5f6ef1e..f6bf4fe530 100644
 -        ],
 +        "data": [],
 +        "default": [],
++        "client": [],
 +        "serve": [],
 +        "tune": [],
-+        "k8s": [],
 +        "observability": [],
      }
  
@@ -96,21 +102,15 @@ index 04e5f6ef1e..f6bf4fe530 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -307,31 +249,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -314,25 +250,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
 -    setup_spec.install_requires = [
--        "attrs",
 -        "click >= 7.0",
--        "dataclasses; python_version < '3.7'",
 -        "filelock",
--        # Tracking issue: https://github.com/ray-project/ray/issues/30984
--        "grpcio >= 1.32.0, <= 1.49.1; python_version < '3.10' and sys_platform == 'darwin'",  # noqa:E501
--        "grpcio >= 1.42.0, <= 1.49.1; python_version >= '3.10' and sys_platform == 'darwin'",  # noqa:E501
--        # Original issue: https://github.com/ray-project/ray/issues/33833
--        "grpcio >= 1.32.0, <= 1.51.3; python_version < '3.10' and sys_platform != 'darwin'",  # noqa:E501
--        "grpcio >= 1.42.0, <= 1.51.3; python_version >= '3.10' and sys_platform != 'darwin'",  # noqa:E501
+-        "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
+-        "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
@@ -129,7 +129,7 @@ index 04e5f6ef1e..f6bf4fe530 100644
  
  
  def is_native_windows_or_msys():
-@@ -786,7 +704,7 @@ setuptools.setup(
+@@ -793,7 +711,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -139,5 +139,5 @@ index 04e5f6ef1e..f6bf4fe530 100644
      entry_points={
          "console_scripts": [
 -- 
-2.38.1.windows.1
+2.39.2 (Apple Git-143)
 
