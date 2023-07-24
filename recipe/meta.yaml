@@ -1,4 +1,4 @@
-{% set version = "2.5.1" %}
+{% set version = "2.6.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 8449075a06dd5d2ffece43835ac26f9027d8a2af788ba9137f00d1c85944f053
+  sha256: 4a8381dba76236fbfd25bff2139216b4560b4802262ccb9d51f47c522c0368a6
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -37,7 +37,7 @@ outputs:
         # for different nodejs versions in the same CI job
         - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - {{ pin_subpackage('ray-k8s', exact=True) }}
+        - {{ pin_subpackage('ray-client', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
         - {{ pin_subpackage('ray-rllib', exact=True) }}
         - {{ pin_subpackage('ray-serve', exact=True) }}
@@ -58,7 +58,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - bazel =5.4.0
+        - bazel =5.4.1
         - sysroot_linux-64 2.17  # [linux64]
         - patchelf  # [linux]
         - colorama
@@ -68,7 +68,7 @@ outputs:
         - m2-bash  # [win]
         - psutil
         - python
-        - setproctitle==1.2.2
+        - setproctitle ==1.2.2
       host:
         - python
         - pip
@@ -77,7 +77,6 @@ outputs:
       run:
         - python
         - aiosignal
-        - attrs
         - click >=7.0
         - colorama
         - filelock
@@ -92,7 +91,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle==1.2.2
+        - setproctitle ==1.2.2
 
     test:
       imports:
@@ -178,7 +177,7 @@ outputs:
         - gpustat >=1.0.0
         - opencensus
         - prometheus_client >=0.7.1
-        - pydantic
+        - pydantic <2.0
         - requests
         - smart_open
         - py-spy >=0.2.0
@@ -193,18 +192,18 @@ outputs:
         # https://github.com/conda-forge/ray-packages-feedstock/issues/16
         - ray._private.metrics_agent
 
-  - name: ray-k8s
+  - name: ray-client
     requirements:
       host:
         - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - kubernetes
-        - urllib3
+        - grpcio !=1.56.0  # [osx]
+        - grpcio
     test:
       imports:
-        # there doesn't appear to be a k8s module, not sure how to test this
+        # there doesn't appear to be a client module, not sure how to test this
         - ray
 
   - name: ray-rllib
@@ -328,7 +327,7 @@ about:
   description: |
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
-    ray-dashboard, ray-serve, ray-rllib, ray-k8s, ray-data, ray-tune,
+    ray-dashboard, ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
     ray-train, ray-air, ray-observability and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
