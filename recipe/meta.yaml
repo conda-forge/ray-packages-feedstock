@@ -68,7 +68,7 @@ outputs:
         - m2-bash  # [win]
         - psutil
         - python
-        - setproctitle ==1.2.2
+        - setproctitle ==1.3.2
       host:
         - python
         - pip
@@ -91,7 +91,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle ==1.2.2
+        - setproctitle ==1.3.2
 
     test:
       imports:
