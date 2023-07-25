@@ -266,6 +266,9 @@ outputs:
         - requests
         - tensorboardX >=1.9
     test:
+      requires:
+        # debug solver weirdness
+        - libarrow =*=*cpu
       imports:
         - ray.tune
 
