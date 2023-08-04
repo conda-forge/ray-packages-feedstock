@@ -1,4 +1,4 @@
-{% set version = "2.6.1" %}
+{% set version = "2.6.2" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 4a8381dba76236fbfd25bff2139216b4560b4802262ccb9d51f47c522c0368a6
+  sha256: 2614f7d36081466b232f88d71e88da8f1bd9f5b04eaf392ee9ff9f1bbc1e4167
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
