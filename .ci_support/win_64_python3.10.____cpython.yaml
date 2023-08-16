@@ -9,8 +9,8 @@ curl:
 cxx_compiler:
 - vs2019
 nodejs:
-- '16'
 - '18'
+- '20'
 pin_run_as_build:
   python:
     min_pin: x.x
