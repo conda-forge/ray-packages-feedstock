@@ -1,19 +1,17 @@
-From dc32b341c09175ae0e5bf77186d1e1279c533ef8 Mon Sep 17 00:00:00 2001
-From: Kai Fricke <kai@anyscale.com>
-Date: Fri, 3 Dec 2021 10:55:23 -0800
-Subject: [PATCH 5/5] Remove all dependencies from setup.py
+From d15934405a7f9f5234e2b612dd158610c4fa0261 Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Mon, 25 Sep 2023 18:29:15 +0000
+Subject: [PATCH] Remove all dependencies from setup.py
 
-Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
-Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
- python/setup.py | 98 ++++---------------------------------------------
- 1 file changed, 8 insertions(+), 90 deletions(-)
+ python/setup.py | 120 ++++++-------------------------------------------------
+ 1 file changed, 12 insertions(+), 108 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index affa582097..a26f61f8fb 100644
+index 14edd52..325d27a 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -226,82 +226,18 @@ ray_files += [
+@@ -236,102 +236,22 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -56,12 +54,12 @@ index affa582097..a26f61f8fb 100644
 -            else "grpcio",
 -        ],
 -        "serve": [
--            "uvicorn[standard]",
+-            "uvicorn",
 -            "requests",
 -            "starlette",
 -            "fastapi",
--            "aiorwlock"
--            "watchfiles"
+-            "aiorwlock",
+-            "watchfiles",
 -        ],
 -        "tune": ["pandas", "tensorboardX>=1.9", "requests", pyarrow_dep, "fsspec"],
 -        "observability": [
@@ -75,6 +73,10 @@ index affa582097..a26f61f8fb 100644
 +        "serve": [],
 +        "tune": [],
 +        "observability": [],
++        "serve-grpc": [],
++        "rllib": [],
++        "train": [],
++        "air": [],
      }
  
 -    # Ray Serve depends on the Ray dashboard components.
@@ -92,13 +94,13 @@ index affa582097..a26f61f8fb 100644
 -            ]
 -        )
 -    )
-
+-
      if RAY_EXTRA_CPP:
          setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
  
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
--        "gymnasium==0.28.2",
+-        "gymnasium==0.28.1",
 -        "lz4",
 -        "scikit-image",
 -        "pyyaml",
@@ -122,15 +124,13 @@ index affa582097..a26f61f8fb 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -314,25 +250,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -344,23 +264,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
 -    setup_spec.install_requires = [
 -        "click >= 7.0",
 -        "filelock",
--        "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
--        "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "numpy >= 1.16; python_version < '3.9'",
@@ -149,7 +149,7 @@ index affa582097..a26f61f8fb 100644
  
  
  def is_native_windows_or_msys():
-@@ -793,7 +711,7 @@ setuptools.setup(
+@@ -840,7 +744,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -159,5 +159,5 @@ index affa582097..a26f61f8fb 100644
      entry_points={
          "console_scripts": [
 -- 
-2.39.2 (Apple Git-143)
+2.34.1
 
