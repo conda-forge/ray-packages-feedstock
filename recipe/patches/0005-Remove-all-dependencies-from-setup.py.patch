@@ -40,6 +40,8 @@ index affa582097..a26f61f8fb 100644
 -            "py-spy >= 0.2.0",
 -            "requests",
 -            "gpustat >= 1.0.0",  # for windows
+-            "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
+-            "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -            "opencensus",
 -            "pydantic < 2",  # 2.0.0 brings breaking changes
 -            "prometheus_client >= 0.7.1",
@@ -53,8 +55,15 @@ index affa582097..a26f61f8fb 100644
 -            if sys.platform == "darwin"
 -            else "grpcio",
 -        ],
--        "serve": ["uvicorn", "requests", "starlette", "fastapi", "aiorwlock"],
--        "tune": ["pandas", "tensorboardX>=1.9", "requests", pyarrow_dep],
+-        "serve": [
+-            "uvicorn[standard]",
+-            "requests",
+-            "starlette",
+-            "fastapi",
+-            "aiorwlock"
+-            "watchfiles"
+-        ],
+-        "tune": ["pandas", "tensorboardX>=1.9", "requests", pyarrow_dep, "fsspec"],
 -        "observability": [
 -            "opentelemetry-api",
 -            "opentelemetry-sdk",
@@ -73,12 +82,23 @@ index affa582097..a26f61f8fb 100644
 -        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
 -    )
 -
+-    # Ensure gRPC library exists for Ray Serve gRPC support.
+-    setup_spec.extras["serve-grpc"] = list(
+-        set(
+-            setup_spec.extras["serve"]
+-            + [
+-                "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
+-                "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
+-            ]
+-        )
+-    )
+
      if RAY_EXTRA_CPP:
          setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
  
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
--        "gymnasium==0.26.3",
+-        "gymnasium==0.28.2",
 -        "lz4",
 -        "scikit-image",
 -        "pyyaml",
