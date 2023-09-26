@@ -136,7 +136,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - {{ pin_subpackage('ray-core', exact=True) }}
         - typing-extensions
     test:
       imports:
