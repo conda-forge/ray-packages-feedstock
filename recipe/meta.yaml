@@ -81,8 +81,6 @@ outputs:
         - colorama
         - filelock
         - frozenlist
-        # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio >=1.50,<1.56
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - numpy >=1.20
@@ -138,7 +136,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         - typing-extensions
     test:
       imports:
@@ -175,6 +173,7 @@ outputs:
         - aiohttp-cors
         - colorful
         - gpustat >=1.0.0
+        - grpcio >=1.50,<1.56
         - opencensus
         - prometheus_client >=0.7.1
         - pydantic <2.0
@@ -217,7 +216,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==0.26.3
+        - gymnasium ==0.28.1
         - lz4
         - pyyaml
         - scikit-image
@@ -242,11 +241,12 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - uvicorn
+        - aiorwlock
+        - fastapi
         - requests
         - starlette
-        - fastapi
-        - aiorwlock
+        - uvicorn
+        - watchfiles
     test:
       imports:
         - ray.serve
@@ -261,6 +261,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
+        - fsspec
         - pandas
         - pyarrow >=6.0.1
         - requests
