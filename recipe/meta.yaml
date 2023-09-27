@@ -136,7 +136,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         - typing-extensions
     test:
       imports:
@@ -168,7 +168,7 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
         # cannot pin exactly due to ray-dashboard being built
         # for different nodejs versions in the same CI job
-        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
+        # - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
