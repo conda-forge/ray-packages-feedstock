@@ -10,7 +10,7 @@ source:
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
-    - patches/0003-Add-bazel-linkopts-libs.patch
+    # - patches/0003-Add-bazel-linkopts-libs.patch
     - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
