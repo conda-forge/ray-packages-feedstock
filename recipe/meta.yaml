@@ -199,7 +199,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - grpcio !=1.56.0  # [osx]
-        - grpcio
+        - grpcio  # [not osx]
     test:
       imports:
         # there doesn't appear to be a client module, not sure how to test this

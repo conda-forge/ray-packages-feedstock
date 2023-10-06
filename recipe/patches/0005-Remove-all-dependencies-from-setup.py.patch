@@ -1,8 +1,10 @@
-From d15934405a7f9f5234e2b612dd158610c4fa0261 Mon Sep 17 00:00:00 2001
-From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
-Date: Mon, 25 Sep 2023 18:29:15 +0000
-Subject: [PATCH] Remove all dependencies from setup.py
+From dc32b341c09175ae0e5bf77186d1e1279c533ef8 Mon Sep 17 00:00:00 2001
+From: Kai Fricke <kai@anyscale.com>
+Date: Fri, 3 Dec 2021 10:55:23 -0800
+Subject: [PATCH 5/5] Remove all dependencies from setup.py
 
+Signed-off-by: Jiajun Yao <jeromeyjj@gmail.com>
+Signed-off-by: Matti Picus <matti.picus@gmail.com>
 ---
  python/setup.py | 120 ++++++-------------------------------------------------
  1 file changed, 12 insertions(+), 108 deletions(-)
@@ -78,7 +80,7 @@ index 14edd52..325d27a 100644
 +        "train": [],
 +        "air": [],
      }
- 
+
 -    # Ray Serve depends on the Ray dashboard components.
 -    setup_spec.extras["serve"] = list(
 -        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
@@ -97,7 +99,7 @@ index 14edd52..325d27a 100644
 -
      if RAY_EXTRA_CPP:
          setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
- 
+
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
 -        "gymnasium==0.28.1",
@@ -146,8 +148,8 @@ index 14edd52..325d27a 100644
 -        "typing_extensions; python_version < '3.8'",
 -    ]
 +    setup_spec.install_requires = []
- 
- 
+
+
  def is_native_windows_or_msys():
 @@ -840,7 +744,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
@@ -158,6 +160,6 @@ index 14edd52..325d27a 100644
      extras_require=setup_spec.extras,
      entry_points={
          "console_scripts": [
--- 
+--
 2.34.1
 
