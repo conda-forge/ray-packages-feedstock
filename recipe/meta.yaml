@@ -1,4 +1,4 @@
-{% set version = "2.6.3" %}
+{% set version = "2.7.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 8cb87bc70fdc00c8c028906280e27f5139d6c7ebcee30f88f92beccfde296338
+  sha256: bcf31497fe09cedf2da28448c1977fa04c958e85b52c4dd9e32120725a6a8883
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -15,7 +15,7 @@ source:
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 1
+  number: 0
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
