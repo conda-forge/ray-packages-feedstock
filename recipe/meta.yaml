@@ -1,4 +1,4 @@
-{% set version = "2.6.3" %}
+{% set version = "2.7.0" %}
 
 package:
   name: ray-packages
@@ -6,16 +6,16 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 8cb87bc70fdc00c8c028906280e27f5139d6c7ebcee30f88f92beccfde296338
+  sha256: 0d61df14827d2c1cac06f1fe519929d86b063182de43c5dbb7faa9eb6e22e069
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
-    - patches/0003-Add-bazel-linkopts-libs.patch
+    # - patches/0003-Add-bazel-linkopts-libs.patch
     - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 1
+  number: 0
   # skip on MacOS, needs macos 10.15
   skip: true  # [osx]
 
@@ -81,8 +81,6 @@ outputs:
         - colorama
         - filelock
         - frozenlist
-        # mattip/h-vetinari [2022/11]: unclear problems with conda-forge's 1.49
-        - grpcio >=1.42,<1.49
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - numpy >=1.20
@@ -138,7 +136,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - {{ pin_subpackage('ray-default', exact=True) }}
         - typing-extensions
     test:
       imports:
@@ -170,11 +168,12 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
         # cannot pin exactly due to ray-dashboard being built
         # for different nodejs versions in the same CI job
-        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
+        # - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
         - gpustat >=1.0.0
+        - grpcio >=1.50,<1.56
         - opencensus
         - prometheus_client >=0.7.1
         - pydantic <2.0
@@ -200,7 +199,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - grpcio !=1.56.0  # [osx]
-        - grpcio
+        - grpcio  # [not osx]
     test:
       imports:
         # there doesn't appear to be a client module, not sure how to test this
@@ -217,7 +216,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==0.26.3
+        - gymnasium ==0.28.1
         - lz4
         - pyyaml
         - scikit-image
@@ -242,11 +241,12 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - uvicorn
+        - aiorwlock
+        - fastapi
         - requests
         - starlette
-        - fastapi
-        - aiorwlock
+        - uvicorn
+        - watchfiles
     test:
       imports:
         - ray.serve
@@ -261,6 +261,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
+        - fsspec
         - pandas
         - pyarrow >=6.0.1
         - requests

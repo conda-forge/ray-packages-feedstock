@@ -22,7 +22,7 @@ rm -rf "$SRC_DIR/../b-o" "$SRC_DIR/../bazel-root"
 if [[ "$target_platform" == "linux-"* ]]; then
   ls -lR $SP_DIR
   # Remove RUNPATH and set RPATH
-  for f in "ray/_raylet.so" "ray/core/src/ray/raylet/raylet" "ray/core/src/ray/gcs/gcs_server"; do
+  for f in "ray/_raylet.so" "ray/core/src/ray/raylet/raylet" "ray/core/src/ray/gcs/gcs_server" "ray/core/libjemalloc.so"; do
     chmod +w $SP_DIR/$f
     patchelf --remove-rpath $SP_DIR/$f
     patchelf --force-rpath --add-rpath $PREFIX/lib $SP_DIR/$f
