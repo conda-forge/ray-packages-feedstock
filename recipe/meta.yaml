@@ -1,4 +1,4 @@
-{% set version = "2.7.0" %}
+{% set version = "2.7.1" %}
 
 package:
   name: ray-packages
@@ -6,11 +6,10 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 0d61df14827d2c1cac06f1fe519929d86b063182de43c5dbb7faa9eb6e22e069
+  sha256: bcf31497fe09cedf2da28448c1977fa04c958e85b52c4dd9e32120725a6a8883
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
-    # - patches/0003-Add-bazel-linkopts-libs.patch
     - patches/0004-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0005-Remove-all-dependencies-from-setup.py.patch
 
@@ -68,7 +67,7 @@ outputs:
         - m2-bash  # [win]
         - psutil
         - python
-        - setproctitle ==1.2.2
+        - setproctitle >=1.2.2,<1.4
       host:
         - python
         - pip
@@ -89,7 +88,7 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle ==1.2.2
+        - setproctitle >=1.2.2,<1.4
 
     test:
       imports:
@@ -166,9 +165,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        # cannot pin exactly due to ray-dashboard being built
-        # for different nodejs versions in the same CI job
-        # - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - aiohttp >=3.7
         - aiohttp-cors
         - colorful
