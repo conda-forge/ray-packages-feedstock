@@ -1,6 +1,20 @@
 #!/bin/bash
 set -xe
 
+if [[ "$target_platform" == osx* ]]; then
+  # make sure the vendored redis OSX build can find the correct toolchain. the SDKROOT is
+  # also passed as we are using at least OSX 10.15 which moves the include directory out
+  # of /usr/include to ${SDKROOT}/MacOSX.sdk/usr/include
+  cat >> .bazelrc <<EOF
+  build --define CONDA_CC=${CC}
+  build --define CONDA_CFLAGS="${CFLAGS}"
+  build --define CONDA_AR=${AR}
+  build --define CONDA_NM=${NM}
+  build --define CONDA_RANLIB=${RANLIB}
+  build --define CONDA_SDKROOT=${SDKROOT}
+  EOF
+fi
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
 "${PYTHON}" setup.py build
