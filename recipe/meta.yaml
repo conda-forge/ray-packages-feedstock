@@ -241,7 +241,7 @@ outputs:
         - fastapi
         - requests
         - starlette
-        - uvicorn[standard]
+        - uvicorn
         - watchfiles
     test:
       imports:
