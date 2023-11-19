@@ -169,7 +169,7 @@ outputs:
         - aiohttp-cors
         - colorful
         - gpustat >=1.0.0
-        - grpcio >=1.50
+        - grpcio >=1.50,<1.59
         - opencensus
         - prometheus_client >=0.7.1
         - pydantic <2.0
