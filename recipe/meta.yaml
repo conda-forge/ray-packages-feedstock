@@ -136,6 +136,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
+        - async-timeout
         - typing-extensions
     test:
       imports:
