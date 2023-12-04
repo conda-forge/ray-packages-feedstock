@@ -1,4 +1,4 @@
-{% set version = "2.8.0" %}
+{% set version = "2.8.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: dcdde608738515bcd14e76e3e0eb048eb8feb37c0c91f8bd81cd5cf023f49c8c
+  sha256: 371bfec66dbc41f6a50930fdc7c7793308b683f320fb2e1916ba3590284e2c23
   patches:
     - patches/0001-Redis-deps-now-build-but-do-not-link.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -14,7 +14,7 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 2
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
