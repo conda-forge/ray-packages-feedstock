@@ -14,7 +14,7 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 1
+  number: 2
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -136,6 +136,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
+        - async-timeout
         - typing-extensions
     test:
       imports:
