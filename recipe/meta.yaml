@@ -14,7 +14,7 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -30,9 +30,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-air', exact=True) }}
-        # cannot pin exactly due to ray-dashboard being built
-        # for different nodejs versions in the same CI job
-        - ray-dashboard =={{ version }}=*_{{ PKG_BUILDNUM }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-client', exact=True) }}
         - {{ pin_subpackage('ray-data', exact=True) }}
@@ -117,7 +114,22 @@ outputs:
       imports:
         - ray.air
 
-  - name: ray-dashboard
+  - name: ray-data
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-core', exact=True) }}
+        - numpy >=1.20
+        - pandas >=1.3
+        - pyarrow >=6.0.1
+        - fsspec
+    test:
+      imports:
+        - ray.data
+
+  - name: ray-default
     build:
       script:
         - cd python/ray/dashboard/client
@@ -135,58 +147,28 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
-        - async-timeout
-        - typing-extensions
-    test:
-      imports:
-        - ray.dashboard
-      commands:
-        - python -c "import ray; ray.init(include_dashboard=True)"
-
-  - name: ray-data
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
-        - numpy >=1.20
-        - pandas >=1.3
-        - pyarrow >=6.0.1
-        - fsspec
-    test:
-      imports:
-        - ray.data
-
-  - name: ray-default
-    requirements:
-      host:
-        - python
-      run:
-        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp >=3.7
         - aiohttp-cors
+        - async-timeout
         - colorful
         - gpustat >=1.0.0
         - grpcio >=1.50,<1.59
         - opencensus
         - prometheus_client >=0.7.1
+        - py-spy >=0.2.0
         - pydantic <2.0
         - requests
         - smart_open
-        - py-spy >=0.2.0
+        - typing-extensions
         - virtualenv >=20.0.24,<20.21.1
 
     test:
       imports:
-        # ray-default is a convenience wrapper with no imports of its own
         - ray
-        # init-code seemingly depends on platform or other ambient things;
-        # the following doesn't get triggered in CI, but was a problem in
-        # https://github.com/conda-forge/ray-packages-feedstock/issues/16
-        - ray._private.metrics_agent
+        - ray.dashboard
+      commands:
+        - python -c "import ray; ray.init(include_dashboard=True)"
 
   - name: ray-client
     requirements:
@@ -325,7 +307,7 @@ about:
   description: |
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
-    ray-dashboard, ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
+    ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
     ray-train, ray-air, ray-observability and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
