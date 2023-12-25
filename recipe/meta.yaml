@@ -8,7 +8,7 @@ source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
   sha256: bebe4413dd1a856cd854308d76d14fb412727b6228bfbdea5f3b5a45ef3f5acc
   patches:
-    - patches/0001-Redis-deps-now-build-but-do-not-link.patch
+    - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
@@ -77,7 +77,6 @@ outputs:
         - frozenlist
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
-        - numpy >=1.20
         - packaging
         - protobuf >=3.15.3,!=3.19.5
         - psutil
@@ -121,7 +120,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - numpy >=1.20
         - pandas >=1.3
         - pyarrow >=6.0.1
         - fsspec

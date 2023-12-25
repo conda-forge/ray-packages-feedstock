@@ -47,23 +47,10 @@ Rebase to new version or ray:
 * remove all patches in the `patches`  folder
 * copy patches produced by `git format-patch` over to recipe and update `meta.yaml`
 
-## How to prepare or adapt patches for third party Ray components (using Redis as the example)
+## How to prepare the 0001-patch-redis-for-ar-ranlib.patch
 
-The above process is complicated by the fact that ray has patches for third party
-dependencies (like redis) in its source code - in other words, we need to patch
-the patches.
-
-The process we just described then repeats for each dependency we need to patch
-more or less as-is, with the exception that we now need to check in the patches
-to third-party code into the ray source-code, and include _that_ in the ray-patches
-we check into the feedstock. For added fun, it may happen that upstream ray changes
-their patches from version to version in ways that conflict with ours.
-
-Since patch application within the ray build is done by bazel (and may be subject
-to destructive options like `-pN`, which changes the file hierarchy level the
-patches apply to), it's best - for single patches at least - to extend the
-ray patch directly to suit our purposes. This makes it also much clearer (well...)
-when reviewing the diff(-of-the-diff-of-the-diff) on the feedstock.
+The above process is complicated by the fact that ray has a patch for redis in
+its source code. We want to add another patch on top of this.
 
 ### Prepare sources
 1. Get Ray repository (using Ray 2.1.0 for example)
@@ -89,18 +76,13 @@ git commit -m 'Upstream Ray patches'
 ```
 
 ### Make changes
-1. Make new branch and make the necessary changes (maybe adapting existing conda recipe patches, etc.)
-```sh
-# do the necessary changes - edit files, etc.
-git commit -m 'Fix the issue'
-# if ray carries a single commit, squash it (and our changes) into one by interactive rebasing
-git rebase -i 7.0.5
-```
+1. Make new branch 7.0.5-patched2 and make the necessary changes (maybe
+   adapting existing conda recipe patches, etc.)
 2. Prepare the patch for Redis in Ray sources (note that if the patch application
 in bazel does not have a `-p1`, the call to `git format-patch` below also
 needs a `--no-prefix` option):
 ```
-git format-patch 7.0.5-patched..7.0.5 --stdout > ../ray/thirdparty/patches/redis-quiet.patch
+git format-patch 7.0.5-patched2..7.0.5-patched --stdout > ../ray/thirdparty/patches/new-name.patch
 ```
 3. Commit the patch for Redis:
 ```sh
