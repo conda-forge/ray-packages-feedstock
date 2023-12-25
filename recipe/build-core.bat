@@ -1,7 +1,6 @@
-cd python
 echo on
 set SKIP_THIRDPARTY_INSTALL=1
-rem set IS_AUTOMATED_BUILD=1
+set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
 
 echo ==========================================================
@@ -15,10 +14,15 @@ echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
 
 echo ==========================================================
-echo calling pip install
+echo calling bash to build
 echo ==========================================================
 
-"%PYTHON%" -m pip install . -vv
+rem cd python
+rem "%PYTHON%" -m pip install . -vv
+
+%BAZEL_SH% ci/ci.sh init
+%BAZEL_SH% ci/ci.sh build
+
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
 
