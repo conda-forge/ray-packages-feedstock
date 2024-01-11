@@ -21,6 +21,7 @@ rem cd python
 rem "%PYTHON%" -m pip install . -vv
 
 powershell ci/pipeline/fix-windows-bazel.ps1
+%BAZEL_SH% echo "startup --output_user_root=c:/tmp" >> ~/.bazelrc
 %BAZEL_SH% ci/ci.sh init
 %BAZEL_SH% ci/ci.sh build
 
