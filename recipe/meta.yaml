@@ -16,6 +16,7 @@ source:
 
 build:
   number: 0
+  skip: true  # [win]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
