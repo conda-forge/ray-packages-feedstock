@@ -1,6 +1,6 @@
-From 9c3e33f4646f5c3ef16893599d48c9a90f674ef8 Mon Sep 17 00:00:00 2001
+From 42ca5f9c51b438f86876fbe029e1edd001ff927d Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
-Date: Tue, 14 Nov 2023 05:11:45 +0200
+Date: Mon, 25 Dec 2023 12:13:06 +0200
 Subject: [PATCH 4/4] Remove all dependencies from setup.py
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH 4/4] Remove all dependencies from setup.py
  1 file changed, 12 insertions(+), 108 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 26fa74e229..8e0c0cabcb 100644
+index 4d2fbbd19b..0aa524af1b 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -227,102 +227,19 @@ ray_files += [
+@@ -225,102 +225,18 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -41,7 +41,7 @@ index 26fa74e229..8e0c0cabcb 100644
 -            "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
 -            "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -            "opencensus",
--            "pydantic < 2",  # 2.0.0 brings breaking changes
+-            "pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3",
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
 -            "virtualenv >=20.0.24, < 20.21.1",  # For pip runtime env.
@@ -78,7 +78,7 @@ index 26fa74e229..8e0c0cabcb 100644
 +        "train": [],
 +        "air": [],
      }
- 
+-
 -    # Ray Serve depends on the Ray dashboard components.
 -    setup_spec.extras["serve"] = list(
 -        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
@@ -124,7 +124,7 @@ index 26fa74e229..8e0c0cabcb 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -335,20 +252,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -333,19 +249,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -133,8 +133,6 @@ index 26fa74e229..8e0c0cabcb 100644
 -        "filelock",
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
--        "numpy >= 1.16; python_version < '3.9'",
--        "numpy >= 1.19.3; python_version >= '3.9'",
 -        "packaging",
 -        "protobuf >= 3.15.3, != 3.19.5",
 -        "pyyaml",
@@ -142,11 +140,12 @@ index 26fa74e229..8e0c0cabcb 100644
 -        "frozenlist",
 -        "requests",
 -    ]
+-
 +    setup_spec.install_requires = []
  
- 
  def is_native_windows_or_msys():
-@@ -783,7 +687,7 @@ setuptools.setup(
+     """Check to see if we are running on native Windows,
+@@ -780,7 +684,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -155,3 +154,6 @@ index 26fa74e229..8e0c0cabcb 100644
      extras_require=setup_spec.extras,
      entry_points={
          "console_scripts": [
+-- 
+2.34.1
+

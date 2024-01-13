@@ -1,4 +1,4 @@
-From 698bc58efaa0603b3209d55bd3890644428fb369 Mon Sep 17 00:00:00 2001
+From ff569b45da5725d887ab40fadd1c2fef9f688607 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
 Subject: [PATCH 2/4] Disable making entry scripts
@@ -8,10 +8,10 @@ Subject: [PATCH 2/4] Disable making entry scripts
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index b48c1510d0..26fa74e229 100644
+index 6c35efcaf6..4d2fbbd19b 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -787,10 +787,10 @@ setuptools.setup(
+@@ -784,10 +784,10 @@ setuptools.setup(
      extras_require=setup_spec.extras,
      entry_points={
          "console_scripts": [
@@ -26,3 +26,6 @@ index b48c1510d0..26fa74e229 100644
          ]
      },
      package_data={
+-- 
+2.34.1
+

@@ -1,4 +1,3 @@
-cd python
 echo on
 set SKIP_THIRDPARTY_INSTALL=1
 set IS_AUTOMATED_BUILD=1
@@ -15,10 +14,17 @@ echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
 
 echo ==========================================================
-echo calling pip install
+echo calling bash to build
 echo ==========================================================
 
-"%PYTHON%" -m pip install . -vv
+rem cd python
+rem "%PYTHON%" -m pip install . -vv
+
+powershell ci/pipeline/fix-windows-bazel.ps1
+%BAZEL_SH% echo "startup --output_user_root=c:/tmp" >> ~/.bazelrc
+%BAZEL_SH% ci/ci.sh init
+%BAZEL_SH% ci/ci.sh build
+
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
 
