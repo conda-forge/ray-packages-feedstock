@@ -1,6 +1,7 @@
 echo on
 set SKIP_THIRDPARTY_INSTALL=1
-set IS_AUTOMATED_BUILD=1
+rem Comment this out since it overrides the output_user_root below in python\setup.py
+rem set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
 
 echo ==========================================================
@@ -14,16 +15,11 @@ echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
 
 echo ==========================================================
-echo calling bash to build
+echo calling pip to install
 echo ==========================================================
-
-rem cd python
-rem "%PYTHON%" -m pip install . -vv
-
-powershell ci/pipeline/fix-windows-bazel.ps1
-%BAZEL_SH% echo "startup --output_user_root=c:/tmp" >> ~/.bazelrc
-%BAZEL_SH% ci/ci.sh init
-%BAZEL_SH% ci/ci.sh build
+cd python
+echo startup --output_user_root=D:/tmp >> ..\.bazelrc
+"%PYTHON%" -m pip install . -vv
 
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
@@ -33,8 +29,10 @@ rem different Python version) do not stumble on some after-effects.
 "%PYTHON%" setup.py clean --all
 
 rem Now shut down Bazel server, otherwise Windows would not allow moving a directory with it
-bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" clean
-bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" shutdown
+rem bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" clean
+bazel  clean
+rem bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" shutdown
+bazel shutdown
 rd /s /q "%SRC_DIR%\..\b-o" "%SRC_DIR%\..\bazel-root"
 rem Ignore "bazel shutdown" errors
 exit /b %RETCODE%

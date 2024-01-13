@@ -23,8 +23,7 @@ source:
     # xref https://github.com/ray-project/ray/issues/42560
 
 build:
-  number: 0
-  skip: true  # [win]
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
