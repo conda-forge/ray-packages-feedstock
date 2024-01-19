@@ -13,9 +13,10 @@ source:
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     - patches/0005-ci-remove-boost-as-a-dependency-42226.patch
+    - patches/0006-Vendor-grpc-1.59.3.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 # Need these up here for conda-smithy to handle them properly.
@@ -71,6 +72,7 @@ outputs:
         - python
         - pip
         - packaging
+        - libgrpc
         - openjdk =11
       run:
         - python
@@ -179,12 +181,15 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - grpcio !=1.56.0  # [osx]
-        - grpcio  # [not osx]
+        - grpcio
     test:
       imports:
         # there doesn't appear to be a client module, not sure how to test this
         - ray
+      commands:
+        - ray start --head
+        - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
+        - ray stop
 
   - name: ray-rllib
     build:

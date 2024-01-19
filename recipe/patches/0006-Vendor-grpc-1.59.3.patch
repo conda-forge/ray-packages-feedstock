@@ -1,0 +1,60 @@
+From 744d936f573f55e6c8568b19b6ecd6ed891abc31 Mon Sep 17 00:00:00 2001
+From: Austin Morton <austin.morton@aquatic.com>
+Date: Fri, 19 Jan 2024 20:11:02 +0000
+Subject: [PATCH] Vendor grpc 1.59.3
+
+---
+ bazel/ray_deps_setup.bzl | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index c406ba9281..ae7ee4540a 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -89,11 +89,10 @@ def ray_deps_setup():
+     # This is copied from grpc's bazel/grpc_deps.bzl
+     http_archive(
+         name = "com_google_protobuf",
+-        sha256 = "76a33e2136f23971ce46c72fd697cd94dc9f73d56ab23b753c3e16854c90ddfd",
+-        strip_prefix = "protobuf-2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a",
++        sha256 = "660ce016f987550bc1ccec4a6ee4199afb871799b696227098e3641476a7d566",
++        strip_prefix = "protobuf-b2b7a51158418f41cff0520894836c15b1738721",
+         urls = [
+-            # https://github.com/protocolbuffers/protobuf/commits/v23.4
+-            "https://github.com/protocolbuffers/protobuf/archive/2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a.tar.gz",
++            "https://github.com/protocolbuffers/protobuf/archive/b2b7a51158418f41cff0520894836c15b1738721.tar.gz",
+         ],
+         patches = [
+             "@com_github_grpc_grpc//third_party:protobuf.patch",
+@@ -243,8 +242,8 @@ def ray_deps_setup():
+     auto_http_archive(
+         name = "com_github_grpc_grpc",
+         # NOTE: If you update this, also update @boringssl's hash.
+-        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.57.1.tar.gz",
+-        sha256 = "0762f809b9de845e6a7c809cabccad6aa4143479fd43b396611fe5a086c0aeeb",
++        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.59.3.tar.gz",
++        sha256 = "ea281bb3489520ad4fb96ae84b45ed194a1f0b944d3e74f925f5e019d31ecd0f",
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
+         ],
+@@ -286,13 +285,13 @@ def ray_deps_setup():
+     http_archive(
+         # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
+         # provides a deterministic archive hash for caching. Explanation here:
+-        # https://github.com/grpc/grpc/blob/1ff1feaa83e071d87c07827b0a317ffac673794f/bazel/grpc_deps.bzl#L189
++        # https://github.com/grpc/grpc/blob/v1.59.3/bazel/grpc_deps.bzl#L219
+         # Ensure this rule matches the rule used by grpc's bazel/grpc_deps.bzl
+         name = "boringssl",
+-        sha256 = "0675a4f86ce5e959703425d6f9063eaadf6b61b7f3399e77a154c0e85bad46b1",
+-        strip_prefix = "boringssl-342e805bc1f5dfdd650e3f031686d6c939b095d9",
++        sha256 = "b21994a857a7aa6d5256ffe355c735ad4c286de44c6c81dfc04edc41a8feaeef",
++        strip_prefix = "boringssl-2ff4b968a7e0cfee66d9f151cb95635b43dc1d5b",
+         urls = [
+-            "https://github.com/google/boringssl/archive/342e805bc1f5dfdd650e3f031686d6c939b095d9.tar.gz",
++            "https://github.com/google/boringssl/archive/2ff4b968a7e0cfee66d9f151cb95635b43dc1d5b.tar.gz",
+         ],
+     )
+ 
+-- 
+2.42.0
+
