@@ -12,7 +12,6 @@ source:
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
-    - patches/0005-ci-remove-boost-as-a-dependency-42226.patch
 
 build:
   number: 0
