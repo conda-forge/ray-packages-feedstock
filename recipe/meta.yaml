@@ -15,7 +15,7 @@ source:
     - patches/0005-ci-remove-boost-as-a-dependency-42226.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 # Need these up here for conda-smithy to handle them properly.
@@ -159,7 +159,7 @@ outputs:
         - opencensus
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0
-        - pydantic <2.0
+        - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
         - typing-extensions
