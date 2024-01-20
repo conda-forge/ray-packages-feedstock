@@ -184,7 +184,6 @@ outputs:
         - grpcio
     test:
       imports:
-        # there doesn't appear to be a client module, not sure how to test this
         - ray
       commands:
         - ray start --head
