@@ -161,7 +161,7 @@ outputs:
         - opencensus
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0
-        - pydantic <2.0
+        - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
         - typing-extensions
@@ -321,6 +321,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - apmorton
     - timkpaine
     - dHannasch
     - h-vetinari
