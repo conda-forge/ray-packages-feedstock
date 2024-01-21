@@ -20,7 +20,7 @@ index c406ba9281..ae7ee4540a 100644
 +        sha256 = "660ce016f987550bc1ccec4a6ee4199afb871799b696227098e3641476a7d566",
 +        strip_prefix = "protobuf-b2b7a51158418f41cff0520894836c15b1738721",
          urls = [
-             # https://github.com/protocolbuffers/protobuf/commits/v23.4
+-            # https://github.com/protocolbuffers/protobuf/commits/v23.4
 -            "https://github.com/protocolbuffers/protobuf/archive/2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a.tar.gz",
 +            "https://github.com/protocolbuffers/protobuf/archive/b2b7a51158418f41cff0520894836c15b1738721.tar.gz",
          ],
