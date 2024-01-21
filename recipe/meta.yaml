@@ -16,6 +16,9 @@ source:
     - patches/0006-Vendor-grpc-1.59.3.patch
     # This patch applies grpc tag v1.59.3 changes from
     # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
+    - patches/0007-ci-upgrade-ray-openssl.patch
+    # xref https://github.com/ray-project/ray/pull/42557
+    # xref https://github.com/ray-project/ray/issues/42560
 
 build:
   number: 2
