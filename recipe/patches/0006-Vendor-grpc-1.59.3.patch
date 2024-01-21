@@ -3,8 +3,6 @@ From: Austin Morton <austin.morton@aquatic.com>
 Date: Fri, 19 Jan 2024 20:11:02 +0000
 Subject: [PATCH] Vendor grpc 1.59.3
 
-# This patch applies grpc tag v1.59.3 changes from
-# https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
 ---
  bazel/ray_deps_setup.bzl | 19 +++++++++----------
  1 file changed, 9 insertions(+), 10 deletions(-)
