@@ -1,7 +1,6 @@
 echo on
 set SKIP_THIRDPARTY_INSTALL=1
-rem Comment this out since it overrides the output_user_root below in python\setup.py
-rem set IS_AUTOMATED_BUILD=1
+set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
 
 echo ==========================================================
@@ -18,6 +17,7 @@ echo ==========================================================
 echo calling pip to install
 echo ==========================================================
 cd python
+rem This requires patch 0006
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv
 

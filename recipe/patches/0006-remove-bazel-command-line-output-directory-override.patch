@@ -1,0 +1,37 @@
+From 35e64f08534a6b7457c0aefe08d0a01f139eaf82 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Sun, 21 Jan 2024 16:58:34 +0200
+Subject: [PATCH 6/6] remove bazel command line output directory override
+
+---
+ python/setup.py | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index 0aa524af1b..eb2f68000a 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -469,20 +469,6 @@ def build(build_python, build_java, build_cpp):
+     if not is_automated_build:
+         bazel_precmd_flags = []
+     if is_automated_build:
+-        root_dir = os.path.join(
+-            os.path.abspath(os.environ["SRC_DIR"]), "..", "bazel-root"
+-        )
+-        out_dir = os.path.join(os.path.abspath(os.environ["SRC_DIR"]), "..", "b-o")
+-
+-        for d in (root_dir, out_dir):
+-            if not os.path.exists(d):
+-                os.makedirs(d)
+-
+-        bazel_precmd_flags = [
+-            "--output_user_root=" + root_dir,
+-            "--output_base=" + out_dir,
+-        ]
+-
+         if is_native_windows_or_msys():
+             bazel_flags.append("--enable_runfiles=false")
+ 
+-- 
+2.33.0.windows.2
+
