@@ -14,6 +14,8 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     - patches/0005-ci-remove-boost-as-a-dependency-42226.patch
     - patches/0006-Vendor-grpc-1.59.3.patch
+    # This patch applies grpc tag v1.59.3 changes from
+    # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
 
 build:
   number: 2
