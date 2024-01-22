@@ -161,7 +161,7 @@ outputs:
         - async-timeout
         - colorful
         - gpustat >=1.0.0
-        - grpcio >=1.56,!=1.58.*
+        - grpcio
         - opencensus
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0
