@@ -12,6 +12,9 @@ source:
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
+    # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
+    # Keep in sync with current or active migration of libgrpc to avoid
+    {% set grpcio_version = "1.59" %}
     - patches/0006-Vendor-grpc-1.59.3.patch
     # This patch applies grpc tag v1.59.3 changes from
     # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
@@ -161,7 +164,7 @@ outputs:
         - async-timeout
         - colorful
         - gpustat >=1.0.0
-        - grpcio
+        - grpcio {{ grpcio_version }}
         - opencensus
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0
@@ -185,7 +188,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - grpcio
+        - grpcio {{ grpcio_version }}
     test:
       imports:
         - ray
