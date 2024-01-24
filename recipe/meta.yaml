@@ -1,4 +1,4 @@
-{% set version = "2.9.0" %}
+{% set version = "2.9.1" %}
 
 package:
   name: ray-packages
@@ -6,13 +6,15 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: bebe4413dd1a856cd854308d76d14fb412727b6228bfbdea5f3b5a45ef3f5acc
+  sha256: e28fbe0f9aa918b394426a68e96b440fafe653b270c3dfab84a4d3680d05f550
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
-    - patches/0005-ci-remove-boost-as-a-dependency-42226.patch
+    # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
+    # Keep in sync with current or active migration of libgrpc to avoid
+    # ABI breakage
     - patches/0006-Vendor-grpc-1.59.3.patch
     # This patch applies grpc tag v1.59.3 changes from
     # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
@@ -21,7 +23,7 @@ source:
     # xref https://github.com/ray-project/ray/issues/42560
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win]
 
 # Need these up here for conda-smithy to handle them properly.
