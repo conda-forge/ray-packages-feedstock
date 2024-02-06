@@ -1,4 +1,4 @@
-{% set version = "2.9.1" %}
+{% set version = "2.9.2" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: e28fbe0f9aa918b394426a68e96b440fafe653b270c3dfab84a4d3680d05f550
+  sha256: 27f293471644570c6797e634e0e8abb67c1e9978d614981093b7737c635208ad
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -24,7 +24,7 @@ source:
     - patches/0006-remove-bazel-command-line-output-directory-override.patch  # [win]
 
 build:
-  number: 1
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
