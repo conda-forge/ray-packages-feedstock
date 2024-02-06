@@ -15,13 +15,13 @@ source:
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0006-Vendor-grpc-1.59.3.patch
+    - patches/0005-Vendor-grpc-1.59.3.patch
     # This patch applies grpc tag v1.59.3 changes from
     # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
-    - patches/0007-ci-upgrade-ray-openssl.patch
+    - patches/0006-ci-upgrade-ray-openssl.patch
     # xref https://github.com/ray-project/ray/pull/42557
     # xref https://github.com/ray-project/ray/issues/42560
-    - patches/0006-remove-bazel-command-line-output-directory-override.patch  # [win]
+    - patches/0007-remove-bazel-command-line-output-directory-override.patch  # [win]
 
 build:
   number: 0

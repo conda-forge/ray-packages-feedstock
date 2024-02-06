@@ -1,7 +1,7 @@
-From fba4da0511a29010de4530c309efea6ef641c9aa Mon Sep 17 00:00:00 2001
+From 1165d8f367dbce45ef39f5f43d246fa9937a1053 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:59:10 -0800
-Subject: [PATCH 3/4] Ignore warnings in event.cc and logging.cc
+Subject: [PATCH 3/7] Ignore warnings in event.cc and logging.cc
 
 ---
  .bazelrc | 3 +++

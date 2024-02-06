@@ -1,7 +1,7 @@
-From 60e24985790f79cdcc689113cc067fe37a237b38 Mon Sep 17 00:00:00 2001
+From 467abd481f53008675173b07b8a79a5110b74762 Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Mon, 25 Dec 2023 11:55:35 +0200
-Subject: [PATCH 1/4] patch redis for ar, ranlib
+Subject: [PATCH 1/7] patch redis for ar, ranlib
 
 Signed-off-by: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Signed-off-by: Gregory Shimansky <gregory.shimansky@intel.com>
@@ -10,8 +10,8 @@ Signed-off-by: H. Vetinari <h.vetinari@gmx.com>
 ---
  bazel/BUILD.redis                        |  8 ++-
  bazel/ray_deps_setup.bzl                 |  1 +
- thirdparty/patches/redis-ar-ranlib.patch | 69 ++++++++++++++++++++++++
- 3 files changed, 77 insertions(+), 1 deletion(-)
+ thirdparty/patches/redis-ar-ranlib.patch | 70 ++++++++++++++++++++++++
+ 3 files changed, 78 insertions(+), 1 deletion(-)
  create mode 100644 thirdparty/patches/redis-ar-ranlib.patch
 
 diff --git a/bazel/BUILD.redis b/bazel/BUILD.redis
@@ -39,7 +39,7 @@ index 9edccf5780..0f62b3aecf 100644
          chmod +x $(location redis-server)
          mv "$${tmpdir}"/src/redis-cli $(location redis-cli)
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index c406ba9281..e9663ca3b4 100644
+index f91eb303c4..0edb960a3b 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -111,6 +111,7 @@ def ray_deps_setup():
@@ -52,7 +52,7 @@ index c406ba9281..e9663ca3b4 100644
      )
 diff --git a/thirdparty/patches/redis-ar-ranlib.patch b/thirdparty/patches/redis-ar-ranlib.patch
 new file mode 100644
-index 0000000000..5b09aa381c
+index 0000000000..72a4097cd3
 --- /dev/null
 +++ b/thirdparty/patches/redis-ar-ranlib.patch
 @@ -0,0 +1,70 @@
@@ -127,4 +127,5 @@ index 0000000000..5b09aa381c
 + .PHONY: persist-settings
 +
 -- 
+2.34.1
 
