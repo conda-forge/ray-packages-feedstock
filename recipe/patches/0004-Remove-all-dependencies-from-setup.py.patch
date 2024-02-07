@@ -1,17 +1,17 @@
-From 42ca5f9c51b438f86876fbe029e1edd001ff927d Mon Sep 17 00:00:00 2001
+From a5a4411a7ad8ca1dcd3ffcb1175340923e289da6 Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Mon, 25 Dec 2023 12:13:06 +0200
-Subject: [PATCH 4/4] Remove all dependencies from setup.py
+Subject: [PATCH 4/7] Remove all dependencies from setup.py
 
 ---
- python/setup.py | 120 +++++-------------------------------------------
- 1 file changed, 12 insertions(+), 108 deletions(-)
+ python/setup.py | 121 +++++-------------------------------------------
+ 1 file changed, 12 insertions(+), 109 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 4d2fbbd19b..0aa524af1b 100644
+index bbf74a8b45..0aa524af1b 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,102 +225,18 @@ ray_files += [
+@@ -225,103 +225,18 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -57,7 +57,8 @@ index 4d2fbbd19b..0aa524af1b 100644
 -            "uvicorn[standard]",
 -            "requests",
 -            "starlette",
--            "fastapi",
+-            # Tracking issue: https://github.com/tiangolo/fastapi/discussions/10948
+-            "fastapi <= 0.108.0",
 -            "aiorwlock",
 -            "watchfiles",
 -        ],
@@ -124,7 +125,7 @@ index 4d2fbbd19b..0aa524af1b 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -333,19 +249,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -334,19 +249,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -145,7 +146,7 @@ index 4d2fbbd19b..0aa524af1b 100644
  
  def is_native_windows_or_msys():
      """Check to see if we are running on native Windows,
-@@ -780,7 +684,7 @@ setuptools.setup(
+@@ -781,7 +684,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,

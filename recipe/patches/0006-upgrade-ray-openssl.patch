@@ -1,0 +1,30 @@
+From 4313fcf3ce4a04f63da444e5c4305ec5a5552d09 Mon Sep 17 00:00:00 2001
+From: can <can@anyscale.com>
+Date: Sun, 21 Jan 2024 05:03:48 +0000
+Subject: [PATCH 6/7] upgrade ray openssl
+
+---
+ bazel/ray_deps_setup.bzl | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 69ade4f6c6..0716f2cdf8 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -243,10 +243,10 @@ def ray_deps_setup():
+ 
+     http_archive(
+         name = "openssl",
+-        strip_prefix = "openssl-1.1.1f",
+-        sha256 = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35",
++        strip_prefix = "openssl-1.1.1w",
++        sha256 = "cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8",
+         urls = [
+-            "https://www.openssl.org/source/openssl-1.1.1f.tar.gz",
++            "https://www.openssl.org/source/openssl-1.1.1w.tar.gz",
+         ],
+         build_file = "@rules_foreign_cc_thirdparty//openssl:BUILD.openssl.bazel",
+     )
+-- 
+2.34.1
+
