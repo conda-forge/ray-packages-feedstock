@@ -24,7 +24,7 @@ source:
     - patches/0007-remove-bazel-command-line-output-directory-override.patch  # [win]
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -133,7 +133,8 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - pandas >=1.3
+        # https://github.com/ray-project/ray/issues/42956
+        - pandas >=1.3,<2.2
         - pyarrow >=6.0.1
         - fsspec
     test:
