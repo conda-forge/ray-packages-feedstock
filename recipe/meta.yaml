@@ -31,13 +31,14 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - libxcrypt  # [linux and py<39]
+    - git  # [windows]
 
 outputs:
   - name: ray-all
     requirements:
       host:
         - python
-        - libxcrypt  # [linux and py<39]
       run:
         - python
         - {{ pin_subpackage('ray-air', exact=True) }}
