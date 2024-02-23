@@ -37,6 +37,7 @@ outputs:
     requirements:
       host:
         - python
+        - libxcrypt  # [linux and py<39]
       run:
         - python
         - {{ pin_subpackage('ray-air', exact=True) }}
