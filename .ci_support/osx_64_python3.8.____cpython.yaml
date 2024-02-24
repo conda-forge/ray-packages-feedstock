@@ -17,7 +17,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '16'
 libgrpc:
-- '1.59'
+- '1.60'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 nodejs:
