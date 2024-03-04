@@ -33,7 +33,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - libxcrypt  # [linux and py<39]
-    - git  # [windows]
+    - git  # [win]
 
 outputs:
   - name: ray-all
