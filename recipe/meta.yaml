@@ -22,6 +22,7 @@ source:
     # xref https://github.com/ray-project/ray/pull/42557
     # xref https://github.com/ray-project/ray/issues/42560
     - patches/0007-remove-bazel-command-line-output-directory-override.patch  # [win]
+    - patches/0008-shallow-clone-fails-on-windows.patch  # [win]
 
 build:
   number: 0
