@@ -17,9 +17,14 @@ dir "%BAZEL_VC%"
 echo ----------
 
 echo check git
+echo ----------
+where git
+echo ----------
 git --version
+echo ----------
 echo %CONDA_PREFIX%
-python -c "import os, pprint; pprint.pprint(os.environ['PATH'].split(';'))"
+python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
+echo ----------
 
 echo ==========================================================
 echo calling pip to install
