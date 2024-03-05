@@ -9,12 +9,17 @@ echo ==========================================================
 set BAZEL_VC=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC
 echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
+echo ----------
 rmdir /q /s "%BAZEL_VC%\vcpkg"
+echo ----------
 echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
+echo ----------
 
 echo check git
 git --version
+echo %CONDA_PREFIX%
+python -c "import os, pprint; pprint.pprint(os.environ['PATH'].split(';'))"
 
 echo ==========================================================
 echo calling pip to install
