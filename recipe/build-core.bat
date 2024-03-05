@@ -13,6 +13,9 @@ rmdir /q /s "%BAZEL_VC%\vcpkg"
 echo dir %BAZEL_VC%
 dir "%BAZEL_VC%"
 
+echo check git
+git --version
+
 echo ==========================================================
 echo calling pip to install
 echo ==========================================================
