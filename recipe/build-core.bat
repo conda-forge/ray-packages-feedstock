@@ -19,6 +19,7 @@ echo ----------
 echo check git
 echo ----------
 where git
+dir %CONDA_PREFIX%\Library\bin /w
 echo ----------
 git --version
 echo ----------
