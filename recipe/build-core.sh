@@ -15,6 +15,12 @@ build --define CONDA_SDKROOT=${SDKROOT}
 EOF
 fi
 
+if [[ -e $CONDA_PREFIX/include/crypt.h ]]; then
+    # fix for python3.8 which depends on system includes for crypt.h
+    # but the bazel sandbox does not add it
+    cp $CONDA_PREFIX/include/crypt.h $PREFIX/include/python*
+fi
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
 "${PYTHON}" setup.py build
