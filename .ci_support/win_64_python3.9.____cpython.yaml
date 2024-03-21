@@ -9,7 +9,7 @@ curl:
 cxx_compiler:
 - vs2019
 libgrpc:
-- '1.59'
+- '1.60'
 nodejs:
 - '18'
 - '20'
