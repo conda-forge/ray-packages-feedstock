@@ -16,8 +16,6 @@ source:
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
     - patches/0005-Vendor-grpc-1.59.3.patch
-    # - patches/0007-remove-bazel-command-line-output-directory-override.patch  # [win]
-    # - patches/0008-shallow-clone-fails-on-windows.patch  # [win]
 
 build:
   number: 0
