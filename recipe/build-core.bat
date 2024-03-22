@@ -42,11 +42,12 @@ rem Now clean everything up so subsequent builds (for potentially
 rem different Python version) do not stumble on some after-effects.
 "%PYTHON%" setup.py clean --all
 
+rem setup.py uses D:\bazel-root and D:\b-o since ray 2.10.0.
+rem Get the drive for SRC_DIR, in case it changes from D:
+@for %%G in  ("%SRC_DIR%") DO @SET DRIVE=%%~dG
 rem Now shut down Bazel server, otherwise Windows would not allow moving a directory with it
-rem bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" clean
-bazel  clean
-rem bazel "--output_user_root=%SRC_DIR%\..\bazel-root" "--output_base=%SRC_DIR%\..\b-o" shutdown
-bazel shutdown
-rd /s /q "%SRC_DIR%\..\b-o" "%SRC_DIR%\..\bazel-root"
+bazel "--output_user_root=%DRIVE%\bazel-root" "--output_base=%DRIVE%\b-o" clean
+bazel "--output_user_root=%DRIVE%\bazel-root" "--output_base=%DRIVE%\b-o" shutdown
+rd /s /q "%DRIVE%\..\b-o" "%DRIVE%\..\bazel-root"
 rem Ignore "bazel shutdown" errors
 exit /b %RETCODE%
