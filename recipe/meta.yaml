@@ -1,4 +1,4 @@
-{% set version = "2.9.3" %}
+{% set version = "2.10.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 641d0946522cf340799c9b237168be0d9868748d73ab77dc97496b171a41032a
+  sha256: 8da878f6e652b5943c643bce0c506e4271e6096a5ebf7efbb05958d56f0a18a6
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -16,13 +16,6 @@ source:
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
     - patches/0005-Vendor-grpc-1.59.3.patch
-    # This patch applies grpc tag v1.59.3 changes from
-    # https://github.com/grpc/grpc/blob/35df344f5e17a9cb290ebf0f5b0f03ddb1ff0a97/bazel/grpc_deps.bzl#L243
-    - patches/0006-upgrade-ray-openssl.patch
-    # xref https://github.com/ray-project/ray/pull/42557
-    # xref https://github.com/ray-project/ray/issues/42560
-    - patches/0007-remove-bazel-command-line-output-directory-override.patch  # [win]
-    - patches/0008-shallow-clone-fails-on-windows.patch  # [win]
 
 build:
   number: 0
@@ -167,7 +160,6 @@ outputs:
         - aiohttp-cors
         - async-timeout
         - colorful
-        - gpustat >=1.0.0
         - grpcio
         - opencensus
         - prometheus_client >=0.7.1
