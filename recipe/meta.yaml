@@ -161,6 +161,7 @@ outputs:
         - async-timeout
         - colorful
         - grpcio
+        - memray  # [not win]
         - opencensus
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0
