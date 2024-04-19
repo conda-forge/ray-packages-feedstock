@@ -1,17 +1,17 @@
-From baa3f23dc5ea66302b12118db1755638dbd861bf Mon Sep 17 00:00:00 2001
-From: mattip <matti.picus@gmail.com>
-Date: Thu, 21 Mar 2024 09:34:27 +0200
-Subject: [PATCH 4/5] Remove all dependencies from setup.py
+From f00028d297eeb012f14a58c295eab483390839eb Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Thu, 18 Apr 2024 11:31:16 +1000
+Subject: [PATCH 4/5] Remove-all-dependencies-from-setup.py
 
 ---
  python/setup.py | 114 +++++-------------------------------------------
  1 file changed, 12 insertions(+), 102 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index c11ade1ddb..cc77048464 100644
+index 7280fcdf30..922206528c 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,96 +225,18 @@ ray_files += [
+@@ -225,97 +225,19 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -40,6 +40,7 @@ index c11ade1ddb..cc77048464 100644
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
 -            "virtualenv >=20.0.24, !=20.21.1",  # For pip runtime env.
+-            "memray; sys_platform != 'win32'",
 -        ],
 -        "client": [
 -            # The Ray client needs a specific range of gRPC to work:
@@ -72,7 +73,7 @@ index c11ade1ddb..cc77048464 100644
 +        "train": [],
 +        "air": [],
      }
--
+ 
 -    # Ray Serve depends on the Ray dashboard components.
 -    setup_spec.extras["serve"] = list(
 -        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
@@ -118,7 +119,7 @@ index c11ade1ddb..cc77048464 100644
      setup_spec.extras["all"] = list(
          set(chain.from_iterable(setup_spec.extras.values()))
      )
-@@ -327,19 +249,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -328,19 +250,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -139,7 +140,7 @@ index c11ade1ddb..cc77048464 100644
  
  def is_native_windows_or_msys():
      """Check to see if we are running on native Windows,
-@@ -777,7 +687,7 @@ setuptools.setup(
+@@ -778,7 +688,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -149,5 +150,5 @@ index c11ade1ddb..cc77048464 100644
      entry_points={
          "console_scripts": [
 -- 
-2.43.0
+2.39.3 (Apple Git-146)
 
