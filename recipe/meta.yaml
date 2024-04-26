@@ -1,4 +1,4 @@
-{% set version = "2.11.0" %}
+{% set version = "2.12.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: bc3bb73e41978272fbe9c64dd56c9e15f3cc2eeb7a86a8be828631b281dd1ce7
+  sha256: 2d2461dd877c2b4d38bea59f7feebebb4d177612685764a44d31ae846bce6a50
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -24,6 +24,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
 
 outputs:
@@ -55,9 +56,9 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
+        - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - bazel =5.4.1
-        - sysroot_linux-64 2.17  # [linux64]
         - patchelf  # [linux]
         - colorama
         - curl
@@ -93,7 +94,6 @@ outputs:
         - requests
         - setproctitle >=1.2.2,<1.4
       run_constrained:
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.15") }}
 
     test:
       imports:
