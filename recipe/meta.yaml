@@ -18,6 +18,7 @@ source:
 
 build:
   number: 0
+  skip: true  # [py>311]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -52,6 +53,7 @@ outputs:
     build:
       entry_points:
         - ray = ray.scripts.scripts:main
+      skip: true  # [py>311]
     requirements:
       build:
         - {{ compiler('c') }}
