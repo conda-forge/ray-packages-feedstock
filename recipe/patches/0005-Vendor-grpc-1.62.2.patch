@@ -1,14 +1,15 @@
-From 41197eb76175f1dacb0eb1d51672997bd2cce96a Mon Sep 17 00:00:00 2001
+From 75f9af02ee2f97a988f051f2fb205504c39f4295 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Fri, 19 Jan 2024 20:11:02 +0000
-Subject: [PATCH 5/7] Vendor grpc 1.62.2
+Subject: [PATCH] Vendor grpc 1.62.2
 
+Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- bazel/ray_deps_setup.bzl | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ bazel/ray_deps_setup.bzl | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 0edb960a3b..69ade4f6c6 100644
+index 28870ecdbd..fb1a51581f 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -89,11 +89,10 @@ def ray_deps_setup():
@@ -26,7 +27,22 @@ index 0edb960a3b..69ade4f6c6 100644
          ],
          patches = [
              "@com_github_grpc_grpc//third_party:protobuf.patch",
-@@ -235,8 +234,8 @@ def ray_deps_setup():
+@@ -214,10 +213,11 @@ def ray_deps_setup():
+     # This is how diamond dependencies are prevented.
+     auto_http_archive(
+         name = "com_google_absl",
+-        sha256 = "5366d7e7fa7ba0d915014d387b66d0d002c03236448e1ba9ef98122c13b35c36",
+-        strip_prefix = "abseil-cpp-20230125.3",
++        sha256 = "aa768256d0567f626334fcbe722f564c40b281518fc8423e2708a308e5f983ea",
++        # version from https://github.com/protocolbuffers/protobuf/blob/7f94235e552599141950d7a4a3eaf93bc87d1b22/protobuf_deps.bzl
++        strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
+         urls = [
+-            "https://github.com/abseil/abseil-cpp/archive/20230125.3.tar.gz",
++            "https://github.com/abseil/abseil-cpp/archive/fb3621f4f897824c0dbe0615fa94543df6192f30.tar.gz",
+         ],
+     )
+ 
+@@ -237,8 +237,8 @@ def ray_deps_setup():
      auto_http_archive(
          name = "com_github_grpc_grpc",
          # NOTE: If you update this, also update @boringssl's hash.
@@ -37,7 +53,7 @@ index 0edb960a3b..69ade4f6c6 100644
          patches = [
              "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
          ],
-@@ -278,13 +277,13 @@ def ray_deps_setup():
+@@ -280,13 +280,13 @@ def ray_deps_setup():
      http_archive(
          # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
          # provides a deterministic archive hash for caching. Explanation here:
@@ -56,5 +72,5 @@ index 0edb960a3b..69ade4f6c6 100644
      )
  
 -- 
-2.34.1
+2.44.0
 
