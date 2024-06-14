@@ -33,7 +33,7 @@ index 28870ecdbd..fb1a51581f 100644
          name = "com_google_absl",
 -        sha256 = "5366d7e7fa7ba0d915014d387b66d0d002c03236448e1ba9ef98122c13b35c36",
 -        strip_prefix = "abseil-cpp-20230125.3",
-+        sha256 = "aa768256d0567f626334fcbe722f564c40b281518fc8423e2708a308e5f983ea",
++        sha256 = "0320586856674d16b0b7a4d4afb22151bdc798490bb7f295eddd8f6a62b46fea",
 +        # version from https://github.com/protocolbuffers/protobuf/blob/7f94235e552599141950d7a4a3eaf93bc87d1b22/protobuf_deps.bzl
 +        strip_prefix = "abseil-cpp-fb3621f4f897824c0dbe0615fa94543df6192f30",
          urls = [
