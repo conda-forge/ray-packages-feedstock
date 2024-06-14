@@ -18,7 +18,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py>311]
+  skip: true  # [py in (312, 38)]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
