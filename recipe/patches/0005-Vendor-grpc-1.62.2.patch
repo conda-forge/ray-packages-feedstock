@@ -17,12 +17,12 @@ index 0edb960a3b..69ade4f6c6 100644
          name = "com_google_protobuf",
 -        sha256 = "76a33e2136f23971ce46c72fd697cd94dc9f73d56ab23b753c3e16854c90ddfd",
 -        strip_prefix = "protobuf-2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a",
-+        sha256 = "660ce016f987550bc1ccec4a6ee4199afb871799b696227098e3641476a7d566",
-+        strip_prefix = "protobuf-b2b7a51158418f41cff0520894836c15b1738721",
++        sha256 = "70f480fe9cb0c6829dbf6be3c388103313aacb65de667b86d981bbc9eaedb905",
++        strip_prefix = "protobuf-7f94235e552599141950d7a4a3eaf93bc87d1b22",
          urls = [
 -            # https://github.com/protocolbuffers/protobuf/commits/v23.4
 -            "https://github.com/protocolbuffers/protobuf/archive/2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a.tar.gz",
-+            "https://github.com/protocolbuffers/protobuf/archive/b2b7a51158418f41cff0520894836c15b1738721.tar.gz",
++            "https://github.com/protocolbuffers/protobuf/archive/7f94235e552599141950d7a4a3eaf93bc87d1b22.tar.gz",
          ],
          patches = [
              "@com_github_grpc_grpc//third_party:protobuf.patch",
