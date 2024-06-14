@@ -26,6 +26,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
+  host:
+    - python
 
 outputs:
   - name: ray-all
