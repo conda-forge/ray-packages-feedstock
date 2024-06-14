@@ -61,7 +61,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
-        - bazel =5.4.1
+        - bazel 6.*
         - patchelf  # [linux]
         - colorama
         - curl
