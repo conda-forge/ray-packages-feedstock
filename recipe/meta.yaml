@@ -14,7 +14,7 @@ source:
     - patches/0004-Remove-all-dependencies-from-setup.py.patch
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0005-Vendor-grpc-1.59.3.patch
+    - patches/0005-Vendor-grpc-1.62.2.patch
 
 build:
   number: 0
