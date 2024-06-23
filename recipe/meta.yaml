@@ -1,4 +1,4 @@
-{% set version = "2.24.0" %}
+{% set version = "2.30.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 9eec094e79b34fad48b736205752e7e57b4afff1153780314c91bd8ef5a373fe
+  sha256: 854d549a77f0b0e810d1e9a18e7becf984279e2a0bfad5bed508f500ff770e34
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -15,9 +15,11 @@ source:
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
     - patches/0005-Vendor-grpc-1.62.2.patch
+    # conda-forge's latest bazel is 6.3.2
+    - patches/0006-use-bazel-6.3.2.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py in (312, 38)]
 
 # Need these up here for conda-smithy to handle them properly.
