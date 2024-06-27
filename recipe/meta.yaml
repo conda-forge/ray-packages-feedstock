@@ -1,4 +1,4 @@
-{% set version = "2.30.0" %}
+{% set version = "2.31.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 854d549a77f0b0e810d1e9a18e7becf984279e2a0bfad5bed508f500ff770e34
+  sha256: cf7443dec5d731771146f2fa40292ff9665c2e3c3a767aa252c26c4fd2ee95e3
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
