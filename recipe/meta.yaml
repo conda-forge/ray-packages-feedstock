@@ -15,11 +15,9 @@ source:
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
     - patches/0005-Vendor-grpc-1.62.2.patch
-    # conda-forge's latest bazel is 6.3.2
-    - patches/0006-use-bazel-6.3.2.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py in (312, 38)]
 
 # Need these up here for conda-smithy to handle them properly.
@@ -63,7 +61,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
-        - bazel 6.*
+        - bazel 6.5
         - patchelf  # [linux]
         - colorama
         - curl
