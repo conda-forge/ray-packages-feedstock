@@ -25,9 +25,13 @@ build --define CONDA_SDKROOT=${SDKROOT}
 EOF
   if [[ "$target_platform" == osx-arm64 ]]; then
     cat >> .bazelrc <<EOF
-build --subcommands
+# build --subcommands
 build --crosstool_top=//bazel_toolchain:toolchain
-build --cpu=${TARGET_CPU}
+build --cpu=darwin_arm64
+build --platforms=//bazel_toolchain:target_platform
+build --host_platform=//bazel_toolchain:build_platform
+# build --extra_toolchains=//bazel_toolchain:cc_cf_toolchain
+# build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
 EOF
   fi
 fi
