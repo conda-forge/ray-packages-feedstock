@@ -1,8 +1,6 @@
 #!/bin/bash
 set -xe
 
-# export PS4='+(${BASH_SOURCE}:${LINENO}):'
-
 if [[ "$target_platform" == osx* ]]; then
   # make sure the vendored redis OSX build can find the correct toolchain. the SDKROOT is
   # also passed as we are using at least OSX 10.15 which moves the include directory out
@@ -30,8 +28,6 @@ build --crosstool_top=//bazel_toolchain:toolchain
 build --cpu=darwin_arm64
 build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
-# build --extra_toolchains=//bazel_toolchain:cc_cf_toolchain
-# build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
 EOF
   fi
 fi
