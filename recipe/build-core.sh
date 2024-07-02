@@ -5,6 +5,14 @@ if [[ "$target_platform" == osx* ]]; then
   # make sure the vendored redis OSX build can find the correct toolchain. the SDKROOT is
   # also passed as we are using at least OSX 10.15 which moves the include directory out
   # of /usr/include to ${SDKROOT}/MacOSX.sdk/usr/include
+  if [[ "$target_platform" == osx-arm64 ]]; then
+    # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
+    # delete the line from the template and the CXXFLAGS
+    export CXXFLAGS=${CXXFLAGS/-stdlib=libc++ /}
+    export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -Wl,-framework,Foundation"
+    sed -e"/stdlib=libc/d" -i'' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
+    source gen-bazel-toolchain
+  fi
   cat >> .bazelrc <<EOF
 build --define CONDA_CC=${CC}
 build --define CONDA_CFLAGS="${CFLAGS}"
@@ -13,6 +21,15 @@ build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
 EOF
+  if [[ "$target_platform" == osx-arm64 ]]; then
+    cat >> .bazelrc <<EOF
+# build --subcommands
+build --crosstool_top=//bazel_toolchain:toolchain
+build --cpu=darwin_arm64
+build --platforms=//bazel_toolchain:target_platform
+build --host_platform=//bazel_toolchain:build_platform
+EOF
+  fi
 fi
 
 if [[ -e $CONDA_PREFIX/include/crypt.h ]]; then
@@ -23,6 +40,7 @@ fi
 
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
+
 "${PYTHON}" setup.py build
 # bazel by default makes everything read-only,
 # which leads to patchelf failing to fix rpath in binaries.
