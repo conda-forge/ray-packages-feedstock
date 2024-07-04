@@ -23,8 +23,8 @@ docker_image:
 libgrpc:
 - '1.62'
 nodejs:
-- '18'
 - '20'
+- '22'
 pin_run_as_build:
   python:
     min_pin: x.x
