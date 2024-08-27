@@ -20,6 +20,7 @@ source:
 
 build:
   number: 1
+  skip: true  # [py in (38,)]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
