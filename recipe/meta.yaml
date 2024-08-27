@@ -57,7 +57,6 @@ outputs:
     build:
       entry_points:
         - ray = ray.scripts.scripts:main
-      skip: true  # [py>311]
     requirements:
       build:
         - {{ compiler('c') }}
