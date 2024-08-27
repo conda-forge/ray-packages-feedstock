@@ -156,6 +156,7 @@ outputs:
       build:
         - nodejs
       host:
+        - nodejs
         - python
       run:
         - python
