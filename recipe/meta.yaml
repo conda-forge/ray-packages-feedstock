@@ -291,7 +291,8 @@ outputs:
         - echo "no tests for ray-observability, it is a convenience bundle"
 
   - name: ray-adag
-    skip: true  # [osx]
+    build:
+      skip: true  # [osx]
     requirements:
       host:
         - python
