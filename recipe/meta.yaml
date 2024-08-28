@@ -77,7 +77,6 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
-        - setuptools
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
         - python
@@ -85,6 +84,7 @@ outputs:
         - packaging
         - libgrpc
         - openjdk =11
+        - setuptools
       run:
         - python
         - aiohttp >=3.7
