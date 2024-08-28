@@ -85,6 +85,7 @@ outputs:
         - openjdk =11
       run:
         - python
+        - aiohttp >=3.7
         - aiosignal
         - click >=7.0
         - colorama
@@ -159,9 +160,7 @@ outputs:
         - nodejs
         - python
       run:
-        - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp >=3.7
         - aiohttp-cors
         - async-timeout
         - colorful
