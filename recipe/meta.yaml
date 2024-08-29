@@ -38,7 +38,7 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-adag', exact=True) }}
+        - {{ pin_subpackage('ray-adag', exact=True) }}  # [not osx]
         - {{ pin_subpackage('ray-air', exact=True) }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-client', exact=True) }}
