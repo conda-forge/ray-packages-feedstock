@@ -1,4 +1,4 @@
-{% set version = "2.34.0" %}
+{% set version = "2.35.0" %}
 
 package:
   name: ray-packages
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 7a9798bd4647f4811887d281b28ae019b2859e2ab08fc6ff69b3fc64a4af2d6e
+  sha256: ce341513458846e070b4247c8c7c86bb6ba7a7832d76f24c31feb41d8e79bacd
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0004-Remove-all-dependencies-from-setup.py.patch
+    - patches/0004-remove-dependencies-and-third-party-package-installs.patch
     - patches/0006-remove-stdlib-libc-from-.bazelrc.patch  # [osx and arm64]
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
@@ -38,6 +38,7 @@ outputs:
         - python
       run:
         - python
+        - {{ pin_subpackage('ray-adag', exact=True) }}  # [not osx]
         - {{ pin_subpackage('ray-air', exact=True) }}
         - {{ pin_subpackage('ray-default', exact=True) }}
         - {{ pin_subpackage('ray-client', exact=True) }}
@@ -83,8 +84,10 @@ outputs:
         - packaging
         - libgrpc
         - openjdk =11
+        - setuptools
       run:
         - python
+        - aiohttp >=3.7
         - aiosignal
         - click >=7.0
         - colorama
@@ -156,12 +159,10 @@ outputs:
       build:
         - nodejs
       host:
-        - nodejs
         - python
       run:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp >=3.7
         - aiohttp-cors
         - async-timeout
         - colorful
@@ -289,6 +290,20 @@ outputs:
       commands:
         - echo "no tests for ray-observability, it is a convenience bundle"
 
+  - name: ray-adag
+    build:
+      skip: true  # [osx]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-default', exact=True) }}
+        - cupy
+    test:
+      commands:
+        - echo "no tests for ray-adag, it is a convenience bundle"
+
 
 about:
   home: https://github.com/ray-project/ray
@@ -323,7 +338,7 @@ about:
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
     ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
-    ray-train, ray-air, ray-observability and ray-all packages.
+    ray-train, ray-air, ray-observability, ray-adag and ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
 
