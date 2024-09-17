@@ -209,7 +209,8 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==0.28.1
+        - gymnasium ==0.28.1  # [py<312]
+        - gymnasium ==0.29.1  # [py>=312]
         - lz4
         - pyyaml
         - scikit-image
