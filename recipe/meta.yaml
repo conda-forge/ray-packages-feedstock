@@ -1,4 +1,4 @@
-{% set version = "2.36.0" %}
+{% set version = "2.36.1" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 7413b6974ebfaf2170a648e91c2d1731ac980663fcafe9c1aceb227062c10cea
+  sha256: 84313cc1cef65614f3ad67fea8deab55998a5534db7bceadb649efdc0739bad3
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -19,7 +19,7 @@ source:
     - patches/0005-Vendor-grpc-1.62.2.patch
 
 build:
-  number: 1
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
