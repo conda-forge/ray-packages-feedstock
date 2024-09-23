@@ -19,8 +19,7 @@ source:
     - patches/0005-Vendor-grpc-1.62.2.patch
 
 build:
-  number: 0
-  skip: true  # [py in (312, 38)]
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -58,7 +57,6 @@ outputs:
     build:
       entry_points:
         - ray = ray.scripts.scripts:main
-      skip: true  # [py>311]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -211,7 +209,8 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==0.28.1
+        - gymnasium ==0.28.1  # [py<312]
+        - gymnasium ==0.29.1  # [py>=312]
         - lz4
         - pyyaml
         - scikit-image
