@@ -85,7 +85,7 @@ outputs:
         - setuptools
       run:
         - python
-        - aiohttp >=3.7
+        - aiohttp >=3.7,<3.10.6
         - aiosignal
         - click >=7.0
         - colorama
