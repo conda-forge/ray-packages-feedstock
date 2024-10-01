@@ -1,4 +1,4 @@
-{% set version = "2.36.1" %}
+{% set version = "2.37.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 84313cc1cef65614f3ad67fea8deab55998a5534db7bceadb649efdc0739bad3
+  sha256: dcf92302ba813080003f33cb874912ee950331f2348822a2b615eb46f9baf0f8
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -85,7 +85,7 @@ outputs:
         - setuptools
       run:
         - python
-        - aiohttp >=3.7
+        - aiohttp >=3.7,<3.10.6
         - aiosignal
         - click >=7.0
         - colorama
