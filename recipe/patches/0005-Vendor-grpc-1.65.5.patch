@@ -1,11 +1,13 @@
-From c173f0cd05e1b9a4b585922f02ccc00fd6e3bc9b Mon Sep 17 00:00:00 2001
+From ea8c81ac6fbae3177d33951a1ccb7ba8e5728704 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Wed, 23 Oct 2024 15:01:20 +0000
 Subject: [PATCH] Vendor grpc 1.65.5
 
 ---
- bazel/ray_deps_setup.bzl | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ bazel/ray_deps_setup.bzl                      | 29 ++++++++-----------
+ .../task_event_buffer_export_event_test.cc    |  2 +-
+ src/ray/util/event.cc                         |  2 +-
+ 3 files changed, 14 insertions(+), 19 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 787a4be677..2dda8a4632 100644
@@ -74,6 +76,32 @@ index 787a4be677..2dda8a4632 100644
          ],
      )
  
+diff --git a/src/ray/core_worker/test/task_event_buffer_export_event_test.cc b/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
+index 76e6c5f036..617d129fe0 100644
+--- a/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
++++ b/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
+@@ -134,7 +134,7 @@ TEST_F(TaskEventTestWriteExport, TestWriteTaskExportEvents) {
+   auto task_ids = GenTaskIDs(num_events);
+   google::protobuf::util::JsonPrintOptions options;
+   options.preserve_proto_field_names = true;
+-  options.always_print_primitive_fields = true;
++  options.always_print_fields_with_no_presence = true;
+ 
+   std::vector<SourceTypeVariant> source_types = {
+       rpc::ExportEvent_SourceType::ExportEvent_SourceType_EXPORT_TASK};
+diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc
+index 078af31536..c978116a2f 100644
+--- a/src/ray/util/event.cc
++++ b/src/ray/util/event.cc
+@@ -131,7 +131,7 @@ std::string LogEventReporter::ExportEventToString(const rpc::ExportEvent &export
+   google::protobuf::util::JsonPrintOptions options;
+   options.preserve_proto_field_names = true;
+   // Required so enum with value 0 is not omitted
+-  options.always_print_primitive_fields = true;
++  options.always_print_fields_with_no_presence = true;
+   if (export_event.has_task_event_data()) {
+     RAY_CHECK(google::protobuf::util::MessageToJsonString(
+                   export_event.task_event_data(), &event_data_as_string, options)
 -- 
 2.43.2
 
