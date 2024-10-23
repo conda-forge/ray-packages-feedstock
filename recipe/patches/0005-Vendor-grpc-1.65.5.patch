@@ -1,4 +1,4 @@
-From ea8c81ac6fbae3177d33951a1ccb7ba8e5728704 Mon Sep 17 00:00:00 2001
+From 2dc554e615a1f9963df2aea5a8d13f0cdf940a69 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Wed, 23 Oct 2024 15:01:20 +0000
 Subject: [PATCH] Vendor grpc 1.65.5
@@ -6,8 +6,12 @@ Subject: [PATCH] Vendor grpc 1.65.5
 ---
  bazel/ray_deps_setup.bzl                      | 29 ++++++++-----------
  .../task_event_buffer_export_event_test.cc    |  2 +-
+ .../gcs_server/test/gcs_actor_manager_test.cc | 14 ++++-----
+ src/ray/object_manager/common.cc              |  1 +
+ src/ray/raylet_client/raylet_client.cc        |  2 +-
+ src/ray/rpc/server_call.h                     |  2 +-
  src/ray/util/event.cc                         |  2 +-
- 3 files changed, 14 insertions(+), 19 deletions(-)
+ 7 files changed, 24 insertions(+), 28 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 787a4be677..2dda8a4632 100644
@@ -89,6 +93,111 @@ index 76e6c5f036..617d129fe0 100644
  
    std::vector<SourceTypeVariant> source_types = {
        rpc::ExportEvent_SourceType::ExportEvent_SourceType_EXPORT_TASK};
+diff --git a/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc b/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
+index 4297a43a9f..2b01e1de8a 100644
+--- a/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
++++ b/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
+@@ -1234,7 +1234,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_actor_id(actor->GetActorID().Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.total(), 1 + num_other_actors);
+@@ -1247,7 +1247,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1259,7 +1259,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_state(rpc::ActorTableData::ALIVE);
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1272,7 +1272,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1283,7 +1283,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors + 1);
+     ASSERT_EQ(reply.actor_table_data().size(), 0);
+@@ -1306,7 +1306,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+   {
+     rpc::GetAllActorInfoRequest request;
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     auto callback = [](Status status,
+                        std::function<void()> success,
+                        std::function<void()> failure) {};
+@@ -1315,7 +1315,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+ 
+     request.set_limit(2);
+     auto &reply_2 =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply_2, callback);
+     ASSERT_EQ(reply_2.actor_table_data().size(), 2);
+     ASSERT_EQ(reply_2.total(), 3);
+diff --git a/src/ray/object_manager/common.cc b/src/ray/object_manager/common.cc
+index c67f18a227..28fbdc1a2a 100644
+--- a/src/ray/object_manager/common.cc
++++ b/src/ray/object_manager/common.cc
+@@ -15,6 +15,7 @@
+ #include "ray/object_manager/common.h"
+ 
+ #include "absl/functional/bind_front.h"
++#include "absl/strings/str_cat.h"
+ #include "absl/strings/str_format.h"
+ 
+ namespace ray {
+diff --git a/src/ray/raylet_client/raylet_client.cc b/src/ray/raylet_client/raylet_client.cc
+index 938f20fab8..d7fdeb1b56 100644
+--- a/src/ray/raylet_client/raylet_client.cc
++++ b/src/ray/raylet_client/raylet_client.cc
+@@ -340,7 +340,7 @@ void raylet::RayletClient::RequestWorkerLease(
+     const bool is_selected_based_on_locality) {
+   google::protobuf::Arena arena;
+   auto request =
+-      google::protobuf::Arena::CreateMessage<rpc::RequestWorkerLeaseRequest>(&arena);
++      google::protobuf::Arena::Create<rpc::RequestWorkerLeaseRequest>(&arena);
+   // The unsafe allocating here is actually safe because the life-cycle of
+   // task_spec is longer than request.
+   // Request will be sent before the end of this call, and after that, it won't be
+diff --git a/src/ray/rpc/server_call.h b/src/ray/rpc/server_call.h
+index 659ee5841d..a806ded3b7 100644
+--- a/src/ray/rpc/server_call.h
++++ b/src/ray/rpc/server_call.h
+@@ -190,7 +190,7 @@ class ServerCallImpl : public ServerCall {
+         cluster_id_(cluster_id),
+         start_time_(0),
+         record_metrics_(record_metrics) {
+-    reply_ = google::protobuf::Arena::CreateMessage<Reply>(&arena_);
++    reply_ = google::protobuf::Arena::Create<Reply>(&arena_);
+     // TODO call_name_ sometimes get corrunpted due to memory issues.
+     RAY_CHECK(!call_name_.empty()) << "Call name is empty";
+     if (record_metrics_) {
 diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc
 index 078af31536..c978116a2f 100644
 --- a/src/ray/util/event.cc

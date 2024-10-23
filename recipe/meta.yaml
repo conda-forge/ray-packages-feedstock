@@ -12,7 +12,7 @@ source:
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0004-remove-dependencies-and-third-party-package-installs.patch
-    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch  # [osx]
+    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch  # [osx and arm64]
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
