@@ -33,7 +33,7 @@ echo ==========================================================
 cd python
 rem This requires patch 0006
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
-echo build --jobs=2 >> ..\.bazelrc
+echo build --jobs=1 >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv
 
 rem remember the return code
