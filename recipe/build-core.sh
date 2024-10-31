@@ -38,6 +38,8 @@ if [[ -e $CONDA_PREFIX/include/crypt.h ]]; then
     cp $CONDA_PREFIX/include/crypt.h $PREFIX/include/python*
 fi
 
+echo CXXFLAGS=$CXXFLAGS
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
 
