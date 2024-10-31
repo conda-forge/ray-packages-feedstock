@@ -24,6 +24,7 @@ jobs:
   variables:
     CONDA_BLD_PATH: D:\\bld\\
     MINIFORGE_HOME: D:\Miniforge
+    SET_PAGEFILE: 'True'
     UPLOAD_TEMP: D:\\tmp
 
   steps:
