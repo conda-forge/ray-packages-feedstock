@@ -8,6 +8,7 @@ if [[ "$target_platform" == osx* ]]; then
   if [[ "$target_platform" == osx-arm64 ]]; then
     export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -Wl,-framework,Foundation"
     source gen-bazel-toolchain
+  fi
   cat >> .bazelrc <<EOF
 build --define CONDA_CC=${CC}
 build --define CONDA_CFLAGS="${CFLAGS}"
@@ -15,10 +16,10 @@ build --define CONDA_AR=${AR}
 build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
-# build --subcommands
 EOF
   if [[ "$target_platform" == osx-arm64 ]]; then
     cat >> .bazelrc <<EOF
+# build --subcommands
 build --crosstool_top=//bazel_toolchain:toolchain
 build --cpu=darwin_arm64
 build --platforms=//bazel_toolchain:target_platform
