@@ -137,6 +137,7 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas >=1.3
         - pyarrow >=6.0.1
+        - pyarrow <18 # [osx and x86_64]
         - fsspec
     test:
       imports:
@@ -208,8 +209,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==0.28.1  # [py<312]
-        - gymnasium ==0.29.1  # [py>=312]
+        - gymnasium ==1.0.0
         - lz4
         - pyyaml
         - scikit-image
