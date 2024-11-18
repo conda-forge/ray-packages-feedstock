@@ -16,7 +16,11 @@ build --define CONDA_AR=${AR}
 build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
-build:macos --host_cxxopt="-stdlib=libc++"
+# https://github.com/bazelbuild/apple_support/?tab=readme-ov-file#bazel-6-setup
+build --enable_platform_specific_config
+build:macos --apple_crosstool_top=@local_config_apple_cc//:toolchain
+build:macos --crosstool_top=@local_config_apple_cc//:toolchain
+build:macos --host_crosstool_top=@local_config_apple_cc//:toolchain
 EOF
   if [[ "$target_platform" == osx-arm64 ]]; then
     cat >> .bazelrc <<EOF
@@ -27,11 +31,11 @@ build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
 EOF
   fi
+echo ------------------------------------
+echo SDKROOT=$SDKROOT
+echo ls $SDKROOT
+echo ------------------------------------
 fi
-
-echo ------------ .bazelrc -------------------
-cat .bazelrc
-echo -----------------------------------------
 
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
