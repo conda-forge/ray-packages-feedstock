@@ -32,10 +32,6 @@ echo ------------ .bazelrc -------------------
 cat .bazelrc
 echo -----------------------------------------
 
-echo ------------ ~/.bazelrc -------------------
-cat ~/.bazelrc
-echo -----------------------------------------
-
 cd python/
 export SKIP_THIRDPARTY_INSTALL=1
 
