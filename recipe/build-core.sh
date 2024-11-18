@@ -34,6 +34,7 @@ EOF
 echo ------------------------------------
 echo SDKROOT=$SDKROOT
 echo ls $SDKROOT
+echo ls -d /Applications/Xcode_15.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/*
 echo ------------------------------------
 fi
 
