@@ -16,6 +16,7 @@ build --define CONDA_AR=${AR}
 build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
+build:macos --host_cxxopt="-stdlib=libc++"
 EOF
   if [[ "$target_platform" == osx-arm64 ]]; then
     cat >> .bazelrc <<EOF
