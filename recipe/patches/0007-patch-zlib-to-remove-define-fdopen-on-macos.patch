@@ -1,0 +1,76 @@
+From eca9e447c0c662078b5a87f4729f3fce61e5992c Mon Sep 17 00:00:00 2001
+From: mattip <matti.picus@gmail.com>
+Date: Mon, 18 Nov 2024 18:11:09 +0200
+Subject: [PATCH] patch zlib to remove 'define fdopen' on macos
+
+---
+ bazel/ray_deps_setup.bzl                  |  1 +
+ thirdparty/patches/grpc-zlib-fdopen.patch | 16 ++++++++++++++++
+ thirdparty/patches/zlib-fdopen.patch      | 20 ++++++++++++++++++++
+ 3 files changed, 37 insertions(+)
+ create mode 100644 thirdparty/patches/grpc-zlib-fdopen.patch
+ create mode 100644 thirdparty/patches/zlib-fdopen.patch
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index dc82ddc174..e047280b70 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -237,6 +237,7 @@ def ray_deps_setup():
+         sha256 = "bdab9cb52e3ee703d6c09d15716bcc10a150b2e9e414182e5b375d32050dba84",
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
++            "@com_github_ray_project_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
+         ],
+     )
+ 
+diff --git a/thirdparty/patches/grpc-zlib-fdopen.patch b/thirdparty/patches/grpc-zlib-fdopen.patch
+new file mode 100644
+index 0000000000..0fd60f7cb9
+--- /dev/null
++++ b/thirdparty/patches/grpc-zlib-fdopen.patch
+@@ -0,0 +1,16 @@
++diff -u bazel/grpc_deps.bzl
++--- bazel/grpc_deps.bzl
+++++ bazel/grpc_deps.bzl
++@@ -53,6 +53,11 @@
++                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
++                 "https://github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
++             ],
+++            patches = [
+++                # this is the third zlib dependency: prometheus-cpp and boost use it as well.
+++                # but since this is last, we patch here
+++                "@com_github_ray_project_ray//thirdparty/patches:zlib-fdopen.patch",
+++            ]
++         )
++ 
++     if "com_google_protobuf" not in native.existing_rules():
++
+diff --git a/thirdparty/patches/zlib-fdopen.patch b/thirdparty/patches/zlib-fdopen.patch
+new file mode 100644
+index 0000000000..f5a3e488e3
+--- /dev/null
++++ b/thirdparty/patches/zlib-fdopen.patch
+@@ -0,0 +1,20 @@
++diff -u zlib/zutil.h zlib/zutil.h 
++--- ./zutil.h
+++++ ./zutil.h
++@@ -139,15 +139,6 @@
++ 
++ #if defined(MACOS) || defined(TARGET_OS_MAC)
++ #  define OS_CODE  7
++-#  ifndef Z_SOLO
++-#    if defined(__MWERKS__) && __dest_os != __be_os && __dest_os != __win32_os
++-#      include <unix.h> /* for fdopen */
++-#    else
++-#      ifndef fdopen
++-#        define fdopen(fd,mode) NULL /* No fdopen() */
++-#      endif
++-#    endif
++-#  endif
++ #endif
++ 
++ #ifdef __acorn
++
+-- 
+2.43.0
+

@@ -17,6 +17,8 @@ source:
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
     - patches/0005-Vendor-grpc-1.65.5.patch
+    # Patch out old zlib-1.3.0 to remove fdopen, part of zlib-1.3.1
+    - patches/0007-patch-zlib-to-remove-define-fdopen-on-macos.patch
 
 build:
   number: 0
