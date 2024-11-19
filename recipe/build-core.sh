@@ -7,11 +7,11 @@ if [[ "$target_platform" == osx* ]]; then
   # of /usr/include to ${SDKROOT}/MacOSX.sdk/usr/include
   if [[ "$target_platform" == osx-arm64 ]]; then
     export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -Wl,-framework,Foundation"
-    # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
-    # delete the line from the template and the CXXFLAGS
-    export CXXFLAGS=${CXXFLAGS/-stdlib=libc++ /}
-    sed -e"/stdlib=libc/d" -i'' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   fi
+  # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
+  # delete the line from the template and the CXXFLAGS
+  export CXXFLAGS=${CXXFLAGS/-stdlib=libc++ /}
+  sed -e"/stdlib=libc/d" -i'' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   source gen-bazel-toolchain
   cat >> .bazelrc <<EOF
 build --define CONDA_CC=${CC}
