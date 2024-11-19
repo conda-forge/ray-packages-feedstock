@@ -26,9 +26,7 @@ echo ----------
 echo %CONDA_PREFIX%
 python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
 echo ----------
-echo CXX_FLAGS
-echo %CXX_FLAGS%
-echo ----------
+echo "build --cxxopt="/utf-8" >> .bazelrc
 
 echo ==========================================================
 echo calling pip to install
