@@ -11,7 +11,7 @@ if [[ "$target_platform" == osx* ]]; then
   # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
   # delete the line from the template and the CXXFLAGS
   export CXXFLAGS=${CXXFLAGS/-stdlib=libc++ /}
-  sed -i"''" -e"'/stdlib=libc/d'" $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
+  sed -i"''" -e'/stdlib=libc/d' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   source gen-bazel-toolchain
   cat >> .bazelrc <<EOF
 build --define CONDA_CC=${CC}
