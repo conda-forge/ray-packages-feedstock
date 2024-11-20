@@ -1,12 +1,12 @@
-From 097039478c3a86c17d21352b6872c1578a02c365 Mon Sep 17 00:00:00 2001
+From 4adeab9836dfaa2acfb7a8790d47bc644772c88a Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
-Date: Wed, 20 Nov 2024 14:34:29 +0200
-Subject: [PATCH] patch bundled fmt in spdlog for invalid char8_type
+Date: Wed, 20 Nov 2024 21:08:49 +0200
+Subject: [PATCH] patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 ---
  bazel/ray_deps_setup.bzl                      |  3 ++
- .../patches/spdlog-fmt-no-char8_type.patch    | 34 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ .../patches/spdlog-fmt-no-char8_type.patch    | 41 +++++++++++++++++++
+ 2 files changed, 44 insertions(+)
  create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
@@ -25,11 +25,11 @@ index 86d3db4b2b..0e597e4126 100644
      auto_http_archive(
 diff --git a/thirdparty/patches/spdlog-fmt-no-char8_type.patch b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
 new file mode 100644
-index 0000000000..e2e8fefb4c
+index 0000000000..b95a008ea4
 --- /dev/null
 +++ b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
-@@ -0,0 +1,34 @@
-+diff -u com_github_spdlog/include/spdlog/fmt/bundled/format.h
+@@ -0,0 +1,41 @@
++diff -u
 +--- include/spdlog/fmt/bundled/format.h
 ++++ include/spdlog/fmt/bundled/format.h
 +@@ -571,12 +571,6 @@
@@ -45,24 +45,31 @@ index 0000000000..e2e8fefb4c
 + template <typename OutChar, typename InputIt, typename OutputIt>
 + FMT_CONSTEXPR FMT_NOINLINE auto copy_str_noinline(InputIt begin, InputIt end,
 +                                                   OutputIt out) -> OutputIt {
-+@@ -710,7 +704,7 @@
++@@ -710,11 +704,6 @@
 +   return num_code_points;
 + }
 + 
 +-inline auto compute_width(basic_string_view<char8_type> s) -> size_t {
-++inline auto compute_width(basic_string_view<char8_t> s) -> size_t {
-+   return compute_width(
-+       string_view(reinterpret_cast<const char*>(s.data()), s.size()));
-+ }
-+@@ -731,7 +725,7 @@
++-  return compute_width(
++-      string_view(reinterpret_cast<const char*>(s.data()), s.size()));
++-}
++-
++ template <typename Char>
++ inline auto code_point_index(basic_string_view<Char> s, size_t n) -> size_t {
++   size_t size = s.size();
++@@ -731,12 +720,6 @@
 +   return s.size();
 + }
 + 
 +-inline auto code_point_index(basic_string_view<char8_type> s, size_t n)
-++inline auto code_point_index(basic_string_view<char8_t> s, size_t n)
-+     -> size_t {
-+   return code_point_index(
-+       string_view(reinterpret_cast<const char*>(s.data()), s.size()), n);
++-    -> size_t {
++-  return code_point_index(
++-      string_view(reinterpret_cast<const char*>(s.data()), s.size()), n);
++-}
++-
++ #ifndef FMT_USE_FLOAT128
++ #  ifdef __SIZEOF_FLOAT128__
++ #    define FMT_USE_FLOAT128 1
 -- 
 2.43.0
 
