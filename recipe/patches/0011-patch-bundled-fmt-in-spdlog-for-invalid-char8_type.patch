@@ -1,0 +1,68 @@
+From 097039478c3a86c17d21352b6872c1578a02c365 Mon Sep 17 00:00:00 2001
+From: mattip <matti.picus@gmail.com>
+Date: Wed, 20 Nov 2024 14:34:29 +0200
+Subject: [PATCH] patch bundled fmt in spdlog for invalid char8_type
+
+---
+ bazel/ray_deps_setup.bzl                      |  3 ++
+ .../patches/spdlog-fmt-no-char8_type.patch    | 34 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 86d3db4b2b..0e597e4126 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -130,6 +130,9 @@ def ray_deps_setup():
+         build_file = "@com_github_ray_project_ray//bazel:BUILD.spdlog",
+         urls = ["https://github.com/gabime/spdlog/archive/v1.12.0.zip"],
+         sha256 = "6174bf8885287422a6c6a0312eb8a30e8d22bcfcee7c48a6d02d1835d7769232",
++        patches = [
++            "@com_github_ray_project_ray//thirdparty/patches:spdlog-fmt-no-char8_type.patch",
++        ],
+     )
+ 
+     auto_http_archive(
+diff --git a/thirdparty/patches/spdlog-fmt-no-char8_type.patch b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
+new file mode 100644
+index 0000000000..e2e8fefb4c
+--- /dev/null
++++ b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
+@@ -0,0 +1,34 @@
++diff -u com_github_spdlog/include/spdlog/fmt/bundled/format.h
++--- include/spdlog/fmt/bundled/format.h
+++++ include/spdlog/fmt/bundled/format.h
++@@ -571,12 +571,6 @@
++   return out + count;
++ }
++ 
++-#ifdef __cpp_char8_t
++-using char8_type = char8_t;
++-#else
++-enum char8_type : unsigned char {};
++-#endif
++-
++ template <typename OutChar, typename InputIt, typename OutputIt>
++ FMT_CONSTEXPR FMT_NOINLINE auto copy_str_noinline(InputIt begin, InputIt end,
++                                                   OutputIt out) -> OutputIt {
++@@ -710,7 +704,7 @@
++   return num_code_points;
++ }
++ 
++-inline auto compute_width(basic_string_view<char8_type> s) -> size_t {
+++inline auto compute_width(basic_string_view<char8_t> s) -> size_t {
++   return compute_width(
++       string_view(reinterpret_cast<const char*>(s.data()), s.size()));
++ }
++@@ -731,7 +725,7 @@
++   return s.size();
++ }
++ 
++-inline auto code_point_index(basic_string_view<char8_type> s, size_t n)
+++inline auto code_point_index(basic_string_view<char8_t> s, size_t n)
++     -> size_t {
++   return code_point_index(
++       string_view(reinterpret_cast<const char*>(s.data()), s.size()), n);
+-- 
+2.43.0
+
