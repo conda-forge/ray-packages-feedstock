@@ -26,13 +26,13 @@ echo ----------
 echo %CONDA_PREFIX%
 python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
 echo ----------
-echo "build --cxxopt="/utf-8" >> .bazelrc
 
 echo ==========================================================
 echo calling pip to install
 echo ==========================================================
 cd python
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
+echo build --jobs=1 >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv
 
 rem remember the return code
