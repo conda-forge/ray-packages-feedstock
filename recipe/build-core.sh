@@ -25,6 +25,7 @@ build --crosstool_top=//bazel_toolchain:toolchain
 build --cpu=${TARGET_CPU}
 build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
+build --experimental_ui_max_stdouterr_bytes=16000000
 EOF
 fi
 
