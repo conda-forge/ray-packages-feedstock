@@ -7,6 +7,8 @@ if [[ "$target_platform" == osx* ]]; then
   # of /usr/include to ${SDKROOT}/MacOSX.sdk/usr/include
   if [[ "$target_platform" == osx-arm64 ]]; then
     export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -Wl,-framework,Foundation"
+  else
+    export LDFLAGS="$LDFLAGS -undefined dynamic_lookup"
   fi
   # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
   # delete the line from the template and the CXXFLAGS
