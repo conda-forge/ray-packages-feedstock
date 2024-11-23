@@ -31,7 +31,6 @@ echo ==========================================================
 echo calling pip to install
 echo ==========================================================
 cd python
-rem This requires patch 0006
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
 echo build --jobs=1 >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv
