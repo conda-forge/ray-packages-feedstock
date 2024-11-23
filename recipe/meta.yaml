@@ -145,7 +145,6 @@ outputs:
         - {{ pin_subpackage('ray-core', exact=True) }}
         - pandas >=1.3
         - pyarrow >=6.0.1
-        - pyarrow <18  # [osx and x86_64]
         - fsspec
     test:
       imports:
