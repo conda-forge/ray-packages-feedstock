@@ -180,7 +180,7 @@ outputs:
         - requests
         - smart_open
         - typing-extensions
-        - virtualenv >=20.0.24,!20.21.1
+        - virtualenv >=20.0.24,!=20.21.1
 
     test:
       imports:
