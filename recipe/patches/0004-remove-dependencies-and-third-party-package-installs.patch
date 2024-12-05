@@ -1,14 +1,14 @@
-From 1404374778904dc0deac479d271975111a56512c Mon Sep 17 00:00:00 2001
+From d4b06501f63a4408390ec028457db53b8e4720e5 Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
-Date: Thu, 14 Nov 2024 09:20:48 +0200
-Subject: [PATCH] remove dependencies and third-party package installs
+Date: Thu, 5 Dec 2024 10:48:37 +0200
+Subject: [PATCH] remove dependencies and third party package installs
 
 ---
  python/setup.py | 165 ++++++++----------------------------------------
  1 file changed, 27 insertions(+), 138 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 2e6958d021..71bc91780d 100644
+index 16017fa544..71bc91780d 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -225,123 +225,23 @@ ray_files += [
@@ -18,7 +18,7 @@ index 2e6958d021..71bc91780d 100644
 -    pandas_dep = "pandas >= 1.3"
 -    numpy_dep = "numpy >= 1.20"
 -    pyarrow_deps = [
--        "pyarrow >= 6.0.1",
+-        "pyarrow >= 9.0.0",
 -        "pyarrow <18; sys_platform == 'darwin' and platform_machine == 'x86_64'",
 -    ]
      setup_spec.extras = {
