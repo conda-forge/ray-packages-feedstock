@@ -1,14 +1,14 @@
-From 1165d8f367dbce45ef39f5f43d246fa9937a1053 Mon Sep 17 00:00:00 2001
+From db16dd7d8151223cbaaf8b283560503201356094 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 3 Dec 2021 10:59:10 -0800
-Subject: [PATCH 3/7] Ignore warnings in event.cc and logging.cc
+Subject: [PATCH 03/10] Ignore warnings in event.cc and logging.cc
 
 ---
  .bazelrc | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/.bazelrc b/.bazelrc
-index c9ba801319..f5bd8997de 100644
+index 85aa606165..7a6b2df1fc 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -49,6 +49,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
@@ -22,5 +22,5 @@ index c9ba801319..f5bd8997de 100644
  build:macos --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration"
  # Ignore warnings for host tools, which we generally can't control.
 -- 
-2.34.1
+2.43.0
 

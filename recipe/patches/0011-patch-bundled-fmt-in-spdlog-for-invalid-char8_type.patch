@@ -1,7 +1,8 @@
-From 4adeab9836dfaa2acfb7a8790d47bc644772c88a Mon Sep 17 00:00:00 2001
+From de49e75cc0b51a409dee8baf2d116634e7a95558 Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Wed, 20 Nov 2024 21:08:49 +0200
-Subject: [PATCH] patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+Subject: [PATCH 10/10] 
+ patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 ---
  bazel/ray_deps_setup.bzl                      |  3 ++
@@ -10,7 +11,7 @@ Subject: [PATCH] patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
  create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 86d3db4b2b..0e597e4126 100644
+index 808bdfa5d5..f9d8316ea2 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -130,6 +130,9 @@ def ray_deps_setup():
