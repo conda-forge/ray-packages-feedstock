@@ -1,7 +1,7 @@
-From eca9e447c0c662078b5a87f4729f3fce61e5992c Mon Sep 17 00:00:00 2001
+From 2587902339d1b23c2ccdd25474f87c4c6ce42722 Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Mon, 18 Nov 2024 18:11:09 +0200
-Subject: [PATCH] patch zlib to remove 'define fdopen' on macos
+Subject: [PATCH 07/10] patch zlib to remove 'define fdopen' on macos
 
 ---
  bazel/ray_deps_setup.bzl                  |  1 +
@@ -12,10 +12,10 @@ Subject: [PATCH] patch zlib to remove 'define fdopen' on macos
  create mode 100644 thirdparty/patches/zlib-fdopen.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index dc82ddc174..e047280b70 100644
+index a1f4232100..d2631c23a3 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -237,6 +237,7 @@ def ray_deps_setup():
+@@ -239,6 +239,7 @@ def ray_deps_setup():
          sha256 = "bdab9cb52e3ee703d6c09d15716bcc10a150b2e9e414182e5b375d32050dba84",
          patches = [
              "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",

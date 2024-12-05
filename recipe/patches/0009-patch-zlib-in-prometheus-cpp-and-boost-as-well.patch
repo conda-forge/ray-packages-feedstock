@@ -1,7 +1,7 @@
-From 02a12f2f62c3dc5c96bf8ccef315118898cf67a6 Mon Sep 17 00:00:00 2001
+From 347d071061b17da5d920aa2064fab11c140df1fc Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Tue, 19 Nov 2024 07:53:26 +0200
-Subject: [PATCH] patch zlib in prometheus-cpp and boost as well
+Subject: [PATCH 09/10] patch zlib in prometheus-cpp and boost as well
 
 ---
  bazel/ray_deps_setup.bzl                        |  4 ++++
@@ -12,7 +12,7 @@ Subject: [PATCH] patch zlib in prometheus-cpp and boost as well
  create mode 100644 thirdparty/patches/prometheus-zlib.fdopen.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index d5126d7238..86d3db4b2b 100644
+index 8dbcef6867..808bdfa5d5 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -166,6 +166,9 @@ def ray_deps_setup():
@@ -25,7 +25,7 @@ index d5126d7238..86d3db4b2b 100644
      )
  
      auto_http_archive(
-@@ -231,6 +234,7 @@ def ray_deps_setup():
+@@ -233,6 +236,7 @@ def ray_deps_setup():
              # https://github.com/jupp0r/prometheus-cpp/pull/225
              "@com_github_ray_project_ray//thirdparty/patches:prometheus-windows-zlib.patch",
              "@com_github_ray_project_ray//thirdparty/patches:prometheus-windows-pollfd.patch",
