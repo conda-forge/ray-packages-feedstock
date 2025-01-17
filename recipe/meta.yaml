@@ -1,4 +1,4 @@
-{% set version = "2.40.0" %}
+{% set version = "2.41.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 49aee8ee447ba0fc1740483ee7dedfbadba800a458a79e71630ff60df0b75ef4
+  sha256: 6618b48042047d16549a70d563ba093c8d25a5b9f3f0196e192a5add6e297a5a
   patches:
     - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
@@ -27,7 +27,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 1
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
