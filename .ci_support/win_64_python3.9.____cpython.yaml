@@ -11,7 +11,7 @@ curl:
 cxx_compiler:
 - vs2019
 libgrpc:
-- '1.67'
+- '1.65'
 nodejs:
 - '20'
 - '22'
