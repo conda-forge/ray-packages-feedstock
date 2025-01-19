@@ -1,14 +1,14 @@
-From db16dd7d8151223cbaaf8b283560503201356094 Mon Sep 17 00:00:00 2001
-From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
-Date: Fri, 3 Dec 2021 10:59:10 -0800
-Subject: [PATCH 03/10] Ignore warnings in event.cc and logging.cc
+From fbc686592a155fcb8dba463497b61ad24207eea3 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Sun, 19 Jan 2025 22:56:08 +1100
+Subject: [PATCH] Ignore warnings in event.cc and logging.cc
 
 ---
  .bazelrc | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/.bazelrc b/.bazelrc
-index 85aa606165..7a6b2df1fc 100644
+index 68964ff59a..4e286d275c 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -49,6 +49,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
@@ -18,9 +18,9 @@ index 85aa606165..7a6b2df1fc 100644
 +# Ignore one specific warning
 +build --per_file_copt="event\\.cc$@-w"
 +build --per_file_copt="logging\\.cc$@-w"
- build:linux --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration"
- build:macos --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration"
+ build:linux --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration,-Wno-error=unused-function"
+ build:macos --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration,-Wno-error=unused-function"
  # Ignore warnings for host tools, which we generally can't control.
 -- 
-2.43.0
+2.39.5 (Apple Git-154)
 
