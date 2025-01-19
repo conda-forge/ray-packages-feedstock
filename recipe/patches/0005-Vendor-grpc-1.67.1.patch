@@ -71,7 +71,7 @@ index 02fddb01da..3df2bd8b31 100644
          # provides a deterministic archive hash for caching. Explanation here:
 -        # https://github.com/grpc/grpc/blob/1ff1feaa83e071d87c07827b0a317ffac673794f/bazel/grpc_deps.bzl#L189
          # Ensure this rule matches the rule used by grpc's bazel/grpc_deps.bzl
-++        # https://github.com/grpc/grpc/blob/v1.67.1/bazel/grpc_deps.bzl#L33
++        # https://github.com/grpc/grpc/blob/v1.67.1/bazel/grpc_deps.bzl#L33
          name = "boringssl",
 -        sha256 = "0675a4f86ce5e959703425d6f9063eaadf6b61b7f3399e77a154c0e85bad46b1",
 -        strip_prefix = "boringssl-342e805bc1f5dfdd650e3f031686d6c939b095d9",
