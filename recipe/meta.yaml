@@ -211,8 +211,6 @@ outputs:
 
   - name: ray-rllib
     build:
-      entry_points:
-        - rllib = ray.rllib.scripts:cli
     requirements:
       host:
         - python
@@ -230,10 +228,6 @@ outputs:
     test:
       imports:
         - ray.rllib
-      commands:
-        # some interaction with rich and the test runner in azure
-        # xref https://github.com/Textualize/rich/issues/2411 ?
-        - python -c "import subprocess, os; os.environ['PYTHONIOENCODING']='utf-8'; subprocess.run(['rllib', '--help'], capture_output=True, check=True)"
 
   - name: ray-serve
     build:
