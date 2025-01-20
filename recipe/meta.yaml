@@ -210,7 +210,6 @@ outputs:
         - ray stop
 
   - name: ray-rllib
-    build:
     requirements:
       host:
         - python
