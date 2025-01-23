@@ -176,10 +176,10 @@ outputs:
         - async-timeout
         - colorful
         - grpcio
-        - memray  # [not win]
         - opencensus
         - prometheus_client >=0.7.1
-        - py-spy >=0.2.0
+        - py-spy >=0.2.0  # py<312
+        - py-spy >=0.4.0  # py>=312
         - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
@@ -220,10 +220,8 @@ outputs:
         - gymnasium ==1.0.0
         - lz4
         - pyyaml
-        - scikit-image
+        - ormsgpack==1.7.0
         - scipy
-        - typer
-        - rich
     test:
       imports:
         - ray.rllib
@@ -288,6 +286,7 @@ outputs:
         - opentelemetry-api
         - opentelemetry-sdk
         - opentelemetry-exporter-otlp
+        - memray  # [not win]
     test:
       commands:
         - echo "no tests for ray-observability, it is a convenience bundle"
