@@ -1,5 +1,6 @@
 From fbc686592a155fcb8dba463497b61ad24207eea3 Mon Sep 17 00:00:00 2001
-From: Matti Picus <matti.picus@gmail.com>
+From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Co-Authored-By: Matti Picus <matti.picus@gmail.com>
 Date: Sun, 19 Jan 2025 22:56:08 +1100
 Subject: [PATCH] Ignore warnings in event.cc and logging.cc
 

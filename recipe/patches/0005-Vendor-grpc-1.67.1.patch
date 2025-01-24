@@ -1,5 +1,6 @@
 From 1aa579c496e6a9c294471ef4ef8647c9b638a14e Mon Sep 17 00:00:00 2001
-From: Matti Picus <matti.picus@gmail.com>
+From: Austin Morton <austin.morton@aquatic.com>
+Co-Authored-By: Matti Picus <matti.picus@gmail.com>
 Date: Sun, 19 Jan 2025 22:15:00 +1100
 Subject: [PATCH] Vendor frpc-1.67.1.patch
 
