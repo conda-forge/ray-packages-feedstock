@@ -1,17 +1,17 @@
-From 7e4051d6d14fd05329a64c607e402dccf535e459 Mon Sep 17 00:00:00 2001
-From: mattip <matti.picus@gmail.com>
-Date: Thu, 5 Dec 2024 10:48:37 +0200
-Subject: [PATCH 04/10] remove dependencies and third party package installs
+From dd1afd41b3d7945e2daeb25bce9bc780ebce00c8 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Sun, 19 Jan 2025 21:34:44 +1100
+Subject: [PATCH] remove dependencies and third-party package installs
 
 ---
- python/setup.py | 165 ++++++++----------------------------------------
- 1 file changed, 27 insertions(+), 138 deletions(-)
+ python/setup.py | 167 ++++++++----------------------------------------
+ 1 file changed, 27 insertions(+), 140 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index eb7a9fa52a..4a9058bdac 100644
+index c00c10942c..5ec49a4ecb 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,123 +225,23 @@ ray_files += [
+@@ -225,125 +225,23 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -22,15 +22,14 @@ index eb7a9fa52a..4a9058bdac 100644
 -        "pyarrow <18; sys_platform == 'darwin' and platform_machine == 'x86_64'",
 -    ]
      setup_spec.extras = {
--        "adag": [
+-        "cgraph": [
 -            "cupy-cuda12x; sys_platform != 'darwin'",
 -        ],
 -        "client": [
 -            # The Ray client needs a specific range of gRPC to work:
 -            # Tracking issues: https://github.com/grpc/grpc/issues/33714
--            "grpcio != 1.56.0"
--            if sys.platform == "darwin"
--            else "grpcio",
+-            "grpcio != 1.56.0; sys_platform == 'darwin'",
+-            "grpcio",
 -        ],
 -        "data": [
 -            numpy_dep,
@@ -44,7 +43,8 @@ index eb7a9fa52a..4a9058bdac 100644
 -            "aiohttp >= 3.7",
 -            "aiohttp_cors",
 -            "colorful",
--            "py-spy >= 0.2.0",
+-            "py-spy >= 0.2.0; python_version < '3.12'",  # noqa:E501
+-            "py-spy >= 0.4.0; python_version >= '3.12'",  # noqa:E501
 -            "requests",
 -            "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
 -            "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
@@ -53,12 +53,12 @@ index eb7a9fa52a..4a9058bdac 100644
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
 -            "virtualenv >=20.0.24, !=20.21.1",  # For pip runtime env.
--            "memray; sys_platform != 'win32'",
 -        ],
 -        "observability": [
 -            "opentelemetry-api",
 -            "opentelemetry-sdk",
 -            "opentelemetry-exporter-otlp",
+-            "memray; sys_platform != 'win32'",
 -        ],
 -        "serve": [
 -            "uvicorn[standard]",
@@ -74,7 +74,7 @@ index eb7a9fa52a..4a9058bdac 100644
 -            *pyarrow_deps,
 -            "fsspec",
 -        ],
-+        "adag": [],
++        "cgraph": [],
 +        "air": [],
 +        "client": [],
 +        "data": [],
@@ -87,6 +87,10 @@ index eb7a9fa52a..4a9058bdac 100644
 +        "train": [],
      }
  
+-    # Both "adag" and "cgraph" are for Compiled Graphs.
+-    # "adag" is deprecated and will be removed in the future.
+-    setup_spec.extras["adag"] = list(setup_spec.extras["cgraph"])
+-
 -    # Ray Serve depends on the Ray dashboard components.
 -    setup_spec.extras["serve"] = list(
 -        set(setup_spec.extras["serve"] + setup_spec.extras["default"])
@@ -111,11 +115,9 @@ index eb7a9fa52a..4a9058bdac 100644
 -        "dm_tree",
 -        "gymnasium==1.0.0",
 -        "lz4",
--        "scikit-image",
+-        "ormsgpack==1.7.0",
 -        "pyyaml",
 -        "scipy",
--        "typer",
--        "rich",
 -    ]
 -
 -    setup_spec.extras["train"] = setup_spec.extras["tune"]
@@ -147,7 +149,7 @@ index eb7a9fa52a..4a9058bdac 100644
  
  # These are the main dependencies for users of ray. This list
  # should be carefully curated. If you change it, please reflect
-@@ -351,18 +251,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -353,18 +251,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -167,7 +169,7 @@ index eb7a9fa52a..4a9058bdac 100644
  
  
  def is_native_windows_or_msys():
-@@ -552,19 +441,19 @@ def build(build_python, build_java, build_cpp):
+@@ -554,19 +441,19 @@ def build(build_python, build_java, build_cpp):
              env=dict(os.environ, CC="gcc"),
          )
  
@@ -200,7 +202,7 @@ index eb7a9fa52a..4a9058bdac 100644
  
      bazel_flags = ["--verbose_failures"]
      if BAZEL_ARGS:
-@@ -807,7 +696,7 @@ setuptools.setup(
+@@ -789,7 +676,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
@@ -210,5 +212,5 @@ index eb7a9fa52a..4a9058bdac 100644
      entry_points={
          "console_scripts": [
 -- 
-2.43.0
+2.39.5 (Apple Git-154)
 

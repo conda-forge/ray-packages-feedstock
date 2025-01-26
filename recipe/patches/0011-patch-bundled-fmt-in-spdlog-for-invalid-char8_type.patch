@@ -1,38 +1,35 @@
-From de49e75cc0b51a409dee8baf2d116634e7a95558 Mon Sep 17 00:00:00 2001
-From: mattip <matti.picus@gmail.com>
-Date: Wed, 20 Nov 2024 21:08:49 +0200
-Subject: [PATCH 10/10] 
- patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+From 692e9e8cdb1b5d2e26192259301a578a15a41231 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Sun, 19 Jan 2025 23:17:01 +1100
+Subject: [PATCH] patch bundled fmt in spdlog for invalid char8_type
 
 ---
- bazel/ray_deps_setup.bzl                      |  3 ++
+ bazel/ray_deps_setup.bzl                      | 38 +++++++++--------
  .../patches/spdlog-fmt-no-char8_type.patch    | 41 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ 2 files changed, 62 insertions(+), 17 deletions(-)
  create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 808bdfa5d5..f9d8316ea2 100644
+index 02fddb01da..282a268ff0 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -130,6 +130,9 @@ def ray_deps_setup():
-         build_file = "@com_github_ray_project_ray//bazel:BUILD.spdlog",
-         urls = ["https://github.com/gabime/spdlog/archive/v1.12.0.zip"],
-         sha256 = "6174bf8885287422a6c6a0312eb8a30e8d22bcfcee7c48a6d02d1835d7769232",
-+        patches = [
+@@ -132,6 +132,7 @@ def ray_deps_setup():
+         # spdlog rotation filename format conflict with ray, update the format.
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:spdlog-rotation-file-format.patch",
 +            "@com_github_ray_project_ray//thirdparty/patches:spdlog-fmt-no-char8_type.patch",
-+        ],
+         ],
+         patch_args = ["-p1"],
      )
- 
-     auto_http_archive(
 diff --git a/thirdparty/patches/spdlog-fmt-no-char8_type.patch b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
 new file mode 100644
-index 0000000000..b95a008ea4
+index 0000000000..fdcbba413d
 --- /dev/null
 +++ b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
 @@ -0,0 +1,41 @@
 +diff -u
-+--- include/spdlog/fmt/bundled/format.h
-++++ include/spdlog/fmt/bundled/format.h
++--- a/include/spdlog/fmt/bundled/format.h
+++++ b/include/spdlog/fmt/bundled/format.h
 +@@ -571,12 +571,6 @@
 +   return out + count;
 + }
@@ -72,5 +69,5 @@ index 0000000000..b95a008ea4
 + #  ifdef __SIZEOF_FLOAT128__
 + #    define FMT_USE_FLOAT128 1
 -- 
-2.43.0
+2.39.5 (Apple Git-154)
 
