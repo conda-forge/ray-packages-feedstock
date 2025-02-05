@@ -219,8 +219,8 @@ outputs:
         - dm-tree
         - gymnasium ==1.0.0
         - lz4
-        - pyyaml
         - ormsgpack==1.7.0
+        - pyyaml
         - scipy
     test:
       imports:
@@ -242,6 +242,7 @@ outputs:
         - starlette
         - uvicorn
         - watchfiles
+        - pyOpenSSL
     test:
       imports:
         - ray.serve

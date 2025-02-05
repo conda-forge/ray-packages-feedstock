@@ -1,12 +1,11 @@
-From 3ad7021f052e53cab2b6b01f6c6d08b86a5bbe76 Mon Sep 17 00:00:00 2001
+From 4b17ca84d962ce4aeae8302b4c6808384a66ed9e Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
-Co-Authored-By: Matti Picus <matti.picus@gmail.com>
 Date: Thu, 5 Dec 2024 11:18:25 +0200
-Subject: [PATCH 01/10] patch redis for ar ranlib
+Subject: [PATCH 01/11] patch redis for ar ranlib
 
 ---
- bazel/BUILD.redis        | 8 +++++++-
- bazel/ray_deps_setup.bzl | 1 +
+ bazel/BUILD.redis                        |  8 ++-
+ bazel/ray_deps_setup.bzl                 |  1 +
  thirdparty/patches/redis-ar-ranlib.patch | 70 ++++++++++++++++++++++++
  3 files changed, 78 insertions(+), 1 deletion(-)
  create mode 100644 thirdparty/patches/redis-ar-ranlib.patch
@@ -36,10 +35,10 @@ index 68e06a75f6..1a8c99d1ff 100644
          chmod +x $(location redis-server)
          mv "$${tmpdir}"/src/redis-cli $(location redis-cli)
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 56c86bdf95..d7703a3f70 100644
+index 02fddb01da..04acf73beb 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -111,6 +111,7 @@ def ray_deps_setup():
+@@ -112,6 +112,7 @@ def ray_deps_setup():
          sha256 = "afd656dbc18a886f9a1cc08a550bf5eb89de0d431e713eba3ae243391fb008a6",
          patches = [
              "@com_github_ray_project_ray//thirdparty/patches:redis-quiet.patch",
@@ -123,6 +122,3 @@ index 0000000000..72a4097cd3
 + 
 + .PHONY: persist-settings
 +
--- 
-2.43.0
-

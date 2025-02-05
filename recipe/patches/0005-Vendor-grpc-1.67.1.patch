@@ -1,8 +1,7 @@
-From 1aa579c496e6a9c294471ef4ef8647c9b638a14e Mon Sep 17 00:00:00 2001
+From 5a734425222fd2c132601981bd6a4689e81a7154 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
-Co-Authored-By: Matti Picus <matti.picus@gmail.com>
 Date: Sun, 19 Jan 2025 22:15:00 +1100
-Subject: [PATCH] Vendor frpc-1.67.1.patch
+Subject: [PATCH 05/11] Vendor grpc-1.67.1.patch
 
 ---
  bazel/ray_deps_setup.bzl                      | 31 +++++++------------
@@ -14,7 +13,7 @@ Subject: [PATCH] Vendor frpc-1.67.1.patch
  6 files changed, 23 insertions(+), 30 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 02fddb01da..3df2bd8b31 100644
+index 04acf73beb..55805bc0f6 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -86,20 +86,13 @@ def auto_http_archive(
@@ -41,7 +40,7 @@ index 02fddb01da..3df2bd8b31 100644
      )
  
      # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
-@@ -222,10 +215,10 @@ def ray_deps_setup():
+@@ -223,10 +216,10 @@ def ray_deps_setup():
      # TODO(owner): Upgrade abseil to latest version after protobuf updated, which requires to upgrade `rules_cc` first.
      auto_http_archive(
          name = "com_google_absl",
@@ -55,7 +54,7 @@ index 02fddb01da..3df2bd8b31 100644
          ],
      )
  
-@@ -245,8 +238,8 @@ def ray_deps_setup():
+@@ -246,8 +239,8 @@ def ray_deps_setup():
      auto_http_archive(
          name = "com_github_grpc_grpc",
          # NOTE: If you update this, also update @boringssl's hash.
@@ -66,7 +65,7 @@ index 02fddb01da..3df2bd8b31 100644
          patches = [
              "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
          ],
-@@ -288,13 +281,13 @@ def ray_deps_setup():
+@@ -289,13 +282,13 @@ def ray_deps_setup():
      http_archive(
          # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
          # provides a deterministic archive hash for caching. Explanation here:
@@ -191,10 +190,10 @@ index 659ee5841d..a806ded3b7 100644
      RAY_CHECK(!call_name_.empty()) << "Call name is empty";
      if (record_metrics_) {
 diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc
-index e18d4addae..6973282be9 100644
+index 4de0e14ea4..6520d7449e 100644
 --- a/src/ray/util/event.cc
 +++ b/src/ray/util/event.cc
-@@ -133,7 +133,7 @@ std::string LogEventReporter::ExportEventToString(const rpc::ExportEvent &export
+@@ -136,7 +136,7 @@ std::string LogEventReporter::ExportEventToString(const rpc::ExportEvent &export
    google::protobuf::util::JsonPrintOptions options;
    options.preserve_proto_field_names = true;
    // Required so enum with value 0 is not omitted
@@ -203,6 +202,3 @@ index e18d4addae..6973282be9 100644
    if (export_event.has_task_event_data()) {
      RAY_CHECK(google::protobuf::util::MessageToJsonString(
                    export_event.task_event_data(), &event_data_as_string, options)
--- 
-2.39.5 (Apple Git-154)
-

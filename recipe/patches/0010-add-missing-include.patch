@@ -1,24 +1,21 @@
-From ed0f4d79a4e7048d975971036df438954bbe4fe6 Mon Sep 17 00:00:00 2001
+From 19c979742c217c161dd339c815049dcfa9958d56 Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Mon, 20 Jan 2025 09:51:57 +1100
-Subject: [PATCH] add missing include
+Subject: [PATCH 10/11] add missing include
 
 ---
  src/ray/util/pipe_logger.cc | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/src/ray/util/pipe_logger.cc b/src/ray/util/pipe_logger.cc
-index 58c641a3f7..ea5c4ae41c 100644
+index 210e1a04fb..df0b15260e 100644
 --- a/src/ray/util/pipe_logger.cc
 +++ b/src/ray/util/pipe_logger.cc
-@@ -22,6 +22,7 @@
- #include <thread>
+@@ -25,6 +25,7 @@
  
  #include "absl/strings/str_split.h"
-+#include "absl/strings/numbers.h"
- #include "ray/util/util.h"
+ #include "ray/util/thread_utils.h"
++#include "ray/util/util.h"
  #include "spdlog/sinks/basic_file_sink.h"
  #include "spdlog/sinks/rotating_file_sink.h"
--- 
-2.45.0
-
+ #include "spdlog/sinks/stdout_color_sinks.h"
