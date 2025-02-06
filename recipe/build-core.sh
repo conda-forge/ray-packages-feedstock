@@ -32,7 +32,7 @@ EOF
 fi
 
 cd python/
-export SKIP_THIRDPARTY_INSTALL=1
+export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
 "${PYTHON}" setup.py build
 # bazel by default makes everything read-only,

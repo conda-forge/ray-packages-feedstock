@@ -1,16 +1,16 @@
-From 692e9e8cdb1b5d2e26192259301a578a15a41231 Mon Sep 17 00:00:00 2001
+From 280f7275da00e75e122ebed6d3a6e2fc38ba4ec6 Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Sun, 19 Jan 2025 23:17:01 +1100
-Subject: [PATCH] patch bundled fmt in spdlog for invalid char8_type
+Subject: [PATCH 11/11] patch bundled fmt in spdlog for invalid char8_type
 
 ---
- bazel/ray_deps_setup.bzl                      | 38 +++++++++--------
+ bazel/ray_deps_setup.bzl                      |  1 +
  .../patches/spdlog-fmt-no-char8_type.patch    | 41 +++++++++++++++++++
- 2 files changed, 62 insertions(+), 17 deletions(-)
+ 2 files changed, 42 insertions(+)
  create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 02fddb01da..282a268ff0 100644
+index 2e4f7c264c..2004986644 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -132,6 +132,7 @@ def ray_deps_setup():
@@ -68,6 +68,3 @@ index 0000000000..fdcbba413d
 + #ifndef FMT_USE_FLOAT128
 + #  ifdef __SIZEOF_FLOAT128__
 + #    define FMT_USE_FLOAT128 1
--- 
-2.39.5 (Apple Git-154)
-

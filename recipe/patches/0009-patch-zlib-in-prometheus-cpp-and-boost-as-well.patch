@@ -1,7 +1,7 @@
-From 347d071061b17da5d920aa2064fab11c140df1fc Mon Sep 17 00:00:00 2001
+From 3664d2889be568c31bc86a783362d6f8324df31e Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Tue, 19 Nov 2024 07:53:26 +0200
-Subject: [PATCH 09/10] patch zlib in prometheus-cpp and boost as well
+Subject: [PATCH 09/11] patch zlib in prometheus-cpp and boost as well
 
 ---
  bazel/ray_deps_setup.bzl                        |  4 ++++
@@ -12,10 +12,10 @@ Subject: [PATCH 09/10] patch zlib in prometheus-cpp and boost as well
  create mode 100644 thirdparty/patches/prometheus-zlib.fdopen.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 8dbcef6867..808bdfa5d5 100644
+index 4854ebf558..2e4f7c264c 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -166,6 +166,9 @@ def ray_deps_setup():
+@@ -170,6 +170,9 @@ def ray_deps_setup():
          # If you update the Boost version, remember to update the 'boost' rule.
          url = "https://github.com/nelhage/rules_boost/archive/57c99395e15720e287471d79178d36a85b64d6f6.tar.gz",
          sha256 = "490d11425393eed068966a4990ead1ff07c658f823fd982fddac67006ccc44ab",
@@ -25,7 +25,7 @@ index 8dbcef6867..808bdfa5d5 100644
      )
  
      auto_http_archive(
-@@ -233,6 +236,7 @@ def ray_deps_setup():
+@@ -237,6 +240,7 @@ def ray_deps_setup():
              # https://github.com/jupp0r/prometheus-cpp/pull/225
              "@com_github_ray_project_ray//thirdparty/patches:prometheus-windows-zlib.patch",
              "@com_github_ray_project_ray//thirdparty/patches:prometheus-windows-pollfd.patch",
@@ -71,6 +71,3 @@ index 0000000000..b44d26206b
 ++        ]
 +     )
 +
--- 
-2.43.0
-

@@ -1,22 +1,22 @@
-From 2587902339d1b23c2ccdd25474f87c4c6ce42722 Mon Sep 17 00:00:00 2001
-From: mattip <matti.picus@gmail.com>
-Date: Mon, 18 Nov 2024 18:11:09 +0200
-Subject: [PATCH 07/10] patch zlib to remove 'define fdopen' on macos
+From 9461d2884720434bb414859414863c459f0a62b5 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Wed, 5 Feb 2025 22:35:53 +1100
+Subject: [PATCH 07/11] patch zlib to remove 'define fdopen' on macos
 
 ---
  bazel/ray_deps_setup.bzl                  |  1 +
- thirdparty/patches/grpc-zlib-fdopen.patch | 16 ++++++++++++++++
- thirdparty/patches/zlib-fdopen.patch      | 20 ++++++++++++++++++++
- 3 files changed, 37 insertions(+)
+ thirdparty/patches/grpc-zlib-fdopen.patch | 15 +++++++++++++++
+ thirdparty/patches/zlib-fdopen.patch      | 19 +++++++++++++++++++
+ 3 files changed, 35 insertions(+)
  create mode 100644 thirdparty/patches/grpc-zlib-fdopen.patch
  create mode 100644 thirdparty/patches/zlib-fdopen.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index a1f4232100..d2631c23a3 100644
+index 55805bc0f6..79ab6931b1 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -239,6 +239,7 @@ def ray_deps_setup():
-         sha256 = "bdab9cb52e3ee703d6c09d15716bcc10a150b2e9e414182e5b375d32050dba84",
+@@ -243,6 +243,7 @@ def ray_deps_setup():
+         sha256 = "d74f8e99a433982a12d7899f6773e285c9824e1d9a173ea1d1fb26c9bd089299",
          patches = [
              "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
 +            "@com_github_ray_project_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
@@ -25,10 +25,10 @@ index a1f4232100..d2631c23a3 100644
  
 diff --git a/thirdparty/patches/grpc-zlib-fdopen.patch b/thirdparty/patches/grpc-zlib-fdopen.patch
 new file mode 100644
-index 0000000000..0fd60f7cb9
+index 0000000000..7d793bc39d
 --- /dev/null
 +++ b/thirdparty/patches/grpc-zlib-fdopen.patch
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,15 @@
 +diff -u bazel/grpc_deps.bzl
 +--- bazel/grpc_deps.bzl
 ++++ bazel/grpc_deps.bzl
@@ -44,13 +44,12 @@ index 0000000000..0fd60f7cb9
 +         )
 + 
 +     if "com_google_protobuf" not in native.existing_rules():
-+
 diff --git a/thirdparty/patches/zlib-fdopen.patch b/thirdparty/patches/zlib-fdopen.patch
 new file mode 100644
-index 0000000000..f5a3e488e3
+index 0000000000..acc597bc90
 --- /dev/null
 +++ b/thirdparty/patches/zlib-fdopen.patch
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,19 @@
 +diff -u zlib/zutil.h zlib/zutil.h 
 +--- ./zutil.h
 ++++ ./zutil.h
@@ -70,7 +69,3 @@ index 0000000000..f5a3e488e3
 + #endif
 + 
 + #ifdef __acorn
-+
--- 
-2.43.0
-

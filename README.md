@@ -16,7 +16,8 @@ Documentation: https://ray.readthedocs.io/
 Ray is a fast and simple framework for building and running
 distributed applications. It is split into ray-core, ray-default,
 ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
-ray-train, ray-air, ray-observability, ray-adag and ray-all packages.
+ray-train, ray-observability, ray-adag, ray-cgraph and
+ray-all packages.
 
 
 Current build status
@@ -164,6 +165,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--adag-green.svg)](https://anaconda.org/conda-forge/ray-adag) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-adag.svg)](https://anaconda.org/conda-forge/ray-adag) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-adag.svg)](https://anaconda.org/conda-forge/ray-adag) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-adag.svg)](https://anaconda.org/conda-forge/ray-adag) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--air-green.svg)](https://anaconda.org/conda-forge/ray-air) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-air.svg)](https://anaconda.org/conda-forge/ray-air) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-air.svg)](https://anaconda.org/conda-forge/ray-air) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-air.svg)](https://anaconda.org/conda-forge/ray-air) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--all-green.svg)](https://anaconda.org/conda-forge/ray-all) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-all.svg)](https://anaconda.org/conda-forge/ray-all) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-all.svg)](https://anaconda.org/conda-forge/ray-all) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-all.svg)](https://anaconda.org/conda-forge/ray-all) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-ray--cgraph-green.svg)](https://anaconda.org/conda-forge/ray-cgraph) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-cgraph.svg)](https://anaconda.org/conda-forge/ray-cgraph) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-cgraph.svg)](https://anaconda.org/conda-forge/ray-cgraph) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-cgraph.svg)](https://anaconda.org/conda-forge/ray-cgraph) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--client-green.svg)](https://anaconda.org/conda-forge/ray-client) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-client.svg)](https://anaconda.org/conda-forge/ray-client) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-client.svg)](https://anaconda.org/conda-forge/ray-client) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-client.svg)](https://anaconda.org/conda-forge/ray-client) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--core-green.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-core.svg)](https://anaconda.org/conda-forge/ray-core) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-ray--data-green.svg)](https://anaconda.org/conda-forge/ray-data) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/ray-data.svg)](https://anaconda.org/conda-forge/ray-data) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/ray-data.svg)](https://anaconda.org/conda-forge/ray-data) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/ray-data.svg)](https://anaconda.org/conda-forge/ray-data) |
@@ -184,16 +186,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `ray-adag, ray-air, ray-all, ray-client, ray-core, ray-data, ray-default, ray-observability, ray-rllib, ray-serve, ray-train, ray-tune` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `ray-adag, ray-air, ray-all, ray-cgraph, ray-client, ray-core, ray-data, ray-default, ray-observability, ray-rllib, ray-serve, ray-train, ray-tune` can be installed with `conda`:
 
 ```
-conda install ray-adag ray-air ray-all ray-client ray-core ray-data ray-default ray-observability ray-rllib ray-serve ray-train ray-tune
+conda install ray-adag ray-air ray-all ray-cgraph ray-client ray-core ray-data ray-default ray-observability ray-rllib ray-serve ray-train ray-tune
 ```
 
 or with `mamba`:
 
 ```
-mamba install ray-adag ray-air ray-all ray-client ray-core ray-data ray-default ray-observability ray-rllib ray-serve ray-train ray-tune
+mamba install ray-adag ray-air ray-all ray-cgraph ray-client ray-core ray-data ray-default ray-observability ray-rllib ray-serve ray-train ray-tune
 ```
 
 It is possible to list all of the versions of `ray-adag` available on your platform with `conda`:

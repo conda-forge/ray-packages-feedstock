@@ -1,7 +1,7 @@
-From 6baa558840274ba369b4c705845104a4a52b4bf7 Mon Sep 17 00:00:00 2001
-From: mattip <matti.picus@gmail.com>
-Date: Mon, 18 Nov 2024 21:10:25 +0200
-Subject: [PATCH 08/10] patch protobuf use of nan on windows
+From c8f22911bb2610cbe54b009ebb385bc56b1addc8 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Wed, 5 Feb 2025 22:39:59 +1100
+Subject: [PATCH 08/11] patch protobuf use of nan on windows
 
 ---
  bazel/ray_deps_setup.bzl                      |  4 +++
@@ -10,12 +10,12 @@ Subject: [PATCH 08/10] patch protobuf use of nan on windows
  create mode 100644 thirdparty/patches/protobuf-windows-const-nan.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index d2631c23a3..8dbcef6867 100644
+index 79ab6931b1..4854ebf558 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -94,6 +94,10 @@ def ray_deps_setup():
+@@ -93,6 +93,10 @@ def ray_deps_setup():
          urls = [
-             "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v27.5.tar.gz",
+             "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v28.2.tar.gz",
          ],
 +        patches = [
 +            "@com_github_ray_project_ray//thirdparty/patches:protobuf-windows-const-nan.patch",
@@ -26,7 +26,7 @@ index d2631c23a3..8dbcef6867 100644
      # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
 diff --git a/thirdparty/patches/protobuf-windows-const-nan.patch b/thirdparty/patches/protobuf-windows-const-nan.patch
 new file mode 100644
-index 0000000000..4c4cab48f4
+index 0000000000..ad30746c72
 --- /dev/null
 +++ b/thirdparty/patches/protobuf-windows-const-nan.patch
 @@ -0,0 +1,32 @@
@@ -62,6 +62,3 @@ index 0000000000..4c4cab48f4
 + 
 + bool UPB_PRIVATE(_upb_Message_Realloc)(struct upb_Message* msg, size_t need,
 +                                        upb_Arena* a) {
--- 
-2.43.0
-
