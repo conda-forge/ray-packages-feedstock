@@ -29,7 +29,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -96,7 +96,7 @@ outputs:
         - setuptools
       run:
         - python
-        - aiohttp >=3.7,<3.10.6
+        - aiohttp >=3.7
         - aiosignal
         - click >=7.0
         - colorama
