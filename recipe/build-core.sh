@@ -28,7 +28,7 @@ build --cpu=${TARGET_CPU}
 build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
 build --experimental_ui_max_stdouterr_bytes=16000000
-buile --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
+build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
 fi
 
