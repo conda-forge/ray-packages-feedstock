@@ -1,17 +1,17 @@
-From 7f92f7b9087ce03e0b6efc4d5d5a1855acdebe00 Mon Sep 17 00:00:00 2001
-From: Matti Picus <matti.picus@gmail.com>
-Date: Sun, 19 Jan 2025 21:34:44 +1100
-Subject: [PATCH 04/11] remove dependencies and third-party package installs
+From 8f7e18ac731a016a32f349c89bf224aeed7f158e Mon Sep 17 00:00:00 2001
+From: mattip <matti.picus@gmail.com>
+Date: Fri, 28 Feb 2025 15:22:50 +0200
+Subject: [PATCH] remove dependencies
 
 ---
- python/setup.py | 147 +++++-------------------------------------------
- 1 file changed, 14 insertions(+), 133 deletions(-)
+ python/setup.py | 159 +++++-------------------------------------------
+ 1 file changed, 14 insertions(+), 145 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 90b2a2d3a6..3c56d5781b 100644
+index 1cc4f42b90..32ce166330 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,131 +225,23 @@ ray_files += [
+@@ -225,132 +225,23 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -21,6 +21,7 @@ index 90b2a2d3a6..3c56d5781b 100644
 -        "pyarrow >= 9.0.0",
 -        "pyarrow <18; sys_platform == 'darwin' and platform_machine == 'x86_64'",
 -    ]
+-    pydantic_dep = "pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3"
      setup_spec.extras = {
 -        "cgraph": [
 -            "cupy-cuda12x; sys_platform != 'darwin'",
@@ -49,7 +50,7 @@ index 90b2a2d3a6..3c56d5781b 100644
 -            "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
 -            "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -            "opencensus",
--            "pydantic!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3",
+-            pydantic_dep,
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
 -            "virtualenv >=20.0.24, !=20.21.1",  # For pip runtime env.
@@ -120,7 +121,7 @@ index 90b2a2d3a6..3c56d5781b 100644
 -        "scipy",
 -    ]
 -
--    setup_spec.extras["train"] = setup_spec.extras["tune"]
+-    setup_spec.extras["train"] = setup_spec.extras["tune"] + [pydantic_dep]
 -
 -    # Ray AI Runtime should encompass Data, Tune, and Serve.
 -    setup_spec.extras["air"] = list(
@@ -153,9 +154,27 @@ index 90b2a2d3a6..3c56d5781b 100644
 -            set(setup_spec.extras["all"] + setup_spec.extras["cpp"])
 -        )
  
+     # "llm" is not included in all, by design. vllm's dependency set is very
+     # large and specific, will likely run into dependency conflicts with other
+@@ -362,17 +253,6 @@ if setup_spec.type == SetupType.RAY:
+     # Keep this in sync with python/requirements/llm/llm-requirements.txt
+     #
+     setup_spec.extras["llm"] = list(
+-        set(
+-            [
+-                "vllm>=0.7.2",
+-                "asyncache>=0.3.1",
+-                "jsonref>=1.1.0",
+-                "boto3",
+-                "async_timeout",
+-            ]
+-            + setup_spec.extras["data"]
+-            + setup_spec.extras["serve"]
+-        )
+     )
+ 
  # These are the main dependencies for users of ray. This list
- # should be carefully curated. If you change it, please reflect
-@@ -359,18 +251,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -383,18 +263,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -175,12 +194,15 @@ index 90b2a2d3a6..3c56d5781b 100644
  
  
  def is_native_windows_or_msys():
-@@ -796,7 +677,7 @@ setuptools.setup(
+@@ -828,7 +697,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,
--    setup_requires=["cython >= 0.29.32", "wheel"],
+-    setup_requires=["cython >= 3.0.12", "pip", "wheel"],
 +    setup_requires=[],
      extras_require=setup_spec.extras,
      entry_points={
          "console_scripts": [
+-- 
+2.43.0
+
