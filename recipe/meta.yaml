@@ -1,4 +1,4 @@
-{% set version = "2.42.1" %}
+{% set version = "2.43.0" %}
 
 package:
   name: ray-packages
@@ -6,12 +6,11 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 272869de28ee22fd0a2563036463a7be057601f0d9e4f3cee92561f5b878dd06
+  sha256: 16082778a36bc00b38dcdcd7ede77b11e8c2b37b3866aabd6c92469047e90fb7
   patches:
-    - patches/0001-patch-redis-for-ar-ranlib.patch
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0004-remove-dependencies-and-third-party-package-installs.patch
+    - patches/0004-remove-dependencies.patch
     - patches/0006-remove-stdlib-libc-from-.bazelrc.patch  # [osx and arm64]
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
@@ -29,7 +28,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 1
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -273,6 +272,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
+        - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
     test:
       imports:
         - ray.train
@@ -320,6 +320,19 @@ outputs:
       commands:
         - echo "no tests for ray-cgraph, it is a convenience bundle"
 
+  - name: ray-llm
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('ray-data', exact=True) }}
+        - {{ pin_subpackage('ray-serve', exact=True) }}
+        - async_timeout
+        - asyncache >=0.3.1
+        - boto3
+        - jsonref >=1.1.0
+        - vllm >=0.7.2
 
 about:
   home: https://github.com/ray-project/ray
@@ -354,7 +367,7 @@ about:
     Ray is a fast and simple framework for building and running
     distributed applications. It is split into ray-core, ray-default,
     ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
-    ray-train, ray-observability, ray-adag, ray-cgraph and
+    ray-train, ray-observability, ray-adag, ray-cgraph, ray-llm and
     ray-all packages.
   doc_url: https://ray.readthedocs.io/
   dev_url: https://github.com/ray-project/ray
