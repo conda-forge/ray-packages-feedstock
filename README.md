@@ -16,7 +16,7 @@ Documentation: https://ray.readthedocs.io/
 Ray is a fast and simple framework for building and running
 distributed applications. It is split into ray-core, ray-default,
 ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
-ray-train, ray-observability, ray-adag, ray-cgraph and
+ray-train, ray-observability, ray-adag, ray-cgraph, ray-llm and
 ray-all packages.
 
 
