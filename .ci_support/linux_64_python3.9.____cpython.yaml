@@ -21,7 +21,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 libgrpc:
-- '1.67'
+- '1.71'
 nodejs:
 - '20'
 - '22'
