@@ -218,7 +218,7 @@ outputs:
         - dm-tree
         - gymnasium ==1.0.0
         - lz4
-        - ormsgpack==1.7.0
+        - ormsgpack ==1.7.0
         - pyyaml
         - scipy
     test:
