@@ -28,7 +28,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 0
+  number: 2
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -218,7 +218,7 @@ outputs:
         - dm-tree
         - gymnasium ==1.0.0
         - lz4
-        - ormsgpack==1.7.0
+        - ormsgpack ==1.7.0
         - pyyaml
         - scipy
     test:
@@ -319,20 +319,6 @@ outputs:
     test:
       commands:
         - echo "no tests for ray-cgraph, it is a convenience bundle"
-
-  - name: ray-llm
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('ray-data', exact=True) }}
-        - {{ pin_subpackage('ray-serve', exact=True) }}
-        - async_timeout
-        - asyncache >=0.3.1
-        - boto3
-        - jsonref >=1.1.0
-        - vllm >=0.7.2
 
 about:
   home: https://github.com/ray-project/ray
