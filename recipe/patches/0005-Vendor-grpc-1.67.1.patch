@@ -180,13 +180,13 @@ diff --git a/src/ray/rpc/server_call.h b/src/ray/rpc/server_call.h
 index 659ee5841d..a806ded3b7 100644
 --- a/src/ray/rpc/server_call.h
 +++ b/src/ray/rpc/server_call.h
-@@ -190,7 +190,7 @@ class ServerCallImpl : public ServerCall {
+@@ -193,7 +193,7 @@ class ServerCallImpl : public ServerCall {
          cluster_id_(cluster_id),
          start_time_(0),
          record_metrics_(record_metrics) {
 -    reply_ = google::protobuf::Arena::CreateMessage<Reply>(&arena_);
 +    reply_ = google::protobuf::Arena::Create<Reply>(&arena_);
-     // TODO call_name_ sometimes get corrunpted due to memory issues.
+     // TODO(Yi Cheng) call_name_ sometimes get corrunpted due to memory issues.
      RAY_CHECK(!call_name_.empty()) << "Call name is empty";
      if (record_metrics_) {
 diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc

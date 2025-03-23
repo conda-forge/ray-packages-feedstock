@@ -156,17 +156,19 @@ index 1cc4f42b90..32ce166330 100644
  
      # "llm" is not included in all, by design. vllm's dependency set is very
      # large and specific, will likely run into dependency conflicts with other
-@@ -362,17 +253,6 @@ if setup_spec.type == SetupType.RAY:
+@@ -362,19 +253,6 @@ if setup_spec.type == SetupType.RAY:
      # Keep this in sync with python/requirements/llm/llm-requirements.txt
      #
      setup_spec.extras["llm"] = list(
 -        set(
 -            [
 -                "vllm>=0.7.2",
--                "asyncache>=0.3.1",
 -                "jsonref>=1.1.0",
--                "boto3",
--                "async_timeout",
+-                "jsonschema",
+-                "ninja",
+-                # async-timeout is a backport of asyncio.timeout for python < 3.11
+-                "async-timeout; python_version < '3.11'",
+-                "typer",
 -            ]
 -            + setup_spec.extras["data"]
 -            + setup_spec.extras["serve"]
@@ -194,7 +196,7 @@ index 1cc4f42b90..32ce166330 100644
  
  
  def is_native_windows_or_msys():
-@@ -828,7 +697,7 @@ setuptools.setup(
+@@ -830,7 +697,7 @@ setuptools.setup(
      # The BinaryDistribution argument triggers build_ext.
      distclass=BinaryDistribution,
      install_requires=setup_spec.install_requires,

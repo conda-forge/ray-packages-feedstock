@@ -172,7 +172,6 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp-cors
-        - async-timeout
         - colorful
         - grpcio
         - opencensus
@@ -182,7 +181,6 @@ outputs:
         - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
-        - typing-extensions
         - virtualenv >=20.0.24,!=20.21.1
 
     test:
