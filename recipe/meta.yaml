@@ -1,4 +1,4 @@
-{% set version = "2.43.0" %}
+{% set version = "2.44.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 16082778a36bc00b38dcdcd7ede77b11e8c2b37b3866aabd6c92469047e90fb7
+  sha256: 6b5ab60e961ed4695cf235f40184931c8df7930dcb50a80491497bd5f183ba19
   patches:
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -28,7 +28,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 2
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -172,7 +172,6 @@ outputs:
         - python
         - {{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp-cors
-        - async-timeout
         - colorful
         - grpcio
         - opencensus
@@ -182,7 +181,6 @@ outputs:
         - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
-        - typing-extensions
         - virtualenv >=20.0.24,!=20.21.1
 
     test:
