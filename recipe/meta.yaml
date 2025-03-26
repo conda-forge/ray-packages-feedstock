@@ -28,7 +28,7 @@ source:
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
