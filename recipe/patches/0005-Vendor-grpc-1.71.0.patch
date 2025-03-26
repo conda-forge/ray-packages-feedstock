@@ -1,17 +1,134 @@
-From 7f7d6f4e20cf459567daae264f283a7d6281d0c4 Mon Sep 17 00:00:00 2001
+From 39f6b8b4aeb34f2273f82bc96d6c6694235b4c8c Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
-Date: Wed, 26 Mar 2025 09:24:39 -0500
+Date: Wed, 26 Mar 2025 12:43:17 -0500
 Subject: [PATCH] Vendor grpc-1.71.0
 
 ---
- bazel/ray_deps_setup.bzl                      | 31 +++++++------------
+ BUILD.bazel                                   | 41 +------------------
+ WORKSPACE                                     | 35 ----------------
+ bazel/ray_deps_setup.bzl                      | 31 ++++++--------
  .../task_event_buffer_export_event_test.cc    |  2 +-
- .../gcs_server/test/gcs_actor_manager_test.cc | 14 ++++-----
+ .../gcs_server/test/gcs_actor_manager_test.cc | 14 +++----
  src/ray/raylet_client/raylet_client.cc        |  2 +-
  src/ray/rpc/server_call.h                     |  2 +-
  src/ray/util/event.cc                         |  2 +-
- 6 files changed, 23 insertions(+), 30 deletions(-)
+ 8 files changed, 24 insertions(+), 105 deletions(-)
 
+diff --git a/BUILD.bazel b/BUILD.bazel
+index 7237ab205e..be56c7f383 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -11,53 +11,14 @@ load("@com_github_google_flatbuffers//:build_defs.bzl", "flatbuffer_cc_library")
+ load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+ load("@com_github_grpc_grpc//bazel:cython_library.bzl", "pyx_library")
+ load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
+ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+ load("@rules_proto//proto:defs.bzl", "proto_library")
+-load("@rules_python//python:defs.bzl", "py_library", "py_runtime", "py_runtime_pair")
+ load("//bazel:ray.bzl", "COPTS", "PYX_COPTS", "PYX_SRCS", "copy_to_workspace", "ray_cc_binary", "ray_cc_library", "ray_cc_test")
+ 
+ package(
+     default_visibility = ["//visibility:public"],
+ )
+ 
+-# Hermetic python environment, currently only used for CI infra and scripts.
+-
+-py_runtime(
+-    name = "python3_runtime",
+-    interpreter = python39,
+-    python_version = "PY3",
+-    visibility = ["//visibility:private"],
+-)
+-
+-py_runtime_pair(
+-    name = "python_runtime_pair",
+-    py2_runtime = None,
+-    py3_runtime = ":python3_runtime",
+-    visibility = ["//visibility:private"],
+-)
+-
+-constraint_setting(name = "hermetic")
+-
+-constraint_value(
+-    name = "hermetic_python",
+-    constraint_setting = ":hermetic",
+-)
+-
+-toolchain(
+-    name = "python_toolchain",
+-    exec_compatible_with = [":hermetic_python"],
+-    toolchain = ":python_runtime_pair",
+-    toolchain_type = "@bazel_tools//tools/python:toolchain_type",
+-)
+-
+-platform(
+-    name = "hermetic_python_platform",
+-    constraint_values = [":hermetic_python"],
+-    parents = ["@local_config_platform//:host"],
+-    visibility = ["//visibility:private"],
+-)
+-
+ # C/C++ toolchain constraint configs.
+ 
+ config_setting(
+@@ -796,7 +757,7 @@ ray_cc_library(
+         "//src/ray/util:throttler",
+         "//src/ray/util:type_traits",
+         "@boost//:bimap",
+-        "@com_github_grpc_grpc//src/proto/grpc/health/v1:health_proto",
++        "@com_github_grpc_grpc//src/proto/grpc/health/v1:health_cc_grpc",
+         "@com_google_absl//absl/container:btree",
+     ],
+ )
+diff --git a/WORKSPACE b/WORKSPACE
+index 7aa6899af6..eec152bf60 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -37,43 +37,8 @@ load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_
+ 
+ hedron_compile_commands_setup()
+ 
+-http_archive(
+-    name = "rules_python",
+-    sha256 = "c68bdc4fbec25de5b5493b8819cfc877c4ea299c0dcb15c244c5a00208cde311",
+-    strip_prefix = "rules_python-0.31.0",
+-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.31.0/rules_python-0.31.0.tar.gz",
+-)
+-
+-load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+-
+-python_register_toolchains(
+-    name = "python3_9",
+-    python_version = "3.9",
+-    register_toolchains = False,
+-)
+-
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
+-load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
+-
+-pip_install_dependencies()
+-
+-load("@rules_python//python:pip.bzl", "pip_parse")
+-
+-pip_parse(
+-    name = "py_deps_buildkite",
+-    python_interpreter_target = python39,
+-    requirements_lock = "//release:requirements_buildkite.txt",
+-)
+-
+-load("@py_deps_buildkite//:requirements.bzl", install_py_deps_buildkite = "install_deps")
+-
+-install_py_deps_buildkite()
+-
+-register_toolchains("//:python_toolchain")
+-
+ register_execution_platforms(
+     "@local_config_platform//:host",
+-    "//:hermetic_python_platform",
+ )
+ 
+ http_archive(
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 952cbc855a..1f657c6ba3 100644
 --- a/bazel/ray_deps_setup.bzl
