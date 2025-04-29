@@ -28,6 +28,11 @@ python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
 echo ----------
 
 echo ==========================================================
+echo build java bindings
+echo ==========================================================
+bazel build //java:ray_java_pkg
+
+echo ==========================================================
 echo calling pip to install
 echo ==========================================================
 cd python

@@ -26,10 +26,8 @@ source:
     - patches/0010-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
     - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
-
 build:
-  number: 0
-
+  number: 1
 # Need these up here for conda-smithy to handle them properly.
 requirements:
   build:
@@ -86,12 +84,14 @@ outputs:
         - python
         - setproctitle >=1.2.2,<1.4
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - openjdk =11
+        - maven
+        - unzip
       host:
         - python
         - pip
         - packaging
         - libgrpc
-        - openjdk =11
         - setuptools
       run:
         - python
