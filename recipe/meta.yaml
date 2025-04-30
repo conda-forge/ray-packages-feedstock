@@ -1,4 +1,4 @@
-{% set version = "2.44.1" %}
+{% set version = "2.45.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 7ac0d1b935528f5c57fd419c95e76376e4fab2270fcf1d0c8bcd55b03e9f6f21
+  sha256: 14540422e7b825bf1e04b5bbe9c86270509c95926dafac96783c8fef519f9b4c
   patches:
     - patches/0002-Disable-making-entry-scripts.patch
     - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
