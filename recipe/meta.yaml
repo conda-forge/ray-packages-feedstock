@@ -84,9 +84,9 @@ outputs:
         - python
         - setproctitle >=1.2.2,<1.4
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - openjdk =11
-        - maven
-        - unzip
+        - openjdk =11  # [not win]
+        - maven  # [not win]
+        - unzip   # [not win]
       host:
         - python
         - pip
