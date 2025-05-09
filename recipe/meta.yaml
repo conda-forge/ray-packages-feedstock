@@ -8,24 +8,21 @@ source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
   sha256: 761adac3ea5dd127215e22976e140f0d66ca3bc0e029b2b21136182d0190cf98
   patches:
-    - patches/0002-Disable-making-entry-scripts.patch
-    - patches/0003-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0004-remove-dependencies.patch
-    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch  # [osx and arm64]
+    - patches/0001-Disable-making-entry-scripts.patch
+    - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
+    - patches/0003-remove-dependencies.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0005-Vendor-grpc-1.67.1.patch
-    # Patch out old zlib-1.3.0 to remove fdopen, part of zlib-1.3.1
-    - patches/0007-patch-zlib-to-remove-define-fdopen-on-macos.patch
+    - patches/0004-Vendor-grpc-1.67.1.patch
+    - patches/0005-remove-stdlib-libc-from-.bazelrc.patch
     # Patch around non-const NAN on windows in protobuf 27.5
-    - patches/0008-patch-protobuf-use-of-nan-on-windows.patch
-    # Patch out zlib-1.2.13 to remove fdopen, part of zlib-1.3.1
-    - patches/0009-patch-zlib-in-prometheus-cpp-and-boost-as-well.patch
-    # Add misisng include in new logging code for different absl
-    - patches/0010-add-missing-include.patch
+    - patches/0006-patch-protobuf-use-of-nan-on-windows.patch
+    - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
+    # Add missing include in new logging code for different absl
+    - patches/0008-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0011-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    - patches/0009-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
 
 build:
   number: 0

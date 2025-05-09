@@ -1,0 +1,29 @@
+From 4572d7fc7e2cbf02c2d520577d7c50344b272c64 Mon Sep 17 00:00:00 2001
+From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
+Date: Tue, 10 Nov 2020 23:26:35 +0300
+Subject: [PATCH 1/9] Disable making entry scripts
+
+---
+ python/setup.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/python/setup.py b/python/setup.py
+index 838f3aa744..c287eb4cc1 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -832,9 +832,9 @@ setuptools.setup(
+     extras_require=setup_spec.extras,
+     entry_points={
+         "console_scripts": [
+-            "ray=ray.scripts.scripts:main",
+-            "tune=ray.tune.cli.scripts:cli",
+-            "serve=ray.serve.scripts:cli",
++            #"ray=ray.scripts.scripts:main",
++            #"tune=ray.tune.cli.scripts:cli",
++            #"serve=ray.serve.scripts:cli",
+         ]
+     },
+     package_data={
+-- 
+2.43.0
+
