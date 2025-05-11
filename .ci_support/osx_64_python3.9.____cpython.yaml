@@ -20,8 +20,10 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '18'
+github_actions_labels:
+- cirun-openstack-cpu-4xlarge
 libgrpc:
-- '1.67'
+- '1.71'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 nodejs:
