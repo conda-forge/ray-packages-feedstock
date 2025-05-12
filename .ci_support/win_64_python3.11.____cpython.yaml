@@ -10,6 +10,8 @@ curl:
 - '8'
 cxx_compiler:
 - vs2019
+github_actions_labels:
+- cirun-openstack-cpu-4xlarge
 libgrpc:
 - '1.71'
 nodejs:
