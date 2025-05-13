@@ -1,14 +1,14 @@
-From a043bfba8d99a0afaed2a8094e98ce6e5807cb39 Mon Sep 17 00:00:00 2001
+From 94162bf16702514ebf9edbe57800487ffd9357eb Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Thu, 9 May 2024 05:13:50 +1000
-Subject: [PATCH 5/9] remove stdlib=libc++ from .bazelrc
+Subject: [PATCH 5/8] remove stdlib=libc++ from .bazelrc
 
 ---
  .bazelrc | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/.bazelrc b/.bazelrc
-index 575538c5f1..985fa85a8c 100644
+index 7db790a4bf..1e261f8e23 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -105,9 +105,9 @@ build:windows-debug --cxxopt="-D_ITERATOR_DEBUG_LEVEL=2"
@@ -24,6 +24,3 @@ index 575538c5f1..985fa85a8c 100644
  build:llvm --action_env=BAZEL_LINKLIBS=-l%:libc++.a:-l%:libc++abi.a
  build:llvm --action_env=BAZEL_LINKOPTS=-lm:-pthread
  build:llvm --define force_libcpp=enabled
--- 
-2.43.0
-
