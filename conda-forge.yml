@@ -12,7 +12,6 @@ conda_forge_output_validation: true
 github:
   branch_name: main
   tooling_branch_name: main
-test: native_and_emulated
 github_actions:
   self_hosted: true
   triggers:
@@ -20,5 +19,8 @@ github_actions:
     - pull_request
 provider:
   linux_64: github_actions
+  linux_aarch64: default
+  linux_ppc64le: default
+test: native_and_emulated
 conda_install_tool: pixi
 conda_build_tool: rattler-build
