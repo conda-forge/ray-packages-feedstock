@@ -1,7 +1,7 @@
-From 2595ec41a9d00d40b8b56442087f109307f403ec Mon Sep 17 00:00:00 2001
+From 1b737bc4a1a98662566759c6b3f73ecfe2fabb0c Mon Sep 17 00:00:00 2001
 From: mattip <matti.picus@gmail.com>
 Date: Fri, 28 Feb 2025 15:22:50 +0200
-Subject: [PATCH 3/9] remove dependencies
+Subject: [PATCH 3/8] remove dependencies
 
 ---
  python/setup.py | 159 +++++-------------------------------------------
@@ -203,6 +203,3 @@ index c287eb4cc1..25b08d3540 100644
      extras_require=setup_spec.extras,
      entry_points={
          "console_scripts": [
--- 
-2.43.0
-

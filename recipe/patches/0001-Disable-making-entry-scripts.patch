@@ -1,7 +1,7 @@
-From 4572d7fc7e2cbf02c2d520577d7c50344b272c64 Mon Sep 17 00:00:00 2001
+From 40f7950780aa2a522a9daf866f91b10e96c9b68e Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
-Subject: [PATCH 1/9] Disable making entry scripts
+Subject: [PATCH 1/8] Disable making entry scripts
 
 ---
  python/setup.py | 6 +++---
@@ -24,6 +24,3 @@ index 838f3aa744..c287eb4cc1 100644
          ]
      },
      package_data={
--- 
-2.43.0
-
