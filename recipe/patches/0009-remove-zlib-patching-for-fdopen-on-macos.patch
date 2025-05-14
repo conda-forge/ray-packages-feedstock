@@ -1,0 +1,26 @@
+From cba149286e38c0deadf2649751b43e3732a1dba3 Mon Sep 17 00:00:00 2001
+From: mattip <matti.picus@gmail.com>
+Date: Wed, 14 May 2025 09:22:27 +0300
+Subject: [PATCH] remove zlib patching for fdopen on macos
+
+---
+ bazel/ray_deps_setup.bzl                  |  1 -
+ thirdparty/patches/grpc-zlib-fdopen.patch | 13 -------------
+ thirdparty/patches/zlib-fdopen.patch      | 19 -------------------
+ 3 files changed, 33 deletions(-)
+ delete mode 100644 thirdparty/patches/grpc-zlib-fdopen.patch
+ delete mode 100644 thirdparty/patches/zlib-fdopen.patch
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 0db8ebee2d..5607bba9d2 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -254,7 +254,6 @@ def ray_deps_setup():
+         sha256 = "0762f809b9de845e6a7c809cabccad6aa4143479fd43b396611fe5a086c0aeeb",
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
+-            "@com_github_ray_project_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
+         ],
+     )
+ 
+

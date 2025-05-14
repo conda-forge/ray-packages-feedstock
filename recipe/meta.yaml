@@ -21,6 +21,8 @@ source:
     - patches/0007-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
     - patches/0008-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    # Newer libgrpc does not need to patch zlib
+    - patches/0009-remove-zlib-patching-for-fdopen-on-macos.patch
 
 build:
   number: 1
