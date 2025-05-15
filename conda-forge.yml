@@ -5,6 +5,8 @@ azure:
       CONDA_BLD_PATH: C:\\bld\\
       MINIFORGE_HOME: C:\Miniforge
 build_platform:
+  linux_aarch64: linux_64
+  linux_ppc64le: linux_64
   osx_arm64: osx_64
 conda_build:
   pkg_format: '2'
@@ -19,8 +21,8 @@ github_actions:
     - pull_request
 provider:
   linux_64: github_actions
-  linux_aarch64: default
-  linux_ppc64le: default
+  linux_aarch64: github_actions
+  linux_ppc64le: github_actions
 test: native_and_emulated
 conda_install_tool: pixi
 conda_build_tool: rattler-build
