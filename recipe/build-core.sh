@@ -32,6 +32,8 @@ build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
 fi
 
+bazel build //java:ray_java_pkg
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
