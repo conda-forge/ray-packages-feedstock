@@ -172,6 +172,9 @@ outputs:
         - colorful
         - grpcio
         - opencensus
+        - opentelemetry-sdk
+        - opentelemetry-exporter-prometheus
+        - opentelemetry-proto
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0  # [py<312]
         - py-spy >=0.4.0  # [py>=312]
