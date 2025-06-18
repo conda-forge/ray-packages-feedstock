@@ -69,7 +69,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
-        - bazel 6.5
+        - bazel =6.5
         - bazel-toolchain =0.2.1 # [not win]
         - patchelf  # [linux]
         - colorama
