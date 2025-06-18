@@ -10,8 +10,6 @@ if [[ "$target_platform" == osx* ]]; then
   else
     export LDFLAGS="$LDFLAGS -undefined dynamic_lookup"
   fi
-  echo changing TARGET_CPU=$TARGET_CPU to 'darwin', cross compilation is still limited
-  TARGET_CPU=darwin
   # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
   # delete the line from the template and the CXXFLAGS
   export CXXFLAGS="${CXXFLAGS/-stdlib=libc++ /} -Wno-vla-cxx-extension"

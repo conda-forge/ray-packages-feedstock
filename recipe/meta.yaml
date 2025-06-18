@@ -70,7 +70,7 @@ outputs:
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
         - bazel 6.5
-        - bazel-toolchain  # [not win]
+        - bazel-toolchain =0.2.1 # [not win]
         - patchelf  # [linux]
         - colorama
         - curl
