@@ -1,5 +1,5 @@
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -9,7 +9,7 @@ channel_targets:
 curl:
 - '8'
 cxx_compiler:
-- vs2019
+- vs2022
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
 libgrpc:
