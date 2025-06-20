@@ -1,4 +1,4 @@
-{% set version = "2.46.0" %}
+{% set version = "2.47.0" %}
 
 package:
   name: ray-packages
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 761adac3ea5dd127215e22976e140f0d66ca3bc0e029b2b21136182d0190cf98
+  sha256: e6e7263c03d538722781203e93de388d47e04486ce9064713f0a2870183086dc
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -69,8 +69,8 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib("c") }}
         - {{ compiler('cxx') }}
-        - bazel 6.5
-        - bazel-toolchain  # [not win]
+        - bazel =6.5
+        - bazel-toolchain =0.2.1  # [not win]
         - patchelf  # [linux]
         - colorama
         - curl
@@ -172,6 +172,9 @@ outputs:
         - colorful
         - grpcio
         - opencensus
+        - opentelemetry-sdk
+        - opentelemetry-exporter-prometheus
+        - opentelemetry-proto
         - prometheus_client >=0.7.1
         - py-spy >=0.2.0  # [py<312]
         - py-spy >=0.4.0  # [py>=312]

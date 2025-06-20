@@ -11,7 +11,7 @@ diff --git a/python/setup.py b/python/setup.py
 index c287eb4cc1..25b08d3540 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -225,132 +225,23 @@ ray_files += [
+@@ -225,135 +225,23 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -50,6 +50,9 @@ index c287eb4cc1..25b08d3540 100644
 -            "grpcio >= 1.32.0; python_version < '3.10'",  # noqa:E501
 -            "grpcio >= 1.42.0; python_version >= '3.10'",  # noqa:E501
 -            "opencensus",
+-            "opentelemetry-sdk",
+-            "opentelemetry-exporter-prometheus",
+-            "opentelemetry-proto",
 -            pydantic_dep,
 -            "prometheus_client >= 0.7.1",
 -            "smart_open",
