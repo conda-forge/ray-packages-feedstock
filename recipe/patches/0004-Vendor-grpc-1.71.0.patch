@@ -1,0 +1,312 @@
+From 33595f15768c853eed73513fd82c85efcaf056ce Mon Sep 17 00:00:00 2001
+From: Austin Morton <austin.morton@aquatic.com>
+Date: Wed, 26 Mar 2025 12:43:17 -0500
+Subject: [PATCH 4/8] Vendor grpc-1.71.0
+
+---
+ BUILD.bazel                                   | 39 -------------------
+ WORKSPACE                                     | 35 -----------------
+ bazel/ray_deps_setup.bzl                      | 31 ++++++---------
+ .../task_event_buffer_export_event_test.cc    |  2 +-
+ .../gcs_server/test/gcs_actor_manager_test.cc | 14 +++----
+ src/ray/raylet_client/raylet_client.cc        |  2 +-
+ src/ray/rpc/server_call.h                     |  2 +-
+ src/ray/util/event.cc                         |  2 +-
+ 8 files changed, 23 insertions(+), 104 deletions(-)
+
+diff --git a/BUILD.bazel b/BUILD.bazel
+index 1760705429..c1e4849ecf 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -11,53 +11,14 @@ load("@com_github_google_flatbuffers//:build_defs.bzl", "flatbuffer_cc_library")
+ load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+ load("@com_github_grpc_grpc//bazel:cython_library.bzl", "pyx_library")
+ load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
+ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+ load("@rules_proto//proto:defs.bzl", "proto_library")
+-load("@rules_python//python:defs.bzl", "py_library", "py_runtime", "py_runtime_pair")
+ load("//bazel:ray.bzl", "COPTS", "FLATC_ARGS", "PYX_COPTS", "PYX_SRCS", "copy_to_workspace", "ray_cc_binary", "ray_cc_library", "ray_cc_test")
+ 
+ package(
+     default_visibility = ["//visibility:public"],
+ )
+ 
+-# Hermetic python environment, currently only used for CI infra and scripts.
+-
+-py_runtime(
+-    name = "python3_runtime",
+-    interpreter = python39,
+-    python_version = "PY3",
+-    visibility = ["//visibility:private"],
+-)
+-
+-py_runtime_pair(
+-    name = "python_runtime_pair",
+-    py2_runtime = None,
+-    py3_runtime = ":python3_runtime",
+-    visibility = ["//visibility:private"],
+-)
+-
+-constraint_setting(name = "hermetic")
+-
+-constraint_value(
+-    name = "hermetic_python",
+-    constraint_setting = ":hermetic",
+-)
+-
+-toolchain(
+-    name = "python_toolchain",
+-    exec_compatible_with = [":hermetic_python"],
+-    toolchain = ":python_runtime_pair",
+-    toolchain_type = "@bazel_tools//tools/python:toolchain_type",
+-)
+-
+-platform(
+-    name = "hermetic_python_platform",
+-    constraint_values = [":hermetic_python"],
+-    parents = ["@local_config_platform//:host"],
+-    visibility = ["//visibility:private"],
+-)
+-
+ # C/C++ toolchain constraint configs.
+ 
+ config_setting(
+diff --git a/WORKSPACE b/WORKSPACE
+index 590d4cb0b6..0667f90f6a 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -37,43 +37,8 @@ load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_
+ 
+ hedron_compile_commands_setup()
+ 
+-http_archive(
+-    name = "rules_python",
+-    sha256 = "c68bdc4fbec25de5b5493b8819cfc877c4ea299c0dcb15c244c5a00208cde311",
+-    strip_prefix = "rules_python-0.31.0",
+-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.31.0/rules_python-0.31.0.tar.gz",
+-)
+-
+-load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+-
+-python_register_toolchains(
+-    name = "python3_9",
+-    python_version = "3.9",
+-    register_toolchains = False,
+-)
+-
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
+-load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
+-
+-pip_install_dependencies()
+-
+-load("@rules_python//python:pip.bzl", "pip_parse")
+-
+-pip_parse(
+-    name = "py_deps_buildkite",
+-    python_interpreter_target = python39,
+-    requirements_lock = "//release:requirements_buildkite.txt",
+-)
+-
+-load("@py_deps_buildkite//:requirements.bzl", install_py_deps_buildkite = "install_deps")
+-
+-install_py_deps_buildkite()
+-
+-register_toolchains("//:python_toolchain")
+-
+ register_execution_platforms(
+     "@local_config_platform//:host",
+-    "//:hermetic_python_platform",
+ )
+ 
+ http_archive(
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 0db8ebee2d..0febc47491 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -86,20 +86,13 @@ def auto_http_archive(
+ def ray_deps_setup():
+     # Explicitly bring in protobuf dependency to work around
+     # https://github.com/ray-project/ray/issues/14117
+-    # This is copied from grpc's bazel/grpc_deps.bzl
+-    #
+-    # Pinned grpc version: v23.4
+     http_archive(
+         name = "com_google_protobuf",
+-        sha256 = "76a33e2136f23971ce46c72fd697cd94dc9f73d56ab23b753c3e16854c90ddfd",
+-        strip_prefix = "protobuf-2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a",
++        sha256 = "008a11cc56f9b96679b4c285fd05f46d317d685be3ab524b2a310be0fbad987e",
++        strip_prefix = "protobuf-29.3",
+         urls = [
+-            "https://github.com/protocolbuffers/protobuf/archive/2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a.tar.gz",
++            "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v29.3.tar.gz",
+         ],
+-        patches = [
+-            "@com_github_grpc_grpc//third_party:protobuf.patch",
+-        ],
+-        patch_args = ["-p1"],
+     )
+ 
+     # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
+@@ -229,10 +222,10 @@ def ray_deps_setup():
+     # TODO(owner): Upgrade abseil to latest version after protobuf updated, which requires to upgrade `rules_cc` first.
+     auto_http_archive(
+         name = "com_google_absl",
+-        sha256 = "987ce98f02eefbaf930d6e38ab16aa05737234d7afbab2d5c4ea7adbe50c28ed",
+-        strip_prefix = "abseil-cpp-20230802.1",
++        sha256 = "b396401fd29e2e679cace77867481d388c807671dc2acc602a0259eeb79b7811",
++        strip_prefix = "abseil-cpp-20250127.1",
+         urls = [
+-            "https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.tar.gz",
++            "https://github.com/abseil/abseil-cpp/archive/refs/tags/20250127.1.tar.gz",
+         ],
+     )
+ 
+@@ -253,8 +246,8 @@ def ray_deps_setup():
+     auto_http_archive(
+         name = "com_github_grpc_grpc",
+         # NOTE: If you update this, also update @boringssl's hash.
+-        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.57.1.tar.gz",
+-        sha256 = "0762f809b9de845e6a7c809cabccad6aa4143479fd43b396611fe5a086c0aeeb",
++        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.71.0.tar.gz",
++        sha256 = "0d631419e54ec5b29def798623ee3bf5520dac77abeab3284ef7027ec2363f91",
+         patches = [
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-cython-copts.patch",
+             "@com_github_ray_project_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
+@@ -297,13 +290,13 @@ def ray_deps_setup():
+     http_archive(
+         # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
+         # provides a deterministic archive hash for caching. Explanation here:
+-        # https://github.com/grpc/grpc/blob/1ff1feaa83e071d87c07827b0a317ffac673794f/bazel/grpc_deps.bzl#L189
+         # Ensure this rule matches the rule used by grpc's bazel/grpc_deps.bzl
++        # https://github.com/grpc/grpc/blob/v1.71.0/bazel/grpc_deps.bzl#L33
+         name = "boringssl",
+-        sha256 = "0675a4f86ce5e959703425d6f9063eaadf6b61b7f3399e77a154c0e85bad46b1",
+-        strip_prefix = "boringssl-342e805bc1f5dfdd650e3f031686d6c939b095d9",
++        sha256 = "cea4c77cd69279585ea53efa2bb2ae6eb5f31fb39c214213c5b7cdf3c44d7b52",
++        strip_prefix = "boringssl-c64b8fefbba9a9dadda73138062fc449bdf11e2a",
+         urls = [
+-            "https://github.com/google/boringssl/archive/342e805bc1f5dfdd650e3f031686d6c939b095d9.tar.gz",
++            "https://github.com/google/boringssl/archive/c64b8fefbba9a9dadda73138062fc449bdf11e2a.tar.gz",
+         ],
+     )
+ 
+diff --git a/src/ray/core_worker/test/task_event_buffer_export_event_test.cc b/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
+index f3869be7ff..36873eda0f 100644
+--- a/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
++++ b/src/ray/core_worker/test/task_event_buffer_export_event_test.cc
+@@ -139,7 +139,7 @@ TEST_F(TaskEventTestWriteExport, TestWriteTaskExportEvents) {
+   auto task_ids = GenTaskIDs(num_events);
+   google::protobuf::util::JsonPrintOptions options;
+   options.preserve_proto_field_names = true;
+-  options.always_print_primitive_fields = true;
++  options.always_print_fields_with_no_presence = true;
+ 
+   std::vector<SourceTypeVariant> source_types = {
+       rpc::ExportEvent_SourceType::ExportEvent_SourceType_EXPORT_TASK};
+diff --git a/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc b/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
+index 810f6c3c2c..e51317806c 100644
+--- a/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
++++ b/src/ray/gcs/gcs_server/test/gcs_actor_manager_test.cc
+@@ -1288,7 +1288,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_actor_id(actor->GetActorID().Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.total(), 1 + num_other_actors);
+@@ -1301,7 +1301,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1313,7 +1313,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_state(rpc::ActorTableData::ALIVE);
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1326,7 +1326,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 1);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors);
+@@ -1337,7 +1337,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+     request.mutable_filters()->set_job_id(job_id.Binary());
+ 
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.num_filtered(), num_other_actors + 1);
+     ASSERT_EQ(reply.actor_table_data().size(), 0);
+@@ -1362,7 +1362,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+   {
+     rpc::GetAllActorInfoRequest request;
+     auto &reply =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     auto callback = [](Status status,
+                        std::function<void()> success,
+                        std::function<void()> failure) {};
+@@ -1371,7 +1371,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+ 
+     request.set_limit(2);
+     auto &reply_2 =
+-        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
++        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply_2, callback);
+     ASSERT_EQ(reply_2.actor_table_data().size(), 2);
+     ASSERT_EQ(reply_2.total(), 3);
+diff --git a/src/ray/raylet_client/raylet_client.cc b/src/ray/raylet_client/raylet_client.cc
+index aeeb53ee77..c191f39e16 100644
+--- a/src/ray/raylet_client/raylet_client.cc
++++ b/src/ray/raylet_client/raylet_client.cc
+@@ -246,7 +246,7 @@ void RayletClient::RequestWorkerLease(
+     const bool is_selected_based_on_locality) {
+   google::protobuf::Arena arena;
+   auto request =
+-      google::protobuf::Arena::CreateMessage<rpc::RequestWorkerLeaseRequest>(&arena);
++      google::protobuf::Arena::Create<rpc::RequestWorkerLeaseRequest>(&arena);
+   // The unsafe allocating here is actually safe because the life-cycle of
+   // task_spec is longer than request.
+   // Request will be sent before the end of this call, and after that, it won't be
+diff --git a/src/ray/rpc/server_call.h b/src/ray/rpc/server_call.h
+index 4ad1885ca6..fd0cb3fbd9 100644
+--- a/src/ray/rpc/server_call.h
++++ b/src/ray/rpc/server_call.h
+@@ -193,7 +193,7 @@ class ServerCallImpl : public ServerCall {
+         cluster_id_(cluster_id),
+         start_time_(0),
+         record_metrics_(record_metrics) {
+-    reply_ = google::protobuf::Arena::CreateMessage<Reply>(&arena_);
++    reply_ = google::protobuf::Arena::Create<Reply>(&arena_);
+     // TODO(Yi Cheng) call_name_ sometimes get corrunpted due to memory issues.
+     RAY_CHECK(!call_name_.empty()) << "Call name is empty";
+     if (record_metrics_) {
+diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc
+index 16c723e27c..e99df202c9 100644
+--- a/src/ray/util/event.cc
++++ b/src/ray/util/event.cc
+@@ -140,7 +140,7 @@ std::string LogEventReporter::ExportEventToString(const rpc::ExportEvent &export
+   google::protobuf::util::JsonPrintOptions options;
+   options.preserve_proto_field_names = true;
+   // Required so enum with value 0 is not omitted
+-  options.always_print_primitive_fields = true;
++  options.always_print_fields_with_no_presence = true;
+   if (export_event.has_task_event_data()) {
+     RAY_CHECK(google::protobuf::util::MessageToJsonString(
+                   export_event.task_event_data(), &event_data_as_string, options)
