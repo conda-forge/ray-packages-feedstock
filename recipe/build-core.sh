@@ -35,6 +35,8 @@ echo '---------------- .bazelrc --------------------------'
 cat .bazelrc
 echo '----------------------------------------------------'
 
+bazel build //java:ray_java_pkg
+
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
