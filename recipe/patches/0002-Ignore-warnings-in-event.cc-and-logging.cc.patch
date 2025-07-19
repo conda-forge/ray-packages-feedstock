@@ -11,10 +11,10 @@ diff --git a/.bazelrc b/.bazelrc
 index 13774dda7c..575538c5f1 100644
 --- a/.bazelrc
 +++ b/.bazelrc
-@@ -57,6 +57,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
- build:msvc-cl     --per_file_copt="-\\.(asm|S)$@-WX"
+@@ -60,6 +60,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
  # Ignore warnings for protobuf generated files and external projects.
  build --per_file_copt="\\.pb\\.cc$@-w"
+ build --per_file_copt="src/ray/thirdparty/.*$@-w"
 +# Ignore one specific warning
 +build --per_file_copt="event\\.cc$@-w"
 +build --per_file_copt="logging\\.cc$@-w"
