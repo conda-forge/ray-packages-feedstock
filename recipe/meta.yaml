@@ -172,7 +172,7 @@ outputs:
         - colorful
         - grpcio
         - opencensus
-        - opentelemetry-sdk
+        - opentelemetry-sdk >=1.30.0
         - opentelemetry-exporter-prometheus
         - opentelemetry-proto
         - prometheus_client >=0.7.1
@@ -233,7 +233,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - aiorwlock
         - fastapi
         - requests
         - starlette
@@ -256,7 +255,7 @@ outputs:
         - {{ pin_subpackage('ray-default', exact=True) }}
         - fsspec
         - pandas
-        - pyarrow >=6.0.1
+        - pyarrow
         - requests
         - tensorboardX >=1.9
     test:
@@ -282,9 +281,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - opentelemetry-api
-        - opentelemetry-sdk
-        - opentelemetry-exporter-otlp
         - memray  # [not win]
     test:
       commands:
