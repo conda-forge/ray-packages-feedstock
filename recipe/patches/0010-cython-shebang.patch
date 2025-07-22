@@ -1,0 +1,44 @@
+From b43952eeafb7985728fcc674ea91112737719496 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Thu, 31 Jul 2025 11:35:18 +1000
+Subject: [PATCH] cython-shebang
+
+---
+ bazel/ray_deps_setup.bzl                | 4 ++++
+ thirdparty/patches/cython-shebang.patch | 9 +++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 thirdparty/patches/cython-shebang.patch
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index e98895248d..41af9fa47a 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -198,6 +198,10 @@ def ray_deps_setup():
+         build_file = True,
+         url = "https://github.com/cython/cython/archive/refs/tags/3.0.12.tar.gz",
+         sha256 = "a156fff948c2013f2c8c398612c018e2b52314fdf0228af8fbdb5585e13699c2",
++        patches = [
++            "@com_github_ray_project_ray//thirdparty/patches:cython-shebang.patch",
++        ],
++        patch_args = ["-p1"],
+     )
+ 
+     auto_http_archive(
+diff --git a/thirdparty/patches/cython-shebang.patch b/thirdparty/patches/cython-shebang.patch
+new file mode 100644
+index 0000000000..1eacc91fdc
+--- /dev/null
++++ b/thirdparty/patches/cython-shebang.patch
+@@ -0,0 +1,9 @@
++diff a/cython.py b/cython.py
++--- a/cython.py
+++++ b/cython.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ #
++ #   Cython -- Main Program, generic
+-- 
+2.39.5 (Apple Git-154)
+

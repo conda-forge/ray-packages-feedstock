@@ -11,6 +11,7 @@ source:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0003-remove-dependencies.patch
+    - patches/0010-cython-shebang.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
@@ -72,7 +73,6 @@ outputs:
         - bazel =6.5
         - bazel-toolchain =0.2.1  # [not win]
         - patchelf  # [linux]
-        - elfutils =0.193  # [linux]
         - colorama
         - curl
         - cython >=0.29.32
