@@ -75,6 +75,7 @@ outputs:
         - colorama
         - curl
         - cython >=0.29.32
+        - elfutils  # [linux]
         - git =2.33  # [win]
         - libxcrypt  # [linux and py<39]
         - make

@@ -11,11 +11,19 @@ diff --git a/.bazelrc b/.bazelrc
 index 13774dda7c..575538c5f1 100644
 --- a/.bazelrc
 +++ b/.bazelrc
-@@ -60,6 +60,9 @@ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
+@@ -53,13 +53,16 @@ build:windows --enable_runfiles
+ #                 for compiling assembly files is fixed on Windows:
+ #                 https://github.com/bazelbuild/bazel/issues/8924
+ # Warnings should be errors
+-build:linux    --per_file_copt="-\\.(asm|S)$@-Werror"
++build:linux    --per_file_copt="-\\.(asm|S)$@-Werror,-Wno-error=dangling-reference"
+ build:macos    --per_file_copt="-\\.(asm|S)$@-Werror"
+ build:clang-cl --per_file_copt="-\\.(asm|S)$@-Werror"
+ build:msvc-cl     --per_file_copt="-\\.(asm|S)$@-WX"
  # Ignore warnings for protobuf generated files and external projects.
  build --per_file_copt="\\.pb\\.cc$@-w"
  build --per_file_copt="src/ray/thirdparty/.*$@-w"
-+# Ignore one specific warning
++# Ignore specific warnings in third-party components
 +build --per_file_copt="event\\.cc$@-w"
 +build --per_file_copt="logging\\.cc$@-w"
  build:linux --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration,-Wno-error=unused-function"
