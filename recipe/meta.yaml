@@ -72,10 +72,10 @@ outputs:
         - bazel =6.5
         - bazel-toolchain =0.2.1  # [not win]
         - patchelf  # [linux]
+        - elfutils =0.193  # [linux]
         - colorama
         - curl
         - cython >=0.29.32
-        - elfutils  # [linux]
         - git =2.33  # [win]
         - libxcrypt  # [linux and py<39]
         - make
