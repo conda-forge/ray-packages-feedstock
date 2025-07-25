@@ -1,15 +1,15 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.15'
+- '11.0'
 MACOSX_SDK_VERSION:
-- '10.15'
+- '11.0'
 c_compiler:
 - clang
 c_compiler_version:
-- '18'
+- '19'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.15'
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -19,11 +19,11 @@ curl:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '19'
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
 libgrpc:
-- '1.71'
+- '1.73'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 nodejs:
