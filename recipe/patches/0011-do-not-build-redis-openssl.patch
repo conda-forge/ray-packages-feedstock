@@ -1,0 +1,239 @@
+From eafef305a09bcc1903676ca40de7206d431630ff Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Thu, 31 Jul 2025 17:55:03 +1000
+Subject: [PATCH] do not build redis, openssl
+
+---
+ BUILD.bazel                          | 26 --------
+ bazel/ray_deps_build_all.bzl         |  2 -
+ bazel/ray_deps_setup.bzl             | 33 ----------
+ thirdparty/patches/redis-quiet.patch | 91 ----------------------------
+ 4 files changed, 152 deletions(-)
+ delete mode 100644 thirdparty/patches/redis-quiet.patch
+
+diff --git a/BUILD.bazel b/BUILD.bazel
+index f4d1f1dec7..0e1b2dd9e2 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -1003,22 +1003,6 @@ filegroup(
+     ]),
+ )
+ 
+-alias(
+-    name = "redis-server",
+-    actual = select({
+-        "@platforms//os:windows": "@com_github_tporadowski_redis_bin//:redis-server.exe",
+-        "//conditions:default": "@com_github_antirez_redis//:redis-server",
+-    }),
+-)
+-
+-alias(
+-    name = "redis-cli",
+-    actual = select({
+-        "@platforms//os:windows": "@com_github_tporadowski_redis_bin//:redis-cli.exe",
+-        "//conditions:default": "@com_github_antirez_redis//:redis-cli",
+-    }),
+-)
+-
+ filegroup(
+     name = "all_py_proto",
+     srcs = [
+@@ -1077,15 +1061,6 @@ copy_to_workspace(
+     dstdir = "python/ray/serve/generated",
+ )
+ 
+-copy_to_workspace(
+-    name = "cp_redis",
+-    srcs = [
+-        ":redis-cli",
+-        ":redis-server",
+-    ],
+-    dstdir = "python/ray/core/src/ray/thirdparty/redis/src",
+-)
+-
+ copy_to_workspace(
+     name = "cp_raylet",
+     srcs = [":raylet"],
+@@ -1138,7 +1113,6 @@ genrule(
+         ":cp_raylet_so",
+         ":python_sources",
+         ":install_py_proto",
+-        ":cp_redis",
+         ":cp_raylet",
+         ":cp_gcs_server",
+     ] + select({
+diff --git a/bazel/ray_deps_build_all.bzl b/bazel/ray_deps_build_all.bzl
+index a8597dd184..00899db55a 100644
+--- a/bazel/ray_deps_build_all.bzl
++++ b/bazel/ray_deps_build_all.bzl
+@@ -7,7 +7,6 @@ load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+ load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_toolchains")
+ load("@com_github_johnynek_bazel_jar_jar//:jar_jar.bzl", "jar_jar_repositories")
+ load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+-load("@rules_foreign_cc_thirdparty//openssl:openssl_setup.bzl", "openssl_setup")
+ 
+ 
+ 
+@@ -21,4 +20,3 @@ def ray_deps_build_all():
+   rules_proto_grpc_toolchains()
+   jar_jar_repositories()
+   rules_foreign_cc_dependencies()
+-  openssl_setup()
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index e98895248d..05b8c45283 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -102,20 +102,6 @@ def ray_deps_setup():
+         patch_args = ["-p1"],
+     )
+ 
+-    # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
+-    # all of http/git_repository should add prefix for patches defined in ray directory.
+-    auto_http_archive(
+-        name = "com_github_antirez_redis",
+-        build_file = "@com_github_ray_project_ray//bazel:redis.BUILD",
+-        patch_args = ["-p1"],
+-        url = "https://github.com/redis/redis/archive/refs/tags/7.2.3.tar.gz",
+-        sha256 = "afd656dbc18a886f9a1cc08a550bf5eb89de0d431e713eba3ae243391fb008a6",
+-        patches = [
+-            "@com_github_ray_project_ray//thirdparty/patches:redis-quiet.patch",
+-        ],
+-        workspace_file_content = 'workspace(name = "com_github_antirez_redis")',
+-    )
+-
+     auto_http_archive(
+         name = "com_github_redis_hiredis",
+         build_file = "@com_github_ray_project_ray//bazel:hiredis.BUILD",
+@@ -269,16 +255,6 @@ def ray_deps_setup():
+         ],
+     )
+ 
+-    http_archive(
+-        name = "openssl",
+-        strip_prefix = "openssl-1.1.1f",
+-        sha256 = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35",
+-        urls = [
+-            "https://openssl.org/source/old/1.1.1/openssl-1.1.1f.tar.gz",
+-        ],
+-        build_file = "@rules_foreign_cc_thirdparty//openssl:BUILD.openssl.bazel",
+-    )
+-
+     http_archive(
+         name = "rules_foreign_cc",
+         sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
+@@ -286,15 +262,6 @@ def ray_deps_setup():
+         url = "https://github.com/bazelbuild/rules_foreign_cc/archive/refs/tags/0.9.0.tar.gz",
+     )
+ 
+-    # Using shallow_since allows the rule to clone down fewer commits.
+-    # Reference:  https://bazel.build/rules/lib/repo/git
+-    git_repository(
+-        name = "rules_perl",
+-        remote = "https://github.com/bazelbuild/rules_perl.git",
+-        commit = "022b8daf2bb4836ac7a50e4a1d8ea056a3e1e403",
+-        shallow_since = "1663780239 -0700",
+-    )
+-
+     http_archive(
+         name = "rules_foreign_cc_thirdparty",
+         sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
+diff --git a/thirdparty/patches/redis-quiet.patch b/thirdparty/patches/redis-quiet.patch
+deleted file mode 100644
+index 3a5449dacd..0000000000
+--- a/thirdparty/patches/redis-quiet.patch
++++ /dev/null
+@@ -1,91 +0,0 @@
+-diff --git a/deps/Makefile b/deps/Makefile
+-index 3bf0363d5..ea5d12cd4 100644
+---- a/deps/Makefile
+-+++ b/deps/Makefile
+-@@ -51,25 +51,25 @@ ifneq (,$(filter $(BUILD_TLS),yes module))
+- endif
+-
+- hiredis: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd hiredis && $(MAKE) static $(HIREDIS_MAKE_FLAGS)
+-
+- .PHONY: hiredis
+-
+- linenoise: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd linenoise && $(MAKE)
+-
+- .PHONY: linenoise
+-
+- hdr_histogram: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd hdr_histogram && $(MAKE)
+-
+- .PHONY: hdr_histogram
+-
+- fpconv: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd fpconv && $(MAKE)
+-
+- .PHONY: fpconv
+-@@ -98,7 +98,7 @@ AR=ar
+- ARFLAGS=rc
+-
+- lua: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd lua/src && $(MAKE) all CFLAGS="$(LUA_CFLAGS)" MYLDFLAGS="$(LUA_LDFLAGS)" AR="$(AR) $(ARFLAGS)"
+-
+- .PHONY: lua
+-@@ -111,7 +111,7 @@ JEMALLOC_CONFIGURE_OPTS += --host=$(DEB_HOST_GNU_TYPE)
+- endif
+-
+- jemalloc: .make-prerequisites
+--	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+-+	#@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)$@$(ENDCOLOR)
+- 	cd jemalloc && ./configure --disable-cxx --with-version=5.3.0-0-g0 --with-lg-quantum=3 --disable-cache-oblivious --with-jemalloc-prefix=je_ CFLAGS="$(JEMALLOC_CFLAGS)" LDFLAGS="$(JEMALLOC_LDFLAGS)" $(JEMALLOC_CONFIGURE_OPTS)
+- 	cd jemalloc && $(MAKE) lib/libjemalloc.a
+-
+-diff --git a/deps/jemalloc/Makefile.in b/deps/jemalloc/Makefile.in
+-index 1193cd859..140995eb5 100644
+---- a/deps/jemalloc/Makefile.in
+-+++ b/deps/jemalloc/Makefile.in
+-@@ -496,7 +496,7 @@ $(objroot)include/jemalloc/internal/private_namespace_jet.gen.h: $(C_JET_SYMS)
+- 	$(SHELL) $(srcroot)include/jemalloc/internal/private_namespace.sh $^ > $@
+-
+- %.h: %.gen.h
+--	@if ! `cmp -s $< $@` ; then echo "cp $< $@"; cp $< $@ ; fi
+-+	@if ! `cmp -s $< $@` ; then cp $< $@ ; fi
+-
+- $(CPP_OBJS) $(CPP_PIC_OBJS) $(TESTS_CPP_OBJS): %.$(O):
+- 	@mkdir -p $(@D)
+-diff --git a/src/Makefile b/src/Makefile
+-index ecbd2753d..737a14777 100644
+---- a/src/Makefile
+-+++ b/src/Makefile
+-@@ -116,7 +116,7 @@ endif
+- # Override default settings if possible
+- -include .make-settings
+-
+--FINAL_CFLAGS=$(STD) $(WARN) $(OPT) $(DEBUG) $(CFLAGS) $(REDIS_CFLAGS)
+-+FINAL_CFLAGS=$(STD) $(WARN) $(OPT) $(DEBUG) $(CFLAGS) $(REDIS_CFLAGS) $(CPPFLAGS)
+- FINAL_LDFLAGS=$(LDFLAGS) $(REDIS_LDFLAGS) $(DEBUG)
+- FINAL_LIBS=-lm
+- DEBUG=-g -ggdb
+-@@ -355,9 +355,9 @@ REDIS_CHECK_AOF_NAME=redis-check-aof$(PROG_SUFFIX)
+- ALL_SOURCES=$(sort $(patsubst %.o,%.c,$(REDIS_SERVER_OBJ) $(REDIS_CLI_OBJ) $(REDIS_BENCHMARK_OBJ)))
+-
+- all: $(REDIS_SERVER_NAME) $(REDIS_SENTINEL_NAME) $(REDIS_CLI_NAME) $(REDIS_BENCHMARK_NAME) $(REDIS_CHECK_RDB_NAME) $(REDIS_CHECK_AOF_NAME) $(TLS_MODULE)
+--	@echo ""
+--	@echo "Hint: It's a good idea to run 'make test' ;)"
+--	@echo ""
+-+	#@echo ""
+-+	#@echo "Hint: It's a good idea to run 'make test' ;)"
+-+	#@echo ""
+-
+- Makefile.dep:
+- 	-$(REDIS_CC) -MM $(ALL_SOURCES) > Makefile.dep 2> /dev/null || true
+-- 
+2.39.5 (Apple Git-154)
+
