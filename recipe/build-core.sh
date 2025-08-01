@@ -31,6 +31,7 @@ build --experimental_ui_max_stdouterr_bytes=16000000
 build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
 fi
+
 echo '---------------- .bazelrc --------------------------'
 cat .bazelrc
 echo '----------------------------------------------------'

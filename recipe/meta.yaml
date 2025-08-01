@@ -1,4 +1,4 @@
-{% set version = "2.47.1" %}
+{% set version = "2.48.0" %}
 
 package:
   name: ray-packages
@@ -6,11 +6,12 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: a0085b00d7204cd39658b5db60a10842a0068131129f304403e55847fc9cd69c
+  sha256: 46321da3e619d2094055544b0e8c81765ed59820b94313c44a3c93290fe70cf0
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0003-remove-dependencies.patch
+    - patches/0010-cython-shebang.patch  # [linux]
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
@@ -23,6 +24,8 @@ source:
     - patches/0008-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
     - patches/0009-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
+    - patches/0011-do-not-build-redis-openssl.patch
 
 build:
   number: 0
@@ -172,7 +175,7 @@ outputs:
         - colorful
         - grpcio
         - opencensus
-        - opentelemetry-sdk
+        - opentelemetry-sdk >=1.30.0
         - opentelemetry-exporter-prometheus
         - opentelemetry-proto
         - prometheus_client >=0.7.1
@@ -233,7 +236,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - aiorwlock
         - fastapi
         - requests
         - starlette
@@ -256,7 +258,7 @@ outputs:
         - {{ pin_subpackage('ray-default', exact=True) }}
         - fsspec
         - pandas
-        - pyarrow >=6.0.1
+        - pyarrow
         - requests
         - tensorboardX >=1.9
     test:
@@ -282,9 +284,6 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('ray-default', exact=True) }}
-        - opentelemetry-api
-        - opentelemetry-sdk
-        - opentelemetry-exporter-otlp
         - memray  # [not win]
     test:
       commands:
