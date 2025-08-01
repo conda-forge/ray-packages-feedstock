@@ -28,7 +28,7 @@ source:
     - patches/0011-do-not-build-redis-openssl.patch
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:

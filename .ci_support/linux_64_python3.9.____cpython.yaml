@@ -23,7 +23,7 @@ docker_image:
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
 libgrpc:
-- '1.71'
+- '1.73'
 nodejs:
 - '20'
 - '22'
