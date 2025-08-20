@@ -11,6 +11,8 @@ source:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0003-remove-dependencies.patch
+    # This needs modification for each release
+    - patches/0012-update-commit-sha.patch
     - patches/0010-cython-shebang.patch  # [linux]
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
@@ -28,7 +30,7 @@ source:
     - patches/0011-do-not-build-redis-openssl.patch
 
 build:
-  number: 0
+  number: 1
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
