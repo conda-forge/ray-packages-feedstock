@@ -2,7 +2,7 @@ azure:
   settings_win:
     variables:
       SET_PAGEFILE: 'True'
-      MINIFORGE_HOME: "C:\Miniforge"
+      MINIFORGE_HOME: C:\Miniforge
 build_platform:
   osx_arm64: osx_64
 conda_build:
