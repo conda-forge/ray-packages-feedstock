@@ -36,11 +36,6 @@ jobs:
             os: ubuntu
             runs_on: ['cirun-openstack-cpu-4xlarge--${{ github.run_id }}-linux_64_python3.12.____cpython', 'linux', 'x64', 'self-hosted']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: linux_64_python3.9.____cpython
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['cirun-openstack-cpu-4xlarge--${{ github.run_id }}-linux_64_python3.9.____cpython', 'linux', 'x64', 'self-hosted']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
     steps:
 
     - name: Checkout code
