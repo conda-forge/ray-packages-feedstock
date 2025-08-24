@@ -31,6 +31,8 @@ source:
 
 build:
   number: 1
+  # ray doesn't support 3.13 yet
+  skip: true  # [py>312]
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -67,6 +69,7 @@ outputs:
     script: build-core.sh  # [not win]
     script: build-core.bat  # [win]
     build:
+      skip: true  # [py>312]
       entry_points:
         - ray = ray.scripts.scripts:main
     requirements:
@@ -127,6 +130,8 @@ outputs:
 
   # the various ray[extra] installs, alphabetically
   - name: ray-air
+    build:
+      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -141,6 +146,8 @@ outputs:
         - ray.air
 
   - name: ray-data
+    build:
+      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -156,6 +163,8 @@ outputs:
         - ray.data
 
   - name: ray-default
+    build:
+      skip: true  # [py>312]
     build:
       script:
         - cd python/ray/dashboard/client
@@ -196,6 +205,8 @@ outputs:
         - python -c "import ray; ray.init(include_dashboard=True)"
 
   - name: ray-client
+    build:
+      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -212,6 +223,8 @@ outputs:
         - ray stop
 
   - name: ray-rllib
+    build:
+      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -229,6 +242,8 @@ outputs:
         - ray.rllib
 
   - name: ray-serve
+    build:
+      skip: true  # [py>312]
     build:
       entry_points:
         - serve = ray.serve.scripts:cli
@@ -250,6 +265,8 @@ outputs:
 
   - name: ray-tune
     build:
+      skip: true  # [py>312]
+    build:
       entry_points:
         - tune = ray.tune.scripts:cli
     requirements:
@@ -268,6 +285,8 @@ outputs:
         - ray.tune
 
   - name: ray-train
+    build:
+      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -293,7 +312,7 @@ outputs:
 
   - name: ray-adag
     build:
-      skip: true  # [osx]
+      skip: true  # [osx or py>312]
     requirements:
       host:
         - python
@@ -307,7 +326,7 @@ outputs:
 
   - name: ray-cgraph
     build:
-      skip: true  # [osx]
+      skip: true  # [osx or py>312]
     requirements:
       host:
         - python
