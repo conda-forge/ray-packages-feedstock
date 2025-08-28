@@ -1,17 +1,17 @@
-From 7bacb8f1cf2da34aa7fd0d92f834d19bd924daf8 Mon Sep 17 00:00:00 2001
+From f44373d800bf092264c3c1066fea849a8a12a0e7 Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
-Date: Sun, 20 Jul 2025 07:49:55 +1000
-Subject: [PATCH] remove dependencies
+Date: Thu, 28 Aug 2025 19:29:43 +0300
+Subject: [PATCH 03/11] remove dependencies
 
 ---
- python/setup.py | 158 +++++-------------------------------------------
- 1 file changed, 14 insertions(+), 144 deletions(-)
+ python/setup.py | 170 ++++--------------------------------------------
+ 1 file changed, 14 insertions(+), 156 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index 9c964783d8..862ba789a0 100644
+index fa2e5a6d19..9d495292b5 100644
 --- a/python/setup.py
 +++ b/python/setup.py
-@@ -216,131 +216,23 @@ ray_files += [
+@@ -217,142 +217,23 @@ ray_files += [
  # also update the matching section of requirements/requirements.txt
  # in this directory
  if setup_spec.type == SetupType.RAY:
@@ -108,12 +108,23 @@ index 9c964783d8..862ba789a0 100644
 -        )
 -    )
 -
+-    # This is required for supporting the asynchronous inference, allowing the ray serve applications to
+-    # allow asynchronously execute their code, via the use of celery task processor.
+-    setup_spec.extras["serve-async-inference"] = list(
+-        set(
+-            setup_spec.extras["serve"]
+-            + [
+-                "celery",
+-            ]
+-        )
+-    )
+-
 -    if RAY_EXTRA_CPP:
 -        setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
 -
 -    setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
 -        "dm_tree",
--        "gymnasium==1.0.0",
+-        "gymnasium==1.1.1",
 -        "lz4",
 -        "ormsgpack==1.7.0",
 -        "pyyaml",
@@ -155,19 +166,20 @@ index 9c964783d8..862ba789a0 100644
  
      # "llm" is not included in all, by design. vllm's dependency set is very
      # large and specific, will likely run into dependency conflicts with other
-@@ -352,19 +244,6 @@ if setup_spec.type == SetupType.RAY:
+@@ -364,20 +245,6 @@ if setup_spec.type == SetupType.RAY:
      # Keep this in sync with python/requirements/llm/llm-requirements.txt
      #
      setup_spec.extras["llm"] = list(
 -        set(
 -            [
--                "vllm>=0.9.2",
+-                "vllm>=0.10.0",
 -                "jsonref>=1.1.0",
 -                "jsonschema",
 -                "ninja",
 -                # async-timeout is a backport of asyncio.timeout for python < 3.11
 -                "async-timeout; python_version < '3.11'",
 -                "typer",
+-                "hf_transfer",
 -            ]
 -            + setup_spec.extras["data"]
 -            + setup_spec.extras["serve"]
@@ -175,7 +187,7 @@ index 9c964783d8..862ba789a0 100644
      )
  
  # These are the main dependencies for users of ray. This list
-@@ -375,16 +254,7 @@ if setup_spec.type == SetupType.RAY:
+@@ -388,16 +255,7 @@ if setup_spec.type == SetupType.RAY:
  # install-core-prerelease-dependencies.sh so we can test
  # new releases candidates.
  if setup_spec.type == SetupType.RAY:
@@ -185,7 +197,7 @@ index 9c964783d8..862ba789a0 100644
 -        "jsonschema",
 -        "msgpack >= 1.0.0, < 2.0.0",
 -        "packaging",
--        "protobuf >= 3.15.3, != 3.19.5",
+-        "protobuf>=3.20.3",
 -        "pyyaml",
 -        "requests",
 -    ]
@@ -193,7 +205,7 @@ index 9c964783d8..862ba789a0 100644
  
  
  def is_native_windows_or_msys():
-@@ -763,7 +633,7 @@ if __name__ == "__main__":
+@@ -783,7 +641,7 @@ if __name__ == "__main__":
          # The BinaryDistribution argument triggers build_ext.
          distclass=BinaryDistribution,
          install_requires=setup_spec.install_requires,
