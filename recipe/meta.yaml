@@ -27,6 +27,8 @@ source:
     - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
+    # Ray patches grpc, update the patch for 1.67
+    - patches/0012-update-patch-for-grpc-1.67.patch
 
 build:
   number: 0

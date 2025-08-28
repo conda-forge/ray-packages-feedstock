@@ -18,7 +18,7 @@ index ce365f9a34..344e4255ff 100644
              "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v28.2.tar.gz",
          ],
 +        patches = [
-+            "@com_github_ray_project_ray//thirdparty/patches:protobuf-windows-const-nan.patch",
++            "//thirdparty/patches:protobuf-windows-const-nan.patch",
 +            
 +        ],
      )

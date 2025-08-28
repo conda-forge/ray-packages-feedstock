@@ -5,9 +5,9 @@ Subject: [PATCH 10/11] patch bundled fmt in spdlog for invalid char8_type
 
 ---
  bazel/ray_deps_setup.bzl                      |  1 +
- .../patches/spdlob-fmt-no-char8_type.patch    | 41 +++++++++++++++++++
+ .../patches/spdlog-fmt-no-char8_type.patch    | 41 +++++++++++++++++++
  2 files changed, 42 insertions(+)
- create mode 100644 thirdparty/patches/spdlob-fmt-no-char8_type.patch
+ create mode 100644 thirdparty/patches/spdlog-fmt-no-char8_type.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 5e78d42322..2f808be978 100644
@@ -21,11 +21,11 @@ index 5e78d42322..2f808be978 100644
          ],
          patch_args = ["-p1"],
      )
-diff --git a/thirdparty/patches/spdlob-fmt-no-char8_type.patch b/thirdparty/patches/spdlob-fmt-no-char8_type.patch
+diff --git a/thirdparty/patches/spdlog-fmt-no-char8_type.patch b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
 new file mode 100644
 index 0000000000..fdcbba413d
 --- /dev/null
-+++ b/thirdparty/patches/spdlob-fmt-no-char8_type.patch
++++ b/thirdparty/patches/spdlog-fmt-no-char8_type.patch
 @@ -0,0 +1,41 @@
 +diff -u
 +--- a/include/spdlog/fmt/bundled/format.h
