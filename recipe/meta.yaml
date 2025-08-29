@@ -80,7 +80,7 @@ outputs:
         - patchelf  # [linux]
         - colorama
         - curl
-        - cython >=0.29.32
+        - cython >=3.0.12
         - git =2.33  # [win]
         - libxcrypt  # [linux and py<39]
         - make
@@ -99,11 +99,9 @@ outputs:
       run:
         - python
         - aiohttp >=3.7
-        - aiosignal
         - click >=7.0
         - colorama
         - filelock
-        - frozenlist
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - packaging
@@ -111,7 +109,6 @@ outputs:
         - psutil
         - pyyaml
         - requests
-        - setproctitle >=1.2.2,<1.4
       run_constrained:
 
     test:

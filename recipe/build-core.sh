@@ -42,7 +42,7 @@ echo '----------------------------------------------------'
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
-"${PYTHON}" setup.py build
+"${PYTHON}" -m pip install . -vv --no-deps
 # bazel by default makes everything read-only,
 # which leads to patchelf failing to fix rpath in binaries.
 # find all ray binaries and make them writable

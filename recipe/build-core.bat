@@ -34,7 +34,7 @@ cd python
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
 echo build --jobs=1 >> ..\.bazelrc
 echo build --subcommands=pretty_print >> ..\.bazelrc
-"%PYTHON%" -m pip install . -vv
+"%PYTHON%" -m pip install . -vv --no-deps
 
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
