@@ -1,4 +1,4 @@
-{% set version = "2.48.0" %}
+{% set version = "2.49.0" %}
 
 package:
   name: ray-packages
@@ -6,33 +6,30 @@ package:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
-  sha256: 46321da3e619d2094055544b0e8c81765ed59820b94313c44a3c93290fe70cf0
+  sha256: cf9d2dbf6aae23fdbaca41297de115cd95daf81baf2005cd088cb3e0586a0763
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-remove-dependencies.patch
+    - patches/0003-Newer-hermetic-python.patch
     # This needs modification for each release
-    - patches/0012-update-commit-sha.patch
-    - patches/0010-cython-shebang.patch  # [linux]
+    - patches/0004-update-commit-sha.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0004-Vendor-grpc-1.67.1.patch
-    - patches/0005-remove-stdlib-libc-from-.bazelrc.patch
+    - patches/0005-Vendor-grpc-1.67.1.patch
+    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch
     # Patch around non-const NAN on windows in protobuf 27.5
-    - patches/0006-patch-protobuf-use-of-nan-on-windows.patch
-    - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
+    - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
+    - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Add missing include in new logging code for different absl
-    - patches/0008-add-missing-include.patch
+    - patches/0009-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0009-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
 
 build:
-  number: 1
-  # ray doesn't support 3.13 yet
-  skip: true  # [py>312]
+  number: 0
 
 # Need these up here for conda-smithy to handle them properly.
 requirements:
@@ -69,7 +66,6 @@ outputs:
     script: build-core.sh  # [not win]
     script: build-core.bat  # [win]
     build:
-      skip: true  # [py>312]
       entry_points:
         - ray = ray.scripts.scripts:main
     requirements:
@@ -82,11 +78,12 @@ outputs:
         - patchelf  # [linux]
         - colorama
         - curl
-        - cython >=0.29.32
+        - cython >=3.0.12
         - git =2.33  # [win]
         - libxcrypt  # [linux and py<39]
         - make
         - m2-bash  # [win]
+        - unzip
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
@@ -98,23 +95,20 @@ outputs:
         - libgrpc
         - openjdk =11
         - setuptools
+        - cython >=3.0.12
       run:
         - python
         - aiohttp >=3.7
-        - aiosignal
         - click >=7.0
         - colorama
         - filelock
-        - frozenlist
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - packaging
-        - protobuf >=3.15.3,!=3.19.5
+        - protobuf >=3.20.3
         - psutil
         - pyyaml
         - requests
-        - setproctitle >=1.2.2,<1.4
-      run_constrained:
 
     test:
       imports:
@@ -130,8 +124,6 @@ outputs:
 
   # the various ray[extra] installs, alphabetically
   - name: ray-air
-    build:
-      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -146,8 +138,6 @@ outputs:
         - ray.air
 
   - name: ray-data
-    build:
-      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -164,8 +154,6 @@ outputs:
 
   - name: ray-default
     build:
-      skip: true  # [py>312]
-    build:
       script:
         - cd python/ray/dashboard/client
         - npm install
@@ -176,7 +164,7 @@ outputs:
         - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
     requirements:
       build:
-        - nodejs
+        - nodejs >=20
       host:
         - python
       run:
@@ -205,8 +193,6 @@ outputs:
         - python -c "import ray; ray.init(include_dashboard=True)"
 
   - name: ray-client
-    build:
-      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -223,8 +209,6 @@ outputs:
         - ray stop
 
   - name: ray-rllib
-    build:
-      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -232,7 +216,7 @@ outputs:
         - python
         - {{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==1.0.0
+        - gymnasium ==1.1.1
         - lz4
         - ormsgpack ==1.7.0
         - pyyaml
@@ -242,8 +226,6 @@ outputs:
         - ray.rllib
 
   - name: ray-serve
-    build:
-      skip: true  # [py>312]
     build:
       entry_points:
         - serve = ray.serve.scripts:cli
@@ -265,8 +247,6 @@ outputs:
 
   - name: ray-tune
     build:
-      skip: true  # [py>312]
-    build:
       entry_points:
         - tune = ray.tune.scripts:cli
     requirements:
@@ -285,8 +265,6 @@ outputs:
         - ray.tune
 
   - name: ray-train
-    build:
-      skip: true  # [py>312]
     requirements:
       host:
         - python
@@ -311,8 +289,6 @@ outputs:
         - echo "no tests for ray-observability, it is a convenience bundle"
 
   - name: ray-adag
-    build:
-      skip: true  # [osx or py>312]
     requirements:
       host:
         - python
@@ -325,8 +301,6 @@ outputs:
         - echo "no tests for ray-adag, it is a convenience bundle"
 
   - name: ray-cgraph
-    build:
-      skip: true  # [osx or py>312]
     requirements:
       host:
         - python

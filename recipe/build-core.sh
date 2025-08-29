@@ -32,6 +32,10 @@ build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
 fi
 
+cat >> .bazelrc <<EOF
+build --spawn_strategy=local
+EOF
+
 echo '---------------- .bazelrc --------------------------'
 cat .bazelrc
 echo '----------------------------------------------------'
@@ -39,18 +43,9 @@ echo '----------------------------------------------------'
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
-"${PYTHON}" setup.py build
-# bazel by default makes everything read-only,
-# which leads to patchelf failing to fix rpath in binaries.
-# find all ray binaries and make them writable
-grep -lR ELF build/ | xargs chmod +w
-
 # now install the thing so conda could pick it up
-"${PYTHON}" setup.py install  --single-version-externally-managed --root=/
+"${PYTHON}" -m pip install . -vv --no-deps --no-build-isolation
 
-# now clean everything up so subsequent builds (for potentially
-# different Python version) do not stumble on some after-effects
-"${PYTHON}" setup.py clean --all
 bazel "--output_user_root=$SRC_DIR/../bazel-root" "--output_base=$SRC_DIR/../b-o" clean
 bazel "--output_user_root=$SRC_DIR/../bazel-root" "--output_base=$SRC_DIR/../b-o" shutdown
 rm -rf "$SRC_DIR/../b-o" "$SRC_DIR/../bazel-root"

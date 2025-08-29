@@ -1,0 +1,24 @@
+From 25d4592ce8f7cb75a5c5d9bc2767edf3e4989426 Mon Sep 17 00:00:00 2001
+From: mattip <matti.picus@gmail.com>
+Date: Fri, 28 Feb 2025 15:29:57 +0200
+Subject: [PATCH 09/11] add-missing-include
+
+---
+ src/ray/util/pipe_logger.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/ray/util/pipe_logger.cc b/src/ray/util/pipe_logger.cc
+index d16a6589d6..bc8478c20e 100644
+--- a/src/ray/util/pipe_logger.cc
++++ b/src/ray/util/pipe_logger.cc
+@@ -35,6 +35,7 @@
+ #include "ray/util/spdlog_fd_sink.h"
+ #include "ray/util/spdlog_newliner_sink.h"
+ #include "ray/util/thread_utils.h"
++#include "ray/util/util.h"
+ #include "spdlog/sinks/basic_file_sink.h"
+ #include "spdlog/sinks/rotating_file_sink.h"
+ #include "spdlog/sinks/stdout_color_sinks.h"
+-- 
+2.39.5 (Apple Git-154)
+
