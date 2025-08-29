@@ -39,14 +39,6 @@ build:
   number: 2
   skip: match(python, ">3.12")
 
-requirements:
-  build:
-    - ${{ compiler('c') }}
-    - ${{ stdlib("c") }}
-    - ${{ compiler('cxx') }}
-  host:
-    - python
-
 outputs:
   - package:
       name: ray-all
@@ -71,9 +63,11 @@ outputs:
       - python:
           imports:
             - ray
+
   - package:
       name: ray-core
     build:
+      script: build-core
       python:
         entry_points:
           - ray = ray.scripts.scripts:main
@@ -138,7 +132,7 @@ outputs:
       - script:
           - python -c "import ray; ray.init(include_dashboard=False)"
           - ray --help
-    script: build-core
+
   # the various ray[extra] installs, alphabetically
   - package:
       name: ray-air
@@ -155,6 +149,7 @@ outputs:
       - python:
           imports:
             - ray.air
+
   - package:
       name: ray-data
     requirements:
@@ -171,6 +166,7 @@ outputs:
       - python:
           imports:
             - ray.data
+
   - package:
       name: ray-default
     build:
@@ -215,6 +211,7 @@ outputs:
             - ray.dashboard
       - script:
           - python -c "import ray; ray.init(include_dashboard=True)"
+
   - package:
       name: ray-client
     requirements:
@@ -232,6 +229,7 @@ outputs:
           - ray start --head
           - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
           - ray stop
+
   - package:
       name: ray-rllib
     requirements:
@@ -250,6 +248,7 @@ outputs:
       - python:
           imports:
             - ray.rllib
+
   - package:
       name: ray-serve
     build:
@@ -272,6 +271,7 @@ outputs:
       - python:
           imports:
             - ray.serve
+
   - package:
       name: ray-tune
     build:
@@ -293,6 +293,7 @@ outputs:
       - python:
           imports:
             - ray.tune
+
   - package:
       name: ray-train
     requirements:
@@ -306,6 +307,7 @@ outputs:
       - python:
           imports:
             - ray.train
+
   - package:
       name: ray-observability
     requirements:
@@ -319,6 +321,7 @@ outputs:
     tests:
       - script:
           - echo "no tests for ray-observability, it is a convenience bundle"
+
   - package:
       name: ray-adag
     build:
@@ -333,6 +336,7 @@ outputs:
     tests:
       - script:
           - echo "no tests for ray-adag, it is a convenience bundle"
+
   - package:
       name: ray-cgraph
     build:
