@@ -10,7 +10,7 @@ source:
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-remove-dependencies.patch
+    - patches/0003-Newer-hermetic-python.patch
     # This needs modification for each release
     - patches/0004-update-commit-sha.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
@@ -27,8 +27,6 @@ source:
     - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
-    # Ray patches grpc, update the patch for 1.67
-    - patches/0012-update-patch-for-grpc-1.67.patch
 
 build:
   number: 0
@@ -96,6 +94,7 @@ outputs:
         - libgrpc
         - openjdk =11
         - setuptools
+        - cython >=3.0.12
       run:
         - python
         - aiohttp >=3.7
@@ -109,7 +108,6 @@ outputs:
         - psutil
         - pyyaml
         - requests
-      run_constrained:
 
     test:
       imports:
