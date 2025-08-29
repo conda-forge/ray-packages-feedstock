@@ -40,7 +40,9 @@ cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
 # https://github.com/prefix-dev/rattler-build/issues/1865
-rm -rf $CONDA_PREFIX/share/bazel/install/*
+#rm -rf $CONDA_PREFIX/share/bazel/install/*
+
+find $CONDA_PREFIX/share/bazel/install | xargs -n 1 touch -mt 203601010101
 
 "${PYTHON}" setup.py build
 # bazel by default makes everything read-only,
