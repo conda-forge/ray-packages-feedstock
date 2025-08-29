@@ -119,7 +119,6 @@ outputs:
         - pyyaml
         - requests
         - setproctitle >=1.2.2,<1.4
-      run_constraints: run_constrained
     tests:
       - python:
           imports:
@@ -200,7 +199,7 @@ outputs:
           then: py-spy >=0.2.0
         - if: match(python, ">=3.12")
           then: py-spy >=0.4.0
-        - pydantic !=2.0,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
+        - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
         - virtualenv >=20.0.24,!=20.21.1
@@ -302,7 +301,7 @@ outputs:
       run:
         - python
         - ${{ pin_subpackage('ray-tune', exact=True) }}
-        - pydantic !=2.0,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
+        - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
     tests:
       - python:
           imports:
