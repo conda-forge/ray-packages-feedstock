@@ -66,8 +66,7 @@ outputs:
         - ray
 
   - name: ray-core
-    script: build-core.sh  # [not win]
-    script: build-core.bat  # [win]
+    script: build-core
     build:
       entry_points:
         - ray = ray.scripts.scripts:main
