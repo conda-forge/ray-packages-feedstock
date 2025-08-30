@@ -51,22 +51,15 @@ index 0000000000..6903fe492d
 --- /dev/null
 +++ b/thirdparty/patches/boost-mirrors.patch
 @@ -0,0 +1,16 @@
-+diff --git boost/boost.bzl boost/boost.bzl
-+index fc56a14..1ddb85b 100644
-+--- boost/boost.bzl
-++++ boost/boost.bzl
-+@@ -186,10 +186,7 @@ def boost_deps():
-+         build_file = "@com_github_nelhage_rules_boost//:BUILD.lzma",
-+         sha256 = "06327c2ddc81e126a6d9a78b0be5014b976a2c0832f492dcfc4755d7facf6d33",
-+         strip_prefix = "xz-5.2.7",
-+-        urls = [
-+-            "https://%s.dl.sourceforge.net/project/lzmautils/xz-5.2.7.tar.gz" % m
-+-            for m in SOURCEFORGE_MIRRORS
-+-        ],
-++        url = "https://tukaani.org/xz/xz-5.2.7.tar.gz",
++@@ -178,7 +178,7 @@ def boost_deps():
++         ]
 +     )
 +
++-    SOURCEFORGE_MIRRORS = ["cfhcable", "superb-sea2", "cytranet", "iweb", "gigenet", "ayera", "astuteinternet", "pilotfiber", "svwh"]
+++    SOURCEFORGE_MIRRORS = ["cytranet-dal", "gigenet", "psychz"]
++
 +     maybe(
++         http_archive,
 -- 
 2.43.0
 
