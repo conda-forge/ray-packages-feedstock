@@ -16,7 +16,9 @@ test: native_and_emulated
 github_actions:
   self_hosted: true
   triggers:
-  - push
-  - pull_request
+    - push
+    - pull_request
 provider:
   linux_64: github_actions
+conda_install_tool: pixi
+conda_build_tool: rattler-build
