@@ -19,6 +19,7 @@ index a4117d0ca2..3e4569f8f1 100644
          sha256 = "490d11425393eed068966a4990ead1ff07c658f823fd982fddac67006ccc44ab",
 +        patches = [
 +            "@com_github_ray_project_ray//thirdparty/patches:boost-zlib-fdopen.patch",
++            "//thirdparty/patches:boost-mirrors.patch",
 +        ],
      )
  
@@ -44,6 +45,28 @@ index 0000000000..026703b3b0
 +     maybe(
 +
 +
+diff --git a/thirdparty/patches/boost-mirrors.patch b/thirdparty/patches/boost-mirrors.patch
+new file mode 100644
+index 0000000000..6903fe492d
+--- /dev/null
++++ b/thirdparty/patches/boost-mirrors.patch
+@@ -0,0 +1,16 @@
++diff --git boost/boost.bzl boost/boost.bzl
++index fc56a14..1ddb85b 100644
++--- boost/boost.bzl
+++++ boost/boost.bzl
++@@ -186,10 +186,7 @@ def boost_deps():
++         build_file = "@com_github_nelhage_rules_boost//:BUILD.lzma",
++         sha256 = "06327c2ddc81e126a6d9a78b0be5014b976a2c0832f492dcfc4755d7facf6d33",
++         strip_prefix = "xz-5.2.7",
++-        urls = [
++-            "https://%s.dl.sourceforge.net/project/lzmautils/xz-5.2.7.tar.gz" % m
++-            for m in SOURCEFORGE_MIRRORS
++-        ],
+++        url = "https://tukaani.org/xz/xz-5.2.7.tar.gz",
++     )
++
++     maybe(
 -- 
 2.43.0
 

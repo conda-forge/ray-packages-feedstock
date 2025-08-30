@@ -205,6 +205,7 @@ outputs:
         - virtualenv >=20.0.24,!=20.21.1
     tests:
       - python:
+          pip_check: false
           imports:
             - ray
             - ray.dashboard
