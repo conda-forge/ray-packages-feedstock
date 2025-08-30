@@ -192,7 +192,9 @@ outputs:
         - grpcio
         - opencensus
         - opentelemetry-sdk >=1.30.0
-        - opentelemetry-exporter-prometheus
+        # upstream doesn't have a lowerbound, but old versions on conda-forge
+        # are missing some constraints that result in a weird solve and break
+        - opentelemetry-exporter-prometheus >=0.51b0
         - opentelemetry-proto
         - prometheus_client >=0.7.1
         - if: match(python, "<3.12")
@@ -205,7 +207,6 @@ outputs:
         - virtualenv >=20.0.24,!=20.21.1
     tests:
       - python:
-          pip_check: false
           imports:
             - ray
             - ray.dashboard
