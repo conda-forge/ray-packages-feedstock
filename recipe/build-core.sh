@@ -36,7 +36,7 @@ EOF
 fi
 
 cat >> .bazelrc <<EOF
-build --spawn_strategy=local
+# build --spawn_strategy=local
 EOF
 
 echo '---------------- .bazelrc --------------------------'

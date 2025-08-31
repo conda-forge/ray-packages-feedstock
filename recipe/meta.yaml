@@ -83,7 +83,6 @@ outputs:
         - libxcrypt  # [linux and py<39]
         - make
         - m2-bash  # [win]
-        - unzip
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
