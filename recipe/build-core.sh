@@ -25,17 +25,25 @@ build --define CONDA_AR=${AR}
 build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
-# build --subcommands
+EOF
+fi
+
+export LDFLAGS="${LDFLAGS} -lm"
+source gen-bazel-toolchain
+cat >> .bazelrc <<EOF
 build --crosstool_top=//bazel_toolchain:toolchain
-build --cpu=${TARGET_CPU}
 build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
-build --experimental_ui_max_stdouterr_bytes=16000000
-build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
+build --extra_toolchains=//bazel_toolchain:cc_cf_toolchain
+build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
+build --logging=6
+build --verbose_failures
+build --toolchain_resolution_debug
+build --local_cpu_resources=${CPU_COUNT}
 EOF
-else
-  # set UNZIP, https://github.com/conda-forge/docker-images/issues/311
-  export UNZIP=$(which unzip)
+
+if [[ "${target_platform}" == "osx-arm64" || "${target_platform}" != "${build_platform}" ]]; then
+  echo "build --cpu=${TARGET_CPU}" >> .bazelrc
 fi
 
 echo '---------------- .bazelrc --------------------------'
