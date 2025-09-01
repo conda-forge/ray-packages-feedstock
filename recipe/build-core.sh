@@ -45,11 +45,13 @@ echo '----------------------------------------------------'
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
+# https://github.com/prefix-dev/rattler-build/issues/1865
+find $CONDA_PREFIX/share/bazel/install | xargs -n 1 touch -mt 203601010101
+
 # now install the thing so conda could pick it up
 "${PYTHON}" -m pip install . -vv --no-deps --no-build-isolation
 
-bazel "--output_user_root=$SRC_DIR/../bazel-root" "--output_base=$SRC_DIR/../b-o" clean
-bazel "--output_user_root=$SRC_DIR/../bazel-root" "--output_base=$SRC_DIR/../b-o" shutdown
+bazel clean --expunge
 rm -rf "$SRC_DIR/../b-o" "$SRC_DIR/../bazel-root"
 
 if [[ "$target_platform" == "linux-"* ]]; then
