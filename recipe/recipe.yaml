@@ -1,11 +1,15 @@
-{% set version = "2.48.0" %}
+# Need these up here for conda-smithy to handle them properly.
+schema_version: 1
 
-package:
+context:
+  version: 2.48.0
+
+recipe:
   name: ray-packages
-  version: {{ version }}
+  version: ${{ version }}
 
 source:
-  url: https://github.com/ray-project/ray/archive/ray-{{ version }}.tar.gz
+  url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
   sha256: 46321da3e619d2094055544b0e8c81765ed59820b94313c44a3c93290fe70cf0
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
@@ -13,7 +17,8 @@ source:
     - patches/0003-remove-dependencies.patch
     # This needs modification for each release
     - patches/0012-update-commit-sha.patch
-    - patches/0010-cython-shebang.patch  # [linux]
+    - if: linux
+      then: patches/0010-cython-shebang.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
@@ -30,67 +35,67 @@ source:
     - patches/0011-do-not-build-redis-openssl.patch
 
 build:
-  number: 1
   # ray doesn't support 3.13 yet
-  skip: true  # [py>312]
-
-# Need these up here for conda-smithy to handle them properly.
-requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - {{ compiler('cxx') }}
-  host:
-    - python
+  number: 2
+  skip: match(python, ">3.12")
 
 outputs:
-  - name: ray-all
+  - package:
+      name: ray-all
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-adag', exact=True) }}  # [not osx]
-        - {{ pin_subpackage('ray-air', exact=True) }}
-        - {{ pin_subpackage('ray-default', exact=True) }}
-        - {{ pin_subpackage('ray-cgraph', exact=True) }}  # [not osx]
-        - {{ pin_subpackage('ray-client', exact=True) }}
-        - {{ pin_subpackage('ray-data', exact=True) }}
-        - {{ pin_subpackage('ray-rllib', exact=True) }}
-        - {{ pin_subpackage('ray-serve', exact=True) }}
-        - {{ pin_subpackage('ray-train', exact=True) }}
-        - {{ pin_subpackage('ray-tune', exact=True) }}
-    test:
-      imports:
-        # dummy test; actual tests are in subpackages
-        - ray
+        - if: not osx
+          then: ${{ pin_subpackage('ray-adag', exact=True) }}
+        - ${{ pin_subpackage('ray-air', exact=True) }}
+        - ${{ pin_subpackage('ray-default', exact=True) }}
+        - if: not osx
+          then: ${{ pin_subpackage('ray-cgraph', exact=True) }}
+        - ${{ pin_subpackage('ray-client', exact=True) }}
+        - ${{ pin_subpackage('ray-data', exact=True) }}
+        - ${{ pin_subpackage('ray-rllib', exact=True) }}
+        - ${{ pin_subpackage('ray-serve', exact=True) }}
+        - ${{ pin_subpackage('ray-train', exact=True) }}
+        - ${{ pin_subpackage('ray-tune', exact=True) }}
+    tests:
+      - python:
+          imports:
+            - ray
 
-  - name: ray-core
-    script: build-core.sh  # [not win]
-    script: build-core.bat  # [win]
+  - package:
+      name: ray-core
     build:
-      skip: true  # [py>312]
-      entry_points:
-        - ray = ray.scripts.scripts:main
+      script: build-core
+      python:
+        entry_points:
+          - ray = ray.scripts.scripts:main
     requirements:
       build:
-        - {{ compiler('c') }}
-        - {{ stdlib("c") }}
-        - {{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib("c") }}
+        - ${{ compiler('cxx') }}
         - bazel =6.5
-        - bazel-toolchain =0.2.1  # [not win]
-        - patchelf  # [linux]
+        - if: not win
+          then: bazel-toolchain =0.2.1
+        - if: linux
+          then: patchelf
         - colorama
         - curl
         - cython >=0.29.32
-        - git =2.33  # [win]
-        - libxcrypt  # [linux and py<39]
+        - if: win
+          then: git =2.33
+        - if: linux and match(python, "<3.9")
+          then: libxcrypt
         - make
-        - m2-bash  # [win]
+        - if: win
+          then: m2-bash
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - if: build_platform != target_platform
+          then: cross-python_${{ target_platform }}
       host:
         - python
         - pip
@@ -114,57 +119,55 @@ outputs:
         - pyyaml
         - requests
         - setproctitle >=1.2.2,<1.4
-      run_constrained:
-
-    test:
-      imports:
-        - ray
-        - ray._raylet
-        - ray.actor
-        - ray.runtime_context
-        - ray._private.state
-        - ray._private.worker
-      commands:
-        - python -c "import ray; ray.init(include_dashboard=False)"
-        - ray --help
+    tests:
+      - python:
+          imports:
+            - ray
+            - ray._raylet
+            - ray.actor
+            - ray.runtime_context
+            - ray._private.state
+            - ray._private.worker
+      - script:
+          - python -c "import ray; ray.init(include_dashboard=False)"
+          - ray --help
 
   # the various ray[extra] installs, alphabetically
-  - name: ray-air
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-air
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-data', exact=True) }}
-        - {{ pin_subpackage('ray-serve', exact=True) }}
-        - {{ pin_subpackage('ray-train', exact=True) }}
-        - {{ pin_subpackage('ray-tune', exact=True) }}
-    test:
-      imports:
-        - ray.air
+        - ${{ pin_subpackage('ray-data', exact=True) }}
+        - ${{ pin_subpackage('ray-serve', exact=True) }}
+        - ${{ pin_subpackage('ray-train', exact=True) }}
+        - ${{ pin_subpackage('ray-tune', exact=True) }}
+    tests:
+      - python:
+          imports:
+            - ray.air
 
-  - name: ray-data
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-data
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - ${{ pin_subpackage('ray-core', exact=True) }}
         - pandas >=1.3
         - numpy >=1.20
         - pyarrow >=9.0.0
         - fsspec
-    test:
-      imports:
-        - ray.data
+    tests:
+      - python:
+          imports:
+            - ray.data
 
-  - name: ray-default
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-default
     build:
       script:
         - cd python/ray/dashboard/client
@@ -172,8 +175,10 @@ outputs:
         - npm ci
         - npm run build
         # not sure why this seems to get copied on windows but not linux...
-        - mkdir -p $SP_DIR/ray/dashboard/client             # [not win]
-        - cp -R ./build $SP_DIR/ray/dashboard/client/build  # [not win]
+        - if: not win
+          then: mkdir -p $SP_DIR/ray/dashboard/client
+        - if: not win
+          then: cp -R ./build $SP_DIR/ray/dashboard/client/build
     requirements:
       build:
         - nodejs
@@ -181,167 +186,175 @@ outputs:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - ${{ pin_subpackage('ray-core', exact=True) }}
         - aiohttp-cors
         - colorful
         - grpcio
         - opencensus
         - opentelemetry-sdk >=1.30.0
-        - opentelemetry-exporter-prometheus
+        # upstream doesn't have a lowerbound, but old versions on conda-forge
+        # are missing some constraints that result in a weird solve and break
+        - opentelemetry-exporter-prometheus >=0.51b0
         - opentelemetry-proto
         - prometheus_client >=0.7.1
-        - py-spy >=0.2.0  # [py<312]
-        - py-spy >=0.4.0  # [py>=312]
+        - if: match(python, "<3.12")
+          then: py-spy >=0.2.0
+        - if: match(python, ">=3.12")
+          then: py-spy >=0.4.0
         - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
         - requests
         - smart_open
         - virtualenv >=20.0.24,!=20.21.1
+    tests:
+      - python:
+          imports:
+            - ray
+            - ray.dashboard
+      - script:
+          - python -c "import ray; ray.init(include_dashboard=True)"
 
-    test:
-      imports:
-        - ray
-        - ray.dashboard
-      commands:
-        - python -c "import ray; ray.init(include_dashboard=True)"
-
-  - name: ray-client
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-client
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-core', exact=True) }}
+        - ${{ pin_subpackage('ray-core', exact=True) }}
         - grpcio
-    test:
-      imports:
-        - ray
-      commands:
-        - ray start --head
-        - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
-        - ray stop
+    tests:
+      - python:
+          imports:
+            - ray
+      - script:
+          - ray start --head
+          - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
+          - ray stop
 
-  - name: ray-rllib
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-rllib
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-tune', exact=True) }}
+        - ${{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
         - gymnasium ==1.0.0
         - lz4
         - ormsgpack ==1.7.0
         - pyyaml
         - scipy
-    test:
-      imports:
-        - ray.rllib
+    tests:
+      - python:
+          imports:
+            - ray.rllib
 
-  - name: ray-serve
+  - package:
+      name: ray-serve
     build:
-      skip: true  # [py>312]
-    build:
-      entry_points:
-        - serve = ray.serve.scripts:cli
+      python:
+        entry_points:
+          - serve = ray.serve.scripts:cli
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - ${{ pin_subpackage('ray-default', exact=True) }}
         - fastapi
         - requests
         - starlette
         - uvicorn
         - watchfiles
         - pyOpenSSL
-    test:
-      imports:
-        - ray.serve
+    tests:
+      - python:
+          imports:
+            - ray.serve
 
-  - name: ray-tune
+  - package:
+      name: ray-tune
     build:
-      skip: true  # [py>312]
-    build:
-      entry_points:
-        - tune = ray.tune.scripts:cli
+      python:
+        entry_points:
+          - tune = ray.tune.scripts:cli
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - ${{ pin_subpackage('ray-default', exact=True) }}
         - fsspec
         - pandas
         - pyarrow
         - requests
         - tensorboardX >=1.9
-    test:
-      imports:
-        - ray.tune
+    tests:
+      - python:
+          imports:
+            - ray.tune
 
-  - name: ray-train
-    build:
-      skip: true  # [py>312]
+  - package:
+      name: ray-train
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-tune', exact=True) }}
+        - ${{ pin_subpackage('ray-tune', exact=True) }}
         - pydantic !=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,<3
-    test:
-      imports:
-        - ray.train
+    tests:
+      - python:
+          imports:
+            - ray.train
 
-  - name: ray-observability
+  - package:
+      name: ray-observability
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
-        - memray  # [not win]
-    test:
-      commands:
-        - echo "no tests for ray-observability, it is a convenience bundle"
+        - ${{ pin_subpackage('ray-default', exact=True) }}
+        - if: not win
+          then: memray
+    tests:
+      - script:
+          - echo "no tests for ray-observability, it is a convenience bundle"
 
-  - name: ray-adag
+  - package:
+      name: ray-adag
     build:
-      skip: true  # [osx or py>312]
+      skip: osx or match(python, ">3.12")
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - ${{ pin_subpackage('ray-default', exact=True) }}
         - cupy
-    test:
-      commands:
-        - echo "no tests for ray-adag, it is a convenience bundle"
+    tests:
+      - script:
+          - echo "no tests for ray-adag, it is a convenience bundle"
 
-  - name: ray-cgraph
+  - package:
+      name: ray-cgraph
     build:
-      skip: true  # [osx or py>312]
+      skip: osx or match(python, ">3.12")
     requirements:
       host:
         - python
       run:
         - python
-        - {{ pin_subpackage('ray-default', exact=True) }}
+        - ${{ pin_subpackage('ray-default', exact=True) }}
         - cupy
-    test:
-      commands:
-        - echo "no tests for ray-cgraph, it is a convenience bundle"
+    tests:
+      - script:
+          - echo "no tests for ray-cgraph, it is a convenience bundle"
 
 about:
-  home: https://github.com/ray-project/ray
   license: Apache-2.0
-  license_family: Apache
   license_file:
     - LICENSE
     - licenses/abseil-LICENSE.txt
@@ -373,8 +386,9 @@ about:
     ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
     ray-train, ray-observability, ray-adag, ray-cgraph, ray-llm and
     ray-all packages.
-  doc_url: https://ray.readthedocs.io/
-  dev_url: https://github.com/ray-project/ray
+  homepage: https://github.com/ray-project/ray
+  repository: https://github.com/ray-project/ray
+  documentation: https://ray.readthedocs.io/
 
 extra:
   recipe-maintainers:
@@ -383,5 +397,4 @@ extra:
     - dHannasch
     - h-vetinari
     - vnlitvinov
-    - krfricke
     - mattip
