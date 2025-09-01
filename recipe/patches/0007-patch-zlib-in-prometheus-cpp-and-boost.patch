@@ -51,10 +51,10 @@ index 0000000000..77c766c1b0
 --- /dev/null
 +++ b/thirdparty/patches/boost-mirrors.patch
 @@ -0,0 +1,13 @@
-+diff --git a/boost/boost.bzl b/boost/boost.bzl
++diff --git boost/boost.bzl boost/boost.bzl
 +index fc56a14..e54c4e7 100644
-+--- a/boost/boost.bzl
-++++ b/boost/boost.bzl
++--- boost/boost.bzl
+++++ boost/boost.bzl
 +@@ -178,7 +178,7 @@ def boost_deps():
 +         ]
 +     )
