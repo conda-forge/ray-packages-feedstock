@@ -34,10 +34,8 @@ build --experimental_ui_max_stdouterr_bytes=16000000
 build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
 else
-  # make sure base image has unzip, build isolation requires it in /bin:/usr/bin:/usr/local/bin
-  echo installing unzip
-  sudo apt install -y unzip
-  echo done installing unzip
+  # set UNZIP, https://github.com/conda-forge/docker-images/issues/311
+  export UNZIP=$(which unzip)
 fi
 
 echo '---------------- .bazelrc --------------------------'

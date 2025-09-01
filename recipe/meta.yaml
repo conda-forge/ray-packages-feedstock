@@ -27,6 +27,8 @@ source:
     - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
+    # https://github.com/conda-forge/docker-images/issues/311
+    - patches/0012-use-unzip-from-env.patch  # [linux]
 
 build:
   number: 0
@@ -86,6 +88,8 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
+        # see https://github.com/conda-forge/docker-images/issues/311
+        - unzip  # [linux]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
         - python
