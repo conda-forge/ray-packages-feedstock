@@ -38,7 +38,6 @@ echo '----------------------------------------------------'
 
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
-export BAZEL_ARGS="--spawn_strategy=local"
 
 # https://github.com/prefix-dev/rattler-build/issues/1865
 find $CONDA_PREFIX/share/bazel/install | xargs -n 1 touch -mt 203601010101
