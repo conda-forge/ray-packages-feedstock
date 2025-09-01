@@ -33,11 +33,12 @@ build --host_platform=//bazel_toolchain:build_platform
 build --experimental_ui_max_stdouterr_bytes=16000000
 build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
 EOF
+else
+  # make sure base image has unzip, build isolation requires it in /bin:/usr/bin:/usr/local/bin
+  echo installing unzip
+  sudo apt install -y unzip
+  echo done installing unzip
 fi
-
-cat >> .bazelrc <<EOF
-# build --spawn_strategy=local
-EOF
 
 echo '---------------- .bazelrc --------------------------'
 cat .bazelrc
