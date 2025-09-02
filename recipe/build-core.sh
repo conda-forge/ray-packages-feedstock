@@ -49,6 +49,7 @@ echo '---------------- .bazelrc --------------------------'
 cat .bazelrc
 echo '----------------------------------------------------'
 
+cp -r $RECIPE_DIR/systemlibs thirdparty/systemlibs
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 
