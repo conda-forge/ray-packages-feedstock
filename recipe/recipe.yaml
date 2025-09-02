@@ -92,7 +92,10 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
-        - unzip
+        - if: unix
+          then: unzip
+        - if: win
+          then: m2-unzip
         - if: build_platform != target_platform
           then: cross-python_${{ target_platform }}
       host:

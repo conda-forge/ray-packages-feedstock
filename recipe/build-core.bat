@@ -33,7 +33,7 @@ echo ==========================================================
 cd python
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
 echo build --jobs=1 >> ..\.bazelrc
-echo build --subcommands=pretty_print >> ..\.bazelrc
+rem echo build --subcommands=pretty_print >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv --no-deps --no-build-isolation
 
 rem remember the return code
