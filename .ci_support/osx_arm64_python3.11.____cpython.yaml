@@ -22,8 +22,6 @@ cxx_compiler_version:
 - '19'
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
-libboost_devel:
-- '1.86'
 libgrpc:
 - '1.71'
 macos_machine:

@@ -1,0 +1,68 @@
+From 01f9e567d0c412860b69213e1195c5c131125972 Mon Sep 17 00:00:00 2001
+From: Matti Picus <matti.picus@gmail.com>
+Date: Fri, 29 Aug 2025 00:16:11 +0300
+Subject: [PATCH 08/11] patch zlib in prometheus-cpp and boost
+
+---
+ bazel/ray_deps_setup.bzl                   |  1 +
+ thirdparty/patches/boost-zlib-fdopen.patch | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 thirdparty/patches/boost-zlib-fdopen.patch
+
+diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
+index 344e4255ff..5e78d42322 100644
+--- a/bazel/ray_deps_setup.bzl
++++ b/bazel/ray_deps_setup.bzl
+@@ -174,6 +174,7 @@ def ray_deps_setup():
+         sha256 = "490d11425393eed068966a4990ead1ff07c658f823fd982fddac67006ccc44ab",
+         patches = [
+             "//thirdparty/patches:boost-headers.patch",
++            "//thirdparty/patches:boost-zlib-fdopen.patch",
++            "//thirdparty/patches:boost-mirrors.patch",
+         ],
+         patch_args = ["-p1"],
+     )
+diff --git a/thirdparty/patches/boost-zlib-fdopen.patch b/thirdparty/patches/boost-zlib-fdopen.patch
+new file mode 100644
+index 0000000000..76b2585f96
+--- /dev/null
++++ b/thirdparty/patches/boost-zlib-fdopen.patch
+@@ -0,0 +1,16 @@
++diff -u /tmp/boost.bzl com_github_nelhage_rules_boost/boost/boost.bzl 
++--- a/boost/boost.bzl
+++++ b/boost/boost.bzl
++@@ -164,6 +164,9 @@
++         url = "https://github.com/madler/zlib/archive/v1.2.13.tar.gz",
++         sha256 = "1525952a0a567581792613a9723333d7f8cc20b87a81f920fb8bc7e3f2251428",
++         strip_prefix = "zlib-1.2.13",
+++        patches = [
+++                "@io_ray//thirdparty/patches:zlib-fdopen.patch",
+++        ],
++     )
++ 
++     maybe(
++
++
++
+diff --git a/thirdparty/patches/boost-mirrors.patch b/thirdparty/patches/boost-mirrors.patch
+new file mode 100644
+index 0000000000..77c766c1b0
+--- /dev/null
++++ b/thirdparty/patches/boost-mirrors.patch
+@@ -0,0 +1,13 @@
++diff --git a/boost/boost.bzl b/boost/boost.bzl
++index fc56a14..e54c4e7 100644
++--- a/boost/boost.bzl
+++++ b/boost/boost.bzl
++@@ -178,7 +178,7 @@ def boost_deps():
++         ]
++     )
++
++-    SOURCEFORGE_MIRRORS = ["cfhcable", "superb-sea2", "cytranet", "iweb", "gigenet", "ayera", "astuteinternet", "pilotfiber", "svwh"]
+++    SOURCEFORGE_MIRRORS = ["cytranet-dal", "gigenet", "psychz"]
++
++     maybe(
++         http_archive,
+-- 
+2.39.5 (Apple Git-154)
+
