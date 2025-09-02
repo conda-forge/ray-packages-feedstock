@@ -12,6 +12,8 @@ cxx_compiler:
 - vs2022
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
+libboost_devel:
+- '1.86'
 libgrpc:
 - '1.71'
 pin_run_as_build:
