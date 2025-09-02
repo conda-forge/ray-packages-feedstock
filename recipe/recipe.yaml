@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: 2.48.0
+  version: 2.49.0
 
 recipe:
   name: ray-packages
@@ -10,34 +10,32 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 46321da3e619d2094055544b0e8c81765ed59820b94313c44a3c93290fe70cf0
+  sha256: cf9d2dbf6aae23fdbaca41297de115cd95daf81baf2005cd088cb3e0586a0763
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-remove-dependencies.patch
+    - patches/0003-Newer-hermetic-python.patch
     # This needs modification for each release
-    - patches/0012-update-commit-sha.patch
-    - if: linux
-      then: patches/0010-cython-shebang.patch
+    - patches/0004-update-commit-sha.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0004-Vendor-grpc-1.67.1.patch
-    - patches/0005-remove-stdlib-libc-from-.bazelrc.patch
+    - patches/0005-Vendor-grpc-1.67.1.patch
+    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch
     # Patch around non-const NAN on windows in protobuf 27.5
-    - patches/0006-patch-protobuf-use-of-nan-on-windows.patch
-    - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
+    - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
+    - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Add missing include in new logging code for different absl
-    - patches/0008-add-missing-include.patch
+    - patches/0009-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0009-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
+    # Turns off --incompatible_strict_action_env
+    - patches/0012-No-path-isolation.patch
 
 build:
-  # ray doesn't support 3.13 yet
-  number: 2
-  skip: match(python, ">3.12")
+  number: 0
 
 outputs:
   - package:
@@ -94,6 +92,10 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
+        - if: unix
+          then: unzip
+        - if: win
+          then: m2-unzip
         - if: build_platform != target_platform
           then: cross-python_${{ target_platform }}
       host:
@@ -103,22 +105,20 @@ outputs:
         - libgrpc
         - openjdk =11
         - setuptools
+        - cython >=3.0.12
       run:
         - python
         - aiohttp >=3.7
-        - aiosignal
         - click >=7.0
         - colorama
         - filelock
-        - frozenlist
         - jsonschema
         - msgpack-python >=1.0.0,<2.0.0
         - packaging
-        - protobuf >=3.15.3,!=3.19.5
+        - protobuf >=3.20.3
         - psutil
         - pyyaml
         - requests
-        - setproctitle >=1.2.2,<1.4
     tests:
       - python:
           imports:
@@ -181,7 +181,7 @@ outputs:
           then: cp -R ./build $SP_DIR/ray/dashboard/client/build
     requirements:
       build:
-        - nodejs
+        - nodejs >=20
       host:
         - python
       run:
@@ -240,7 +240,7 @@ outputs:
         - python
         - ${{ pin_subpackage('ray-tune', exact=True) }}
         - dm-tree
-        - gymnasium ==1.0.0
+        - gymnasium ==1.1.1
         - lz4
         - ormsgpack ==1.7.0
         - pyyaml
@@ -326,7 +326,7 @@ outputs:
   - package:
       name: ray-adag
     build:
-      skip: osx or match(python, ">3.12")
+      skip: osx
     requirements:
       host:
         - python
@@ -341,7 +341,7 @@ outputs:
   - package:
       name: ray-cgraph
     build:
-      skip: osx or match(python, ">3.12")
+      skip: osx
     requirements:
       host:
         - python

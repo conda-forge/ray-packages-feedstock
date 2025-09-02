@@ -33,15 +33,11 @@ echo ==========================================================
 cd python
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
 echo build --jobs=1 >> ..\.bazelrc
-echo build --subcommands=pretty_print >> ..\.bazelrc
-"%PYTHON%" -m pip install . -vv
+rem echo build --subcommands=pretty_print >> ..\.bazelrc
+"%PYTHON%" -m pip install . -vv --no-deps --no-build-isolation
 
 rem remember the return code
 set RETCODE=%ERRORLEVEL%
-
-rem Now clean everything up so subsequent builds (for potentially
-rem different Python version) do not stumble on some after-effects.
-"%PYTHON%" setup.py clean --all
 
 rem setup.py uses D:\bazel-root and D:\b-o since ray 2.10.0.
 rem Get the drive for SRC_DIR, in case it changes from D:

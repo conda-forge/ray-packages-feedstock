@@ -13,6 +13,8 @@ if [[ "$target_platform" == osx* ]]; then
   # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
   # delete the line from the template and the CXXFLAGS
   export CXXFLAGS="${CXXFLAGS/-stdlib=libc++ /} -Wno-vla-cxx-extension"
+  # Exchange the short exe name for the full path, used in
+  #   # bazel_toolchain/cc_wrapper.sh
   sed -i"''" -e'/stdlib=libc/d' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   source gen-bazel-toolchain
   cat >> .bazelrc <<EOF
@@ -22,14 +24,25 @@ build --define CONDA_AR=${AR}
 build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
-# build --subcommands
+EOF
+fi
+
+export LDFLAGS="${LDFLAGS} -lm"
+source gen-bazel-toolchain
+cat >> .bazelrc <<EOF
 build --crosstool_top=//bazel_toolchain:toolchain
-build --cpu=${TARGET_CPU}
 build --platforms=//bazel_toolchain:target_platform
 build --host_platform=//bazel_toolchain:build_platform
-build --experimental_ui_max_stdouterr_bytes=16000000
-build --local_ram_resources=HOST_RAM*.8 --local_cpu_resources=2
+build --extra_toolchains=//bazel_toolchain:cc_cf_toolchain
+build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
+build --logging=6
+build --verbose_failures
+build --toolchain_resolution_debug
+build --local_cpu_resources=${CPU_COUNT}
 EOF
+
+if [[ "${target_platform}" == "osx-arm64" || "${target_platform}" != "${build_platform}" ]]; then
+  echo "build --cpu=${TARGET_CPU}" >> .bazelrc
 fi
 
 echo '---------------- .bazelrc --------------------------'
@@ -42,18 +55,9 @@ export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 # https://github.com/prefix-dev/rattler-build/issues/1865
 find $CONDA_PREFIX/share/bazel/install | xargs -n 1 touch -mt 203601010101
 
-"${PYTHON}" setup.py build
-# bazel by default makes everything read-only,
-# which leads to patchelf failing to fix rpath in binaries.
-# find all ray binaries and make them writable
-grep -lR ELF build/ | xargs chmod +w
-
 # now install the thing so conda could pick it up
-"${PYTHON}" setup.py install  --single-version-externally-managed --root=/
+"${PYTHON}" -m pip install . -vv --no-deps --no-build-isolation
 
-# now clean everything up so subsequent builds (for potentially
-# different Python version) do not stumble on some after-effects
-"${PYTHON}" setup.py clean --all
 bazel clean --expunge
 rm -rf "$SRC_DIR/../b-o" "$SRC_DIR/../bazel-root"
 

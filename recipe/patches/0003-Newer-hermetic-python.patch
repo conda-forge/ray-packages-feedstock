@@ -1,0 +1,64 @@
+From e9922231ab7cdd7a6bba7eedb7ee38c42ae4d057 Mon Sep 17 00:00:00 2001
+From: Austin Morton <austin.morton@aquatic.com>
+Date: Fri, 29 Aug 2025 10:49:09 -0500
+Subject: [PATCH] Newer hermetic python
+
+---
+ BUILD.bazel | 4 ++--
+ WORKSPACE   | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/BUILD.bazel b/BUILD.bazel
+index 804a9591b9..8a4772704e 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -10,7 +10,7 @@ load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
+ load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+ load("@com_github_grpc_grpc//bazel:cython_library.bzl", "pyx_library")
+ load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
++load("@python3_12//:defs.bzl", python312 = "interpreter")
+ load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+ load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
+ load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
+@@ -26,7 +26,7 @@ package(
+ 
+ py_runtime(
+     name = "python3_runtime",
+-    interpreter = python39,
++    interpreter = python312,
+     python_version = "PY3",
+     visibility = ["//visibility:private"],
+ )
+diff --git a/WORKSPACE b/WORKSPACE
+index e56c6a109b..32e30da344 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -61,12 +61,12 @@ http_archive(
+ load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+ 
+ python_register_toolchains(
+-    name = "python3_9",
+-    python_version = "3.9",
++    name = "python3_12",
++    python_version = "3.12",
+     register_toolchains = False,
+ )
+ 
+-load("@python3_9//:defs.bzl", python39 = "interpreter")
++load("@python3_12//:defs.bzl", python312 = "interpreter")
+ load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
+ 
+ pip_install_dependencies()
+@@ -75,7 +75,7 @@ load("@rules_python//python:pip.bzl", "pip_parse")
+ 
+ pip_parse(
+     name = "py_deps_buildkite",
+-    python_interpreter_target = python39,
++    python_interpreter_target = python312,
+     requirements_lock = "//release:requirements_buildkite.txt",
+ )
+ 
+-- 
+2.43.0
+
