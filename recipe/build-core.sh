@@ -2,9 +2,6 @@
 set -xe
 
 if [[ "$target_platform" == osx* ]]; then
-  # make sure the vendored redis OSX build can find the correct toolchain. the SDKROOT is
-  # also passed as we are using at least OSX 10.15 which moves the include directory out
-  # of /usr/include to ${SDKROOT}/MacOSX.sdk/usr/include
   if [[ "$target_platform" == osx-arm64 ]]; then
     export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -Wl,-framework,Foundation"
   else
@@ -13,8 +10,6 @@ if [[ "$target_platform" == osx* ]]; then
   # https://github.com/conda-forge/bazel-toolchain-feedstock/issues/18
   # delete the line from the template and the CXXFLAGS
   export CXXFLAGS="${CXXFLAGS/-stdlib=libc++ /} -Wno-vla-cxx-extension"
-  # Exchange the short exe name for the full path, used in
-  #   # bazel_toolchain/cc_wrapper.sh
   sed -i"''" -e'/stdlib=libc/d' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   source gen-bazel-toolchain
   cat >> .bazelrc <<EOF

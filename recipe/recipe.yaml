@@ -32,7 +32,7 @@ source:
     - patches/0012-No-path-isolation.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
