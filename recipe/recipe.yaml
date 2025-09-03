@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: 2.49.0
+  version: "2.49.1"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: cf9d2dbf6aae23fdbaca41297de115cd95daf81baf2005cd088cb3e0586a0763
+  sha256: 1ec8a3f5cd45007b7c2620b7b691dd50ad3cd503678da253ac90be26efe72a1d
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -176,9 +176,9 @@ outputs:
         - npm run build
         # not sure why this seems to get copied on windows but not linux...
         - if: not win
-          then: mkdir -p $SP_DIR/ray/dashboard/client
-        - if: not win
-          then: cp -R ./build $SP_DIR/ray/dashboard/client/build
+          then:
+            - mkdir -p $SP_DIR/ray/dashboard/client
+            - cp -R ./build $SP_DIR/ray/dashboard/client/build
     requirements:
       build:
         - nodejs >=20
