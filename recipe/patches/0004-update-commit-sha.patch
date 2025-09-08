@@ -14,7 +14,7 @@ index b8896ef218..64d5291380 100644
 @@ -1,5 +1,5 @@
  # Replaced with the current commit when building the wheels.
 -commit = "{{RAY_COMMIT_SHA}}"
-+commit = "66438d8bd27f8c604ee5a0cd2cfc5649053285ed"
++commit = "c057f1ea836f3e93f110e895029caa32136fc156"
  version = "2.49.0"
  
  if __name__ == "__main__":
