@@ -12,8 +12,9 @@ source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
   sha256: 1ec8a3f5cd45007b7c2620b7b691dd50ad3cd503678da253ac90be26efe72a1d
   patches:
+    - patches/0001-Add-ray_systemlibs.patch
+    - patches/0002-Unvendor-boost.patch
     - patches/0001-Disable-making-entry-scripts.patch
-    - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0003-Newer-hermetic-python.patch
     # This needs modification for each release
     - patches/0004-update-commit-sha.patch
@@ -22,20 +23,16 @@ source:
     # ABI breakage
     - patches/0005-Vendor-grpc-1.67.1.patch
     - patches/0006-remove-stdlib-libc-from-.bazelrc.patch
-    # Patch around non-const NAN on windows in protobuf 27.5
-    - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
-    - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
-    # Add missing include in new logging code for different absl
-    - patches/0009-add-missing-include.patch
     # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
+    # need to fix patch if still required
+    # - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
     # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
     - patches/0011-do-not-build-redis-openssl.patch
     # Turns off --incompatible_strict_action_env
     - patches/0012-No-path-isolation.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
@@ -102,6 +99,7 @@ outputs:
         - python
         - pip
         - packaging
+        - libboost-devel
         - libgrpc
         - openjdk =11
         - setuptools

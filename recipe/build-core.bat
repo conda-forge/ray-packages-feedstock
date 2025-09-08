@@ -3,36 +3,20 @@ set SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1
 set IS_AUTOMATED_BUILD=1
 set "BAZEL_SH=%BUILD_PREFIX%\Library\usr\bin\bash.exe"
 
+mkdir thirdparty\systemlibs
+robocopy /E %RECIPE_DIR%\systemlibs thirdparty\systemlibs
+
 echo ==========================================================
 echo try to work around https://github.com/bazelbuild/bazel/issues/18592
 echo ==========================================================
 set BAZEL_VC=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC
-echo dir %BAZEL_VC%
-dir "%BAZEL_VC%"
-echo ----------
 rmdir /q /s "%BAZEL_VC%\vcpkg"
-echo ----------
-echo dir %BAZEL_VC%
-dir "%BAZEL_VC%"
-echo ----------
-
-echo check git
-echo ----------
-where git
-dir %CONDA_PREFIX%\Library\bin /w
-echo ----------
-git --version
-echo ----------
-echo %CONDA_PREFIX%
-python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
-echo ----------
 
 echo ==========================================================
 echo calling pip to install
 echo ==========================================================
 cd python
 echo startup --output_user_root=D:/tmp >> ..\.bazelrc
-echo build --jobs=1 >> ..\.bazelrc
 rem echo build --subcommands=pretty_print >> ..\.bazelrc
 "%PYTHON%" -m pip install . -vv --no-deps --no-build-isolation
 
