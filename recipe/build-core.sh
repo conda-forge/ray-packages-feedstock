@@ -52,7 +52,7 @@ echo '----------------------------------------------------'
 echo ========================================
 echo Fix up the sha in python/ray/_version.py
 echo ========================================
-python3 ${RECIPE_DIR}/fixup_sha.py python/ray/_version.py ${RAY_VER}
+python3 ${RECIPE_DIR}/fixup_sha.py python/ray/_version.py ${PKG_VERSION}
 
 cd python/
 export SKIP_THIRDPARTY_INSTALL_CONDA_FORGE=1

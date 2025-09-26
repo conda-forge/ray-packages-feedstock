@@ -64,10 +64,7 @@ outputs:
   - package:
       name: ray-core
     build:
-      script:
-        file: build-core
-        env:
-          RAY_VER: ${{ version }}
+      script: build-core
       python:
         entry_points:
           - ray = ray.scripts.scripts:main
