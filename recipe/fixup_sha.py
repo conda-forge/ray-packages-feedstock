@@ -9,10 +9,10 @@ from urllib.request import HTTPError, urlopen
 
 def get_commit_sha(ver: str) -> str:
     """
-    Return sha from version tag commit
+    Return sha from version tag commit.
     
     Use retry information in headers and exponential backoff to address rate limiting issues.
-    See: https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api?apiVersion=2022-11-28#handle-rate-limit-errors-appropriately
+    See: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#exceeding-the-rate-limit
     """
     exp_backoff = 60
     retry_count = 0
@@ -23,18 +23,19 @@ def get_commit_sha(ver: str) -> str:
             ).read()
             return json.loads(content)["object"]["sha"]
         except HTTPError as e:
-            if retry_count < 10 and e.code == 403 and e.msg == "rate limit exceeded":
-                retry_count += 1
-                timeout = exp_backoff
-                if "retry-after" in e.hdrs:
-                    timeout = int(e.hdrs["retry-after"])
-                elif e.hdrs.get("x-ratelimit-remaining", None) == "0":
-                    timeout = max(int(e.hdrs["x-ratelimit-reset"]) - time.gmtime(), 0)
-                else:
-                    exp_backoff *= 1.5
-                print(f"{e}:, retrying after {timeout} s", file=sys.stderr)
-                time.sleep(timeout)
-                continue
+            if retry_count < 10:
+                if (e.code == 403 and e.msg == "rate limit exceeded") or e.code == 429:
+                    retry_count += 1
+                    timeout = exp_backoff
+                    if "retry-after" in e.hdrs:
+                        timeout = int(e.hdrs["retry-after"])
+                    elif e.hdrs.get("x-ratelimit-remaining", None) == "0":
+                        timeout = max(int(e.hdrs["x-ratelimit-reset"]) - time.time(), 0)
+                    else:
+                        exp_backoff *= 1.5
+                    print(f"{e}:, retrying after {timeout} s", file=sys.stderr)
+                    time.sleep(timeout)
+                    continue
             raise
 
 
