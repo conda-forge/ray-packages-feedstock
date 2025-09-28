@@ -27,6 +27,12 @@ echo %CONDA_PREFIX%
 python -c "import os; print('\n'.join(os.environ['PATH'].split(';')))"
 echo ----------
 
+echo ========================================
+echo Fix up the sha in python/ray/_version.py
+echo ========================================
+"%PYTHON%" "%RECIPE_DIR%/fixup_sha.py" python/ray/_version.py "%PKG_VERSION%"
+
+
 echo ==========================================================
 echo calling pip to install
 echo ==========================================================

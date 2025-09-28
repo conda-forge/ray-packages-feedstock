@@ -15,8 +15,6 @@ source:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
     - patches/0003-Newer-hermetic-python.patch
-    # This needs modification for each release
-    - patches/0004-update-commit-sha.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
@@ -35,7 +33,8 @@ source:
     - patches/0012-No-path-isolation.patch
 
 build:
-  number: 0
+  number: 2
+
 
 outputs:
   - package:
