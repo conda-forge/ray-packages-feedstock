@@ -30,7 +30,7 @@ echo ----------
 echo ========================================
 echo Fix up the sha in python/ray/_version.py
 echo ========================================
-python3 %RECIPE_DIR%/fixup_sha.py python/ray/_version.py %RAY_VER%
+"%PYTHON%" "%RECIPE_DIR%/fixup_sha.py" python/ray/_version.py %RAY_VER%
 
 
 echo ==========================================================
