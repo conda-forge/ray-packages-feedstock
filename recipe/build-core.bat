@@ -30,7 +30,7 @@ echo ----------
 echo ========================================
 echo Fix up the sha in python/ray/_version.py
 echo ========================================
-"%PYTHON%" "%RECIPE_DIR%/fixup_sha.py" python/ray/_version.py %RAY_VER%
+"%PYTHON%" "%RECIPE_DIR%/fixup_sha.py" python/ray/_version.py "%PKG_VERSION%"
 
 
 echo ==========================================================
