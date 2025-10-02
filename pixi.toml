@@ -11,7 +11,7 @@ version = "3.52.2"  # conda-smithy version used to generate this file
 description = "Pixi configuration for conda-forge/ray-packages-feedstock"
 authors = ["@conda-forge/ray-packages"]
 channels = ["conda-forge"]
-platforms = ["linux-64", "osx-64", "win-64"]
+platforms = ["linux-64", "linux-aarch64", "linux-ppc64le", "osx-64", "win-64"]
 
 [dependencies]
 conda-build = ">=24.1"
@@ -49,6 +49,54 @@ description = "Build ray-packages-feedstock with variant linux_64_python3.13.___
 [tasks."inspect-linux_64_python3.13.____cp313"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_python3.13.____cp313.yaml"
 description = "List contents of ray-packages-feedstock packages built for variant linux_64_python3.13.____cp313"
+[tasks."build-linux_aarch64_python3.10.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_python3.10.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_aarch64_python3.10.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_python3.10.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_python3.10.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_aarch64_python3.10.____cpython"
+[tasks."build-linux_aarch64_python3.11.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_python3.11.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_aarch64_python3.11.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_python3.11.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_python3.11.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_aarch64_python3.11.____cpython"
+[tasks."build-linux_aarch64_python3.12.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_python3.12.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_aarch64_python3.12.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_python3.12.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_python3.12.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_aarch64_python3.12.____cpython"
+[tasks."build-linux_aarch64_python3.13.____cp313"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_python3.13.____cp313.yaml"
+description = "Build ray-packages-feedstock with variant linux_aarch64_python3.13.____cp313 directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_python3.13.____cp313"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_python3.13.____cp313.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_aarch64_python3.13.____cp313"
+[tasks."build-linux_ppc64le_python3.10.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_ppc64le_python3.10.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_ppc64le_python3.10.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_ppc64le_python3.10.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_ppc64le_python3.10.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_ppc64le_python3.10.____cpython"
+[tasks."build-linux_ppc64le_python3.11.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_ppc64le_python3.11.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_ppc64le_python3.11.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_ppc64le_python3.11.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_ppc64le_python3.11.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_ppc64le_python3.11.____cpython"
+[tasks."build-linux_ppc64le_python3.12.____cpython"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_ppc64le_python3.12.____cpython.yaml"
+description = "Build ray-packages-feedstock with variant linux_ppc64le_python3.12.____cpython directly (without setup scripts)"
+[tasks."inspect-linux_ppc64le_python3.12.____cpython"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_ppc64le_python3.12.____cpython.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_ppc64le_python3.12.____cpython"
+[tasks."build-linux_ppc64le_python3.13.____cp313"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_ppc64le_python3.13.____cp313.yaml"
+description = "Build ray-packages-feedstock with variant linux_ppc64le_python3.13.____cp313 directly (without setup scripts)"
+[tasks."inspect-linux_ppc64le_python3.13.____cp313"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_ppc64le_python3.13.____cp313.yaml"
+description = "List contents of ray-packages-feedstock packages built for variant linux_ppc64le_python3.13.____cp313"
 [tasks."build-osx_64_python3.10.____cpython"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.10.____cpython.yaml"
 description = "Build ray-packages-feedstock with variant osx_64_python3.10.____cpython directly (without setup scripts)"
