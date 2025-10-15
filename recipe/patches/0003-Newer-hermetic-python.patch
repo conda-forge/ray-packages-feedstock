@@ -1,7 +1,7 @@
-From e9922231ab7cdd7a6bba7eedb7ee38c42ae4d057 Mon Sep 17 00:00:00 2001
+From 6b02f0527387b378b5ece5ac27fb947049c30694 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Fri, 29 Aug 2025 10:49:09 -0500
-Subject: [PATCH] Newer hermetic python
+Subject: [PATCH 3/8] Newer hermetic python
 
 ---
  BUILD.bazel | 4 ++--
@@ -9,7 +9,7 @@ Subject: [PATCH] Newer hermetic python
  2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/BUILD.bazel b/BUILD.bazel
-index 804a9591b9..8a4772704e 100644
+index 7a2e89b50a..45534023e7 100644
 --- a/BUILD.bazel
 +++ b/BUILD.bazel
 @@ -10,7 +10,7 @@ load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
@@ -31,7 +31,7 @@ index 804a9591b9..8a4772704e 100644
      visibility = ["//visibility:private"],
  )
 diff --git a/WORKSPACE b/WORKSPACE
-index e56c6a109b..32e30da344 100644
+index 666b38d067..de20aa60ad 100644
 --- a/WORKSPACE
 +++ b/WORKSPACE
 @@ -61,12 +61,12 @@ http_archive(
@@ -60,5 +60,5 @@ index e56c6a109b..32e30da344 100644
  )
  
 -- 
-2.43.0
+2.25.1
 
