@@ -23,14 +23,8 @@ source:
     # Patch around non-const NAN on windows in protobuf 27.5
     - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
     - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
-    # Add missing include in new logging code for different absl
-    - patches/0009-add-missing-include.patch
-    # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
-    # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
-    - patches/0011-do-not-build-redis-openssl.patch
     # Turns off --incompatible_strict_action_env
-    - patches/0012-No-path-isolation.patch
+    - patches/0013-bazel-disable-strict-env.patch
 
 build:
   number: 0

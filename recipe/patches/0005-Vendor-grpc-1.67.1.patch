@@ -1,20 +1,21 @@
-From 0a45b262883da74db4f411478b175240a0cc1b92 Mon Sep 17 00:00:00 2001
+From f77554e0a65b7ef7573c65c562796f6661e4f40c Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
-Date: Fri, 29 Aug 2025 00:12:05 +0300
-Subject: [PATCH 05/11] Vendor grpc 1.67.1
+Date: Wed, 15 Oct 2025 16:12:56 +0000
+Subject: [PATCH] Vendor grpc 1.67.1
 
+Co-authored-by: Lonnie Liu <lonnie@anyscale.com>
 ---
  bazel/ray_deps_setup.bzl                      | 28 ++++++++-----------
  .../task_event_buffer_export_event_test.cc    |  2 +-
- .../tests/gcs_actor_manager_test.cc           | 14 +++++-----
- src/ray/raylet_client/raylet_client.cc        |  2 +-
+ src/ray/gcs/tests/gcs_actor_manager_test.cc   | 14 +++++-----
  src/ray/rpc/server_call.h                     |  2 +-
  src/ray/util/event.cc                         |  2 +-
+ .../grpc-configurable-thread-count.patch      | 11 ++++----
  thirdparty/patches/grpc-zlib-fdopen.patch     |  4 +--
- 7 files changed, 25 insertions(+), 29 deletions(-)
+ 7 files changed, 29 insertions(+), 34 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 5ece022cdb..ce365f9a34 100644
+index b10370d052..5b8d351a97 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -91,15 +91,11 @@ def ray_deps_setup():
@@ -48,9 +49,9 @@ index 5ece022cdb..ce365f9a34 100644
 -            "https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.tar.gz",
 +            "https://github.com/abseil/abseil-cpp/archive/refs/tags/20240722.0.tar.gz",
          ],
-     )
- 
-@@ -274,8 +270,8 @@ def ray_deps_setup():
+         patches = [
+             # TODO (israbbani): #55430 Separate the compiler flags and remove this patch
+@@ -278,8 +274,8 @@ def ray_deps_setup():
      auto_http_archive(
          name = "com_github_grpc_grpc",
          # NOTE: If you update this, also update @boringssl's hash.
@@ -61,7 +62,7 @@ index 5ece022cdb..ce365f9a34 100644
          patches = [
              "@io_ray//thirdparty/patches:grpc-cython-copts.patch",
              "@io_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
-@@ -319,13 +315,13 @@ def ray_deps_setup():
+@@ -323,13 +319,13 @@ def ray_deps_setup():
      http_archive(
          # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
          # provides a deterministic archive hash for caching. Explanation here:
@@ -80,10 +81,10 @@ index 5ece022cdb..ce365f9a34 100644
      )
  
 diff --git a/src/ray/core_worker/tests/task_event_buffer_export_event_test.cc b/src/ray/core_worker/tests/task_event_buffer_export_event_test.cc
-index 9e6345bd95..99f6f0cafb 100644
+index cf2e6e7203..aa1c53e9f0 100644
 --- a/src/ray/core_worker/tests/task_event_buffer_export_event_test.cc
 +++ b/src/ray/core_worker/tests/task_event_buffer_export_event_test.cc
-@@ -153,7 +153,7 @@ TEST_F(TaskEventTestWriteExport, TestWriteTaskExportEvents) {
+@@ -150,7 +150,7 @@ TEST_F(TaskEventTestWriteExport, TestWriteTaskExportEvents) {
    auto task_ids = GenTaskIDs(num_events);
    google::protobuf::util::JsonPrintOptions options;
    options.preserve_proto_field_names = true;
@@ -92,11 +93,11 @@ index 9e6345bd95..99f6f0cafb 100644
  
    std::vector<SourceTypeVariant> source_types = {
        rpc::ExportEvent_SourceType::ExportEvent_SourceType_EXPORT_TASK};
-diff --git a/src/ray/gcs/gcs_server/tests/gcs_actor_manager_test.cc b/src/ray/gcs/gcs_server/tests/gcs_actor_manager_test.cc
-index 3030856998..2b11a89296 100644
---- a/src/ray/gcs/gcs_server/tests/gcs_actor_manager_test.cc
-+++ b/src/ray/gcs/gcs_server/tests/gcs_actor_manager_test.cc
-@@ -1199,7 +1199,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+diff --git a/src/ray/gcs/tests/gcs_actor_manager_test.cc b/src/ray/gcs/tests/gcs_actor_manager_test.cc
+index fe38880f7c..1c488d18a7 100644
+--- a/src/ray/gcs/tests/gcs_actor_manager_test.cc
++++ b/src/ray/gcs/tests/gcs_actor_manager_test.cc
+@@ -1230,7 +1230,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_actor_id(actor->GetActorID().Binary());
  
      auto &reply =
@@ -105,7 +106,7 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.total(), 1 + num_other_actors);
-@@ -1212,7 +1212,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1243,7 +1243,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -114,7 +115,7 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1224,7 +1224,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1255,7 +1255,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_state(rpc::ActorTableData::ALIVE);
  
      auto &reply =
@@ -123,7 +124,7 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1237,7 +1237,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1268,7 +1268,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -132,7 +133,7 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1248,7 +1248,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1279,7 +1279,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -141,16 +142,15 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.num_filtered(), num_other_actors + 1);
      ASSERT_EQ(reply.actor_table_data().size(), 0);
-@@ -1272,7 +1272,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+@@ -1302,14 +1302,14 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
    {
      rpc::GetAllActorInfoRequest request;
      auto &reply =
 -        *google::protobuf::Arena::CreateMessage<rpc::GetAllActorInfoReply>(&arena);
 +        *google::protobuf::Arena::Create<rpc::GetAllActorInfoReply>(&arena);
-     auto callback = [](Status status,
-                        std::function<void()> success,
-                        std::function<void()> failure) {};
-@@ -1281,7 +1281,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+     auto callback = [](Status, std::function<void()>, std::function<void()>) {};
+     gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
+     ASSERT_EQ(reply.actor_table_data().size(), 3);
  
      request.set_limit(2);
      auto &reply_2 =
@@ -159,24 +159,11 @@ index 3030856998..2b11a89296 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply_2, callback);
      ASSERT_EQ(reply_2.actor_table_data().size(), 2);
      ASSERT_EQ(reply_2.total(), 3);
-diff --git a/src/ray/raylet_client/raylet_client.cc b/src/ray/raylet_client/raylet_client.cc
-index bfb8b0665d..f377bfec23 100644
---- a/src/ray/raylet_client/raylet_client.cc
-+++ b/src/ray/raylet_client/raylet_client.cc
-@@ -44,7 +44,7 @@ void RayletClient::RequestWorkerLease(
-     const bool is_selected_based_on_locality) {
-   google::protobuf::Arena arena;
-   auto request =
--      google::protobuf::Arena::CreateMessage<rpc::RequestWorkerLeaseRequest>(&arena);
-+      google::protobuf::Arena::Create<rpc::RequestWorkerLeaseRequest>(&arena);
-   // The unsafe allocating here is actually safe because the life-cycle of
-   // task_spec is longer than request.
-   // Request will be sent before the end of this call, and after that, it won't be
 diff --git a/src/ray/rpc/server_call.h b/src/ray/rpc/server_call.h
-index a2e7cd2cee..f3dea61850 100644
+index 0d0779525e..c5dc59b21f 100644
 --- a/src/ray/rpc/server_call.h
 +++ b/src/ray/rpc/server_call.h
-@@ -193,7 +193,7 @@ class ServerCallImpl : public ServerCall {
+@@ -181,7 +181,7 @@ class ServerCallImpl : public ServerCall {
          cluster_id_(cluster_id),
          start_time_(0),
          record_metrics_(record_metrics) {
@@ -186,7 +173,7 @@ index a2e7cd2cee..f3dea61850 100644
      RAY_CHECK(!call_name_.empty()) << "Call name is empty";
      if (record_metrics_) {
 diff --git a/src/ray/util/event.cc b/src/ray/util/event.cc
-index e704c86847..08a79db77f 100644
+index efdd53ff8d..8dd4c30fb5 100644
 --- a/src/ray/util/event.cc
 +++ b/src/ray/util/event.cc
 @@ -138,7 +138,7 @@ std::string LogEventReporter::ExportEventToString(const rpc::ExportEvent &export
@@ -198,23 +185,8 @@ index e704c86847..08a79db77f 100644
    if (export_event.has_task_event_data()) {
      RAY_CHECK(google::protobuf::util::MessageToJsonString(
                    export_event.task_event_data(), &event_data_as_string, options)
-diff --git a/thirdparty/patches/grpc-zlib-fdopen.patch b/thirdparty/patches/grpc-zlib-fdopen.patch
-index 83dfba2b95..95d59c2279 100644
---- a/thirdparty/patches/grpc-zlib-fdopen.patch
-+++ b/thirdparty/patches/grpc-zlib-fdopen.patch
-@@ -2,8 +2,8 @@ diff -u bazel/grpc_deps.bzl
- --- bazel/grpc_deps.bzl
- +++ bazel/grpc_deps.bzl
- @@ -238,6 +238,9 @@
--                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/04f42ceca40f73e2978b50e93806c2a18c1281fc.tar.gz",
--                 "https://github.com/madler/zlib/archive/04f42ceca40f73e2978b50e93806c2a18c1281fc.tar.gz",
-+                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
-+                 "https://github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
-              ],
- +            patches = [
- +                "@io_ray//thirdparty/patches:zlib-fdopen.patch",
 diff --git a/thirdparty/patches/grpc-configurable-thread-count.patch b/thirdparty/patches/grpc-configurable-thread-count.patch
-index 26387f51a5..f1ae73ec4a 100644
+index e17e111f85..9db71c5275 100644
 --- a/thirdparty/patches/grpc-configurable-thread-count.patch
 +++ b/thirdparty/patches/grpc-configurable-thread-count.patch
 @@ -1,7 +1,6 @@
@@ -244,6 +216,21 @@ index 26387f51a5..f1ae73ec4a 100644
 -     gpr_log(GPR_ERROR, "Cannot determine number of CPUs: assuming 1");
 +     LOG(ERROR) << "Cannot determine number of CPUs: assuming 1";
       ncpus = 1;
+diff --git a/thirdparty/patches/grpc-zlib-fdopen.patch b/thirdparty/patches/grpc-zlib-fdopen.patch
+index 83dfba2b95..95d59c2279 100644
+--- a/thirdparty/patches/grpc-zlib-fdopen.patch
++++ b/thirdparty/patches/grpc-zlib-fdopen.patch
+@@ -2,8 +2,8 @@ diff -u bazel/grpc_deps.bzl
+ --- bazel/grpc_deps.bzl
+ +++ bazel/grpc_deps.bzl
+ @@ -238,6 +238,9 @@
+-                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/04f42ceca40f73e2978b50e93806c2a18c1281fc.tar.gz",
+-                 "https://github.com/madler/zlib/archive/04f42ceca40f73e2978b50e93806c2a18c1281fc.tar.gz",
++                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
++                 "https://github.com/madler/zlib/archive/09155eaa2f9270dc4ed1fa13e2b4b2613e6e4851.tar.gz",
+              ],
+ +            patches = [
+ +                "@io_ray//thirdparty/patches:zlib-fdopen.patch",
 -- 
-2.39.5 (Apple Git-154)
+2.25.1
 
