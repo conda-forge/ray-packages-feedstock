@@ -13,7 +13,7 @@ diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index 344e4255ff..5e78d42322 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -174,6 +174,7 @@ def ray_deps_setup():
+@@ -174,6 +174,8 @@ def ray_deps_setup():
          sha256 = "490d11425393eed068966a4990ead1ff07c658f823fd982fddac67006ccc44ab",
          patches = [
              "//thirdparty/patches:boost-headers.patch",
@@ -28,7 +28,7 @@ index 0000000000..76b2585f96
 --- /dev/null
 +++ b/thirdparty/patches/boost-zlib-fdopen.patch
 @@ -0,0 +1,16 @@
-+diff -u /tmp/boost.bzl com_github_nelhage_rules_boost/boost/boost.bzl 
++diff -u /tmp/boost.bzl com_github_nelhage_rules_boost/boost/boost.bzl
 +--- a/boost/boost.bzl
 ++++ b/boost/boost.bzl
 +@@ -164,6 +164,9 @@

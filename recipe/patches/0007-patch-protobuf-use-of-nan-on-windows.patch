@@ -13,13 +13,12 @@ diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
 index ce365f9a34..344e4255ff 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -96,6 +96,10 @@ def ray_deps_setup():
+@@ -96,6 +96,9 @@ def ray_deps_setup():
          urls = [
              "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v28.2.tar.gz",
          ],
 +        patches = [
 +            "//thirdparty/patches:protobuf-windows-const-nan.patch",
-+            
 +        ],
      )
  
@@ -30,7 +29,7 @@ index 0000000000..4c4cab48f4
 --- /dev/null
 +++ b/thirdparty/patches/protobuf-windows-const-nan.patch
 @@ -0,0 +1,32 @@
-+diff -u upb/message/internal/message.c /tmp/message.c 
++diff -u upb/message/internal/message.c /tmp/message.c
 +--- upb/message/internal/message.c
 ++++ upb/message/internal/message.c
 +@@ -19,7 +19,27 @@

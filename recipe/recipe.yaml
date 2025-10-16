@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.49.2"
+  version: "2.50.0"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: f67d934fafba47ee3effeffeeedbb204662ace5f6b5a6c71b4164318db37c2ab
+  sha256: e2559ae35e2158562534d01a022fdf2892909ad4b2351236bcf8896ede5bf789
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -23,17 +23,11 @@ source:
     # Patch around non-const NAN on windows in protobuf 27.5
     - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
     - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
-    # Add missing include in new logging code for different absl
-    - patches/0009-add-missing-include.patch
-    # Patch bundled fmtlib/fmt in spdlog for char8_type which is invalid on macOS
-    - patches/0010-patch-bundled-fmt-in-spdlog-for-invalid-char8_type.patch
-    # Avoid building openssl-1.1.1f and redis, not needed in the shipped package
-    - patches/0011-do-not-build-redis-openssl.patch
     # Turns off --incompatible_strict_action_env
-    - patches/0012-No-path-isolation.patch
+    - patches/0013-bazel-disable-strict-env.patch
 
 build:
-  number: 2
+  number: 0
 
 
 outputs:
