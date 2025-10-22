@@ -290,6 +290,7 @@ Feedstock Maintainers
 =====================
 
 * [@apmorton](https://github.com/apmorton/)
+* [@aslonnie](https://github.com/aslonnie/)
 * [@dHannasch](https://github.com/dHannasch/)
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@mattip](https://github.com/mattip/)
