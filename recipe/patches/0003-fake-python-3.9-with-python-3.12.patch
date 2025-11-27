@@ -1,0 +1,29 @@
+From 245f2a37850444d6248357f8091c84c0518a70a8 Mon Sep 17 00:00:00 2001
+From: Lonnie Liu <lonnie@anyscale.com>
+Date: Thu, 27 Nov 2025 02:30:45 +0000
+Subject: [PATCH 3/8] fake python 3.9 with python 3.12
+
+Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
+---
+ WORKSPACE | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/WORKSPACE b/WORKSPACE
+index ad4fe2ec26..a460922935 100644
+--- a/WORKSPACE
++++ b/WORKSPACE
+@@ -54,8 +54,10 @@ hedron_compile_commands_setup()
+ load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+ 
+ python_register_toolchains(
++    # Lie about the version, so that we do not need to change the code
++    # of the entire repo.
+     name = "python3_9",
+-    python_version = "3.9",
++    python_version = "3.12",
+     register_toolchains = False,
+ )
+ 
+-- 
+2.25.1
+

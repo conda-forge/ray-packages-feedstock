@@ -1,14 +1,14 @@
-From a2db157659e60dcff8805e78f955a50d2ea5fa49 Mon Sep 17 00:00:00 2001
+From 0807a0326ef2562448a59368a14348136886be9c Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 9 May 2025 13:12:32 +0300
-Subject: [PATCH 02/11] Ignore warnings in event.cc and logging.cc
+Subject: [PATCH 2/8] Ignore warnings in event.cc and logging.cc
 
 ---
  .bazelrc | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/.bazelrc b/.bazelrc
-index 8c2be7ea85..535b16b33a 100644
+index 3652a96fdf..30bd6a53ae 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -53,13 +53,16 @@ build:windows --enable_runfiles
@@ -30,5 +30,5 @@ index 8c2be7ea85..535b16b33a 100644
  build:macos --per_file_copt="-\\.(asm|S)$,external/.*@-w,-Wno-error=implicit-function-declaration,-Wno-error=unused-function,-Wno-missing-template-arg-list-after-template-kw"
  # Ignore warnings for host tools, which we generally can't control.
 -- 
-2.39.5 (Apple Git-154)
+2.25.1
 

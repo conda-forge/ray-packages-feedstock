@@ -1,0 +1,25 @@
+From d17a88b347e4d8c34da31d675a0e0099ae52fa03 Mon Sep 17 00:00:00 2001
+From: Lonnie Liu <lonnie@anyscale.com>
+Date: Wed, 15 Oct 2025 16:30:33 +0000
+Subject: [PATCH 8/8] disable strict env
+
+---
+ .bazelrc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.bazelrc b/.bazelrc
+index 20e20bcdda..f295f2d637 100644
+--- a/.bazelrc
++++ b/.bazelrc
+@@ -1,7 +1,7 @@
+ # Must be first. Enables build:windows, build:linux, build:macos, build:freebsd, build:openbsd
+ build --enable_platform_specific_config
+ 
+-build --incompatible_strict_action_env
++# build --incompatible_strict_action_env
+ build:strict --incompatible_strict_action_env
+ 
+ build:linux --workspace_status_command="bash ./bazel/workspace_status.sh"
+-- 
+2.25.1
+
