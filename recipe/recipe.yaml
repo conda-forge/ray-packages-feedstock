@@ -24,7 +24,7 @@ source:
     - patches/0006-patch-protobuf-use-of-nan-on-windows.patch
     - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Turns off --incompatible_strict_action_env
-    - patches/0008-bazel-disable-strict-env.patch
+    - patches/0008-disable-strict-env.patch
 
 build:
   number: 0
