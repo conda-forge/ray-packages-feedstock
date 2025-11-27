@@ -85,7 +85,7 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
-        - if: unix
+        - if: not win
           then: unzip
         - if: win
           then: m2-unzip
