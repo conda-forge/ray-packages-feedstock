@@ -25,5 +25,5 @@ index 30bd6a53ae..20e20bcdda 100644
  build:llvm --action_env=BAZEL_LINKOPTS=-lm:-pthread
  build:llvm --define force_libcpp=enabled
 -- 
-2.25.1
+2.48.0
 

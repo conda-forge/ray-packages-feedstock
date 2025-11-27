@@ -233,5 +233,5 @@ index 83dfba2b95..95d59c2279 100644
  +            patches = [
  +                "@io_ray//thirdparty/patches:zlib-fdopen.patch",
 -- 
-2.25.1
+2.48.0
 
