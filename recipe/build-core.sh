@@ -18,12 +18,6 @@ if [[ "$target_platform" == osx* ]]; then
   sed -i"''" -e'/stdlib=libc/d' $CONDA_PREFIX/share/bazel_toolchain/CROSSTOOL.template
   source gen-bazel-toolchain
   cat >> .bazelrc <<EOF
-build --define CONDA_CC=${CC}
-build --define CONDA_CFLAGS="${CFLAGS}"
-build --define CONDA_AR=${AR}
-build --define CONDA_NM=${NM}
-build --define CONDA_RANLIB=${RANLIB}
-build --define CONDA_SDKROOT=${SDKROOT}
 EOF
 fi
 
@@ -38,6 +32,7 @@ build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
 build --logging=6
 build --verbose_failures
 build --toolchain_resolution_debug
+build --define=with_cross_compiler_support=true
 build --local_cpu_resources=${CPU_COUNT}
 EOF
 
