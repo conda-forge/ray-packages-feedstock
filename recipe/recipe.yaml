@@ -14,17 +14,17 @@ source:
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-Newer-hermetic-python.patch
+    - patches/0003-fake-python-3.9-with-python-3.12.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
-    - patches/0005-Vendor-grpc-1.67.1.patch
-    - patches/0006-remove-stdlib-libc-from-.bazelrc.patch
+    - patches/0004-Vendor-grpc-1.67.1.patch
+    - patches/0005-remove-stdlib-libc-from-.bazelrc.patch
     # Patch around non-const NAN on windows in protobuf 27.5
-    - patches/0007-patch-protobuf-use-of-nan-on-windows.patch
-    - patches/0008-patch-zlib-in-prometheus-cpp-and-boost.patch
+    - patches/0006-patch-protobuf-use-of-nan-on-windows.patch
+    - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Turns off --incompatible_strict_action_env
-    - patches/0013-bazel-disable-strict-env.patch
+    - patches/0008-bazel-disable-strict-env.patch
 
 build:
   number: 0
@@ -85,7 +85,7 @@ outputs:
         - psutil
         - python
         - setproctitle >=1.2.2,<1.4
-        - if: unix
+        - if: not win
           then: unzip
         - if: win
           then: m2-unzip
