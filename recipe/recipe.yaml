@@ -379,9 +379,9 @@ about:
     ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
     ray-train, ray-observability, ray-adag, ray-cgraph, ray-llm and
     ray-all packages.
-  homepage: https://github.com/ray-project/ray
+  homepage: https://ray.io/
   repository: https://github.com/ray-project/ray
-  documentation: https://ray.readthedocs.io/
+  documentation: https://docs.ray.io/
 
 extra:
   recipe-maintainers:
