@@ -5,7 +5,7 @@
 
 [workspace]
 name = "ray-packages-feedstock"
-version = "3.53.2"  # conda-smithy version used to generate this file
+version = "3.53.3"  # conda-smithy version used to generate this file
 description = "Pixi configuration for conda-forge/ray-packages-feedstock"
 authors = ["@conda-forge/ray-packages"]
 channels = ["conda-forge"]

@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.52.0"
+  version: "2.52.1"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 0028196fd397cc510e38972e767379e59e99cdc65d08d5b4d0302e4b66bc15b9
+  sha256: b00b1db1028be58294e6fc7e649359f3fc0031d07e130b958c95f1e844d3a4ec
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -379,9 +379,9 @@ about:
     ray-serve, ray-rllib, ray-client, ray-data, ray-tune,
     ray-train, ray-observability, ray-adag, ray-cgraph, ray-llm and
     ray-all packages.
-  homepage: https://github.com/ray-project/ray
+  homepage: https://ray.io/
   repository: https://github.com/ray-project/ray
-  documentation: https://ray.readthedocs.io/
+  documentation: https://docs.ray.io/
 
 extra:
   recipe-maintainers:
