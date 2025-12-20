@@ -3,7 +3,7 @@ About ray-air-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ray-packages-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/ray-project/ray
+Home: https://ray.io/
 
 Package license: Apache-2.0
 
@@ -11,7 +11,7 @@ Summary: Ray is a fast and simple framework for building and running distributed
 
 Development: https://github.com/ray-project/ray
 
-Documentation: https://ray.readthedocs.io/
+Documentation: https://docs.ray.io/
 
 Ray is a fast and simple framework for building and running
 distributed applications. It is split into ray-core, ray-default,

@@ -13,7 +13,7 @@ cxx_compiler:
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
 libgrpc:
-- '1.71'
+- '1.73'
 pin_run_as_build:
   python:
     min_pin: x.x

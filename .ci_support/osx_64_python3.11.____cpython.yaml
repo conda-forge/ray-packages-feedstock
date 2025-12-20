@@ -23,7 +23,7 @@ cxx_compiler_version:
 github_actions_labels:
 - cirun-openstack-cpu-4xlarge
 libgrpc:
-- '1.71'
+- '1.73'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 pin_run_as_build:
