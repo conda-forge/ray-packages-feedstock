@@ -14,7 +14,7 @@ source:
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-fake-python-3.9-with-python-3.12.patch
+    - patches/0003-fake-python-3.10-with-python-3.12.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
