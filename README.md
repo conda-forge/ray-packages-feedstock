@@ -3,7 +3,7 @@ About ray-air-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/ray-packages-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/ray-project/ray
+Home: https://ray.io/
 
 Package license: Apache-2.0
 
@@ -11,7 +11,7 @@ Summary: Ray is a fast and simple framework for building and running distributed
 
 Development: https://github.com/ray-project/ray
 
-Documentation: https://ray.readthedocs.io/
+Documentation: https://docs.ray.io/
 
 Ray is a fast and simple framework for building and running
 distributed applications. It is split into ray-core, ray-default,
@@ -65,13 +65,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_python3.10.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11419&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ray-packages-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.10.____cpython" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_64_python3.11.____cpython</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11419&branchName=main">
@@ -90,13 +83,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11419&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ray-packages-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.13.____cp313" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.10.____cpython</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=11419&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ray-packages-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.10.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>

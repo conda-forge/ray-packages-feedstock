@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.52.1"
+  version: "2.53.0"
 
 recipe:
   name: ray-packages
@@ -10,11 +10,11 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: b00b1db1028be58294e6fc7e649359f3fc0031d07e130b958c95f1e844d3a4ec
+  sha256: bb2e1393e0617b2edbdbc793718a5dbe98d5024e9f2ab06b33ecc524b02c9e0e
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
-    - patches/0003-fake-python-3.9-with-python-3.12.patch
+    - patches/0003-fake-python-3.10-with-python-3.12.patch
     # See https://github.com/conda-forge/ray-packages-feedstock/issues/136
     # Keep in sync with current or active migration of libgrpc to avoid
     # ABI breakage
@@ -28,7 +28,8 @@ source:
 
 build:
   number: 0
-
+  skip:
+    - match(python, "<3.11")
 
 outputs:
   - package:
@@ -87,8 +88,7 @@ outputs:
         - setproctitle >=1.2.2,<1.4
         - if: not win
           then: unzip
-        - if: win
-          then: m2-unzip
+          else: m2-unzip
         - if: build_platform != target_platform
           then: cross-python_${{ target_platform }}
       host:
