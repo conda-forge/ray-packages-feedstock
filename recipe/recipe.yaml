@@ -78,8 +78,6 @@ outputs:
         - cython >=0.29.32
         - if: win
           then: git =2.33
-        - if: linux and match(python, "<3.9")
-          then: libxcrypt
         - make
         - if: win
           then: m2-bash
