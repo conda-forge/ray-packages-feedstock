@@ -2,5 +2,6 @@ c_stdlib_version:         # [osx and x86_64]
 - '10.15'                 # [osx and x86_64]
 MACOSX_SDK_VERSION:       # [osx and x86_64]
 - '10.15'                 # [osx and x86_64]
-github_actions_labels:
-- cirun-openstack-cpu-4xlarge
+
+github_actions_labels:          # [linux]
+- cirun-openstack-cpu-4xlarge   # [linux]
