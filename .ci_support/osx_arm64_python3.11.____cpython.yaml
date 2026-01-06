@@ -20,8 +20,6 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
-github_actions_labels:
-- cirun-openstack-cpu-4xlarge
 libgrpc:
 - '1.73'
 macos_machine:
