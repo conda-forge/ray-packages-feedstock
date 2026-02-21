@@ -25,9 +25,10 @@ source:
     - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Turns off --incompatible_strict_action_env
     - patches/0008-bazel-disable-strict-env.patch
+    - patches/0009-fix-symbols.patch
 
 build:
-  number: 0
+  number: 1
   skip:
     - match(python, "<3.11")
 

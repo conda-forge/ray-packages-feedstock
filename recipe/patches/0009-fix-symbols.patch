@@ -1,0 +1,40 @@
+From 215340c82cc6ca40874987b3d5b24df16b1870a1 Mon Sep 17 00:00:00 2001
+From: Rueian Huang <rueian@gmail.com>
+Date: Thu, 19 Feb 2026 16:21:07 -0800
+Subject: [PATCH] [core] fix symbols
+
+Signed-off-by: Rueian Huang <rueian@gmail.com>
+---
+ src/ray/ray_exported_symbols.lds | 2 +-
+ src/ray/ray_version_script.lds   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/ray/ray_exported_symbols.lds b/src/ray/ray_exported_symbols.lds
+index 9d57bf03a6fe..cb5b83e8b4f2 100644
+--- a/src/ray/ray_exported_symbols.lds
++++ b/src/ray/ray_exported_symbols.lds
+@@ -29,7 +29,7 @@
+ *ray*gcs*
+ *ray*CoreWorker*
+ *ray*PeriodicalRunner*
+-*ray*internal*
++*ray8internal*
+ *PyInit__raylet*
+ *Java_io_ray*
+ _JNI_On*
+diff --git a/src/ray/ray_version_script.lds b/src/ray/ray_version_script.lds
+index eb6d54063e04..d485d7ac5a35 100644
+--- a/src/ray/ray_version_script.lds
++++ b/src/ray/ray_version_script.lds
+@@ -31,7 +31,7 @@ VERSION_1.0 {
+ *ray*stats*;
+ *ray*CoreWorker*;
+ *ray*PeriodicalRunner*;
+- *ray*internal*;
++ *ray8internal*;
+ *PyInit*;
+ *init_raylet*;
+ *Java*;
+-- 
+2.48.0
+
