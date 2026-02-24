@@ -1,7 +1,7 @@
-From 573929b8c58031b1b2bc1e9003daf7291587898c Mon Sep 17 00:00:00 2001
+From f9cb242bcffc276e2df95a8dfa338a9d38a5d526 Mon Sep 17 00:00:00 2001
 From: Lonnie Liu <lonnie@anyscale.com>
 Date: Wed, 15 Oct 2025 16:30:33 +0000
-Subject: [PATCH 8/8] [bazel] disable strict env
+Subject: [PATCH 08/10] [bazel] disable strict env
 
 Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/.bazelrc b/.bazelrc
-index 20e20bcdda..f295f2d637 100644
+index bee8b47162..793413a09e 100644
 --- a/.bazelrc
 +++ b/.bazelrc
 @@ -1,7 +1,7 @@
@@ -22,5 +22,5 @@ index 20e20bcdda..f295f2d637 100644
  
  build:linux --workspace_status_command="bash ./bazel/workspace_status.sh"
 -- 
-2.48.0
+2.52.0
 
