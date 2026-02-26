@@ -125,6 +125,7 @@ outputs:
             - ray._private.worker
       - script:
           - python -c "import ray; ray.init(include_dashboard=False)"
+          - ray stop
           - ray --help
 
   # the various ray[extra] installs, alphabetically
@@ -207,6 +208,13 @@ outputs:
             - ray.dashboard
       - script:
           - python -c "import ray; ray.init(include_dashboard=True)"
+          - ray stop
+          # ray stop on Windows fails to kill dashboard and runtime_env agents;
+          # force-kill remaining ray python processes and wait for handles to release
+          - if: win
+            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+          - if: win
+            then: powershell -c "Start-Sleep 15"
 
   - package:
       name: ray-client
@@ -225,6 +233,12 @@ outputs:
           - ray start --head
           - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
           - ray stop
+          # ray stop on Windows fails to kill dashboard and runtime_env agents;
+          # force-kill remaining ray python processes and wait for handles to release
+          - if: win
+            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+          - if: win
+            then: powershell -c "Start-Sleep 15"
 
   - package:
       name: ray-rllib
