@@ -261,7 +261,7 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
-* [@apmorton](https://github.com/apmorton/)
+* [@andrew-anyscale](https://github.com/andrew-anyscale/)
 * [@aslonnie](https://github.com/aslonnie/)
 * [@dHannasch](https://github.com/dHannasch/)
 * [@h-vetinari](https://github.com/h-vetinari/)
