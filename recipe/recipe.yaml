@@ -209,6 +209,7 @@ outputs:
       - script:
           - python -c "import ray; ray.init(include_dashboard=True)"
           - ray stop
+          # TODO: https://github.com/ray-project/ray/issues/61452
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
@@ -233,6 +234,7 @@ outputs:
           - ray start --head
           - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
           - ray stop
+          # TODO: https://github.com/ray-project/ray/issues/61452
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
