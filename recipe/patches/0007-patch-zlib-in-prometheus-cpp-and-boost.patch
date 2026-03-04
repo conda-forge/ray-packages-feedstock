@@ -1,7 +1,7 @@
-From d37f77af523d3f20dd34fe90a90e6a0aaea8e9d7 Mon Sep 17 00:00:00 2001
+From 3c3caa98b6672be46d86802281b386a8626921a5 Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Fri, 29 Aug 2025 00:16:11 +0300
-Subject: [PATCH 7/8] patch zlib in prometheus-cpp and boost
+Subject: [PATCH 07/10] patch zlib in prometheus-cpp and boost
 
 ---
  bazel/ray_deps_setup.bzl                   |  2 ++
@@ -12,10 +12,10 @@ Subject: [PATCH 7/8] patch zlib in prometheus-cpp and boost
  create mode 100644 thirdparty/patches/boost-zlib-fdopen.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index c3bfb77d6f..327ec8d343 100644
+index 15fc3406a9..e6d4228c42 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -173,6 +173,8 @@ def ray_deps_setup():
+@@ -168,6 +168,8 @@ def ray_deps_setup():
          sha256 = "490d11425393eed068966a4990ead1ff07c658f823fd982fddac67006ccc44ab",
          patches = [
              "//thirdparty/patches:boost-headers.patch",
@@ -66,5 +66,5 @@ index 0000000000..8f78a35768
 +
 +
 -- 
-2.48.0
+2.52.0
 

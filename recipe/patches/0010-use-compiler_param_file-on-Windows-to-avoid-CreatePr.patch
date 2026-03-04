@@ -1,0 +1,36 @@
+From dcc9456fafa39f0262e9f292ee160f04114ac82c Mon Sep 17 00:00:00 2001
+From: andrew <andrew@anyscale.com>
+Date: Wed, 25 Feb 2026 13:59:45 -0800
+Subject: [PATCH 10/10] use compiler_param_file on Windows to avoid
+ CreateProcessW limit
+
+Backport of https://github.com/ray-project/ray/pull/61294.
+On Windows, the raylet compilation command exceeds the 32,767 character
+CreateProcessW limit due to accumulated /I include paths. The
+compiler_param_file feature writes compiler args to a response file
+instead. This is only enabled for the raylet target on Windows to avoid
+breaking external dependencies like lzma that can't parse param files.
+
+Signed-off-by: andrew <andrew@anyscale.com>
+---
+ src/ray/raylet/BUILD.bazel | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/ray/raylet/BUILD.bazel b/src/ray/raylet/BUILD.bazel
+index e311945758..44bb1a05c5 100644
+--- a/src/ray/raylet/BUILD.bazel
++++ b/src/ray/raylet/BUILD.bazel
+@@ -272,6 +272,10 @@ ray_cc_library(
+ ray_cc_binary(
+     name = "raylet",
+     srcs = ["main.cc"],
++    features = select({
++        "@platforms//os:windows": ["compiler_param_file"],
++        "//conditions:default": [],
++    }),
+     visibility = ["//visibility:public"],
+     deps = [
+         ":local_object_manager",
+-- 
+2.52.0
+

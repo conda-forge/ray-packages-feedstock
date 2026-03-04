@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.53.0"
+  version: "2.54.0"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: bb2e1393e0617b2edbdbc793718a5dbe98d5024e9f2ab06b33ecc524b02c9e0e
+  sha256: 3417142d8d46af16ca556c687b21c11812264dd98201935cc0af34b37773b30b
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -26,9 +26,12 @@ source:
     # Turns off --incompatible_strict_action_env
     - patches/0008-bazel-disable-strict-env.patch
     - patches/0009-fix-symbols.patch
+    # Backport of https://github.com/ray-project/ray/pull/61294
+    # Fixes Windows build where cl.exe command exceeds CreateProcessW 32767 char limit
+    - patches/0010-use-compiler_param_file-on-Windows-to-avoid-CreatePr.patch
 
 build:
-  number: 1
+  number: 0
   skip:
     - match(python, "<3.11")
 
@@ -122,6 +125,7 @@ outputs:
             - ray._private.worker
       - script:
           - python -c "import ray; ray.init(include_dashboard=False)"
+          - ray stop
           - ray --help
 
   # the various ray[extra] installs, alphabetically
@@ -204,6 +208,14 @@ outputs:
             - ray.dashboard
       - script:
           - python -c "import ray; ray.init(include_dashboard=True)"
+          - ray stop
+          # TODO: https://github.com/ray-project/ray/issues/61452
+          # ray stop on Windows fails to kill dashboard and runtime_env agents;
+          # force-kill remaining ray python processes and wait for handles to release
+          - if: win
+            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+          - if: win
+            then: powershell -c "Start-Sleep 15"
 
   - package:
       name: ray-client
@@ -222,6 +234,13 @@ outputs:
           - ray start --head
           - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
           - ray stop
+          # TODO: https://github.com/ray-project/ray/issues/61452
+          # ray stop on Windows fails to kill dashboard and runtime_env agents;
+          # force-kill remaining ray python processes and wait for handles to release
+          - if: win
+            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+          - if: win
+            then: powershell -c "Start-Sleep 15"
 
   - package:
       name: ray-rllib
