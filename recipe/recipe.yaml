@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.54.0"
+  version: "2.54.1"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 3417142d8d46af16ca556c687b21c11812264dd98201935cc0af34b37773b30b
+  sha256: 40e1d0f9c65c10c910c037bea151b1b9827c2b652704e67e49e6a083cc2b178b
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -213,10 +213,9 @@ outputs:
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
-            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
-          - if: win
-            then: powershell -c "Start-Sleep 15"
-
+            then:
+              - wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+              - powershell -c "Start-Sleep 15"
   - package:
       name: ray-client
     requirements:
@@ -238,10 +237,9 @@ outputs:
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
-            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
-          - if: win
-            then: powershell -c "Start-Sleep 15"
-
+            then:
+              - wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+              - powershell -c "Start-Sleep 15"
   - package:
       name: ray-rllib
     requirements:
