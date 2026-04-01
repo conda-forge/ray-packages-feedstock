@@ -14,7 +14,6 @@ github:
   tooling_branch_name: main
 test: native_and_emulated
 github_actions:
-  self_hosted: true
   triggers:
     - push
     - pull_request
