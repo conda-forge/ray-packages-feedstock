@@ -31,7 +31,7 @@ source:
     - patches/0010-use-compiler_param_file-on-Windows-to-avoid-CreatePr.patch
 
 build:
-  number: 0
+  number: 1
   skip:
     - match(python, "<3.11")
 
@@ -213,10 +213,9 @@ outputs:
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
-            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
-          - if: win
-            then: powershell -c "Start-Sleep 15"
-
+            then:
+              - wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+              - powershell -c "Start-Sleep 15"
   - package:
       name: ray-client
     requirements:
@@ -238,10 +237,9 @@ outputs:
           # ray stop on Windows fails to kill dashboard and runtime_env agents;
           # force-kill remaining ray python processes and wait for handles to release
           - if: win
-            then: wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
-          - if: win
-            then: powershell -c "Start-Sleep 15"
-
+            then:
+              - wmic process where "name='python.exe' and commandline like '%%ray%%'" delete || ver >nul
+              - powershell -c "Start-Sleep 15"
   - package:
       name: ray-rllib
     requirements:
