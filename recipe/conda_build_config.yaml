@@ -4,4 +4,4 @@ MACOSX_SDK_VERSION:       # [osx and x86_64]
 - '11.0'                  # [osx and x86_64]
 
 github_actions_labels:                 # [linux]
-- namespace-profile-16cpu-on-linux-64  # [linux]
+- blacksmith-16vcpu-ubuntu-2404        # [linux]
