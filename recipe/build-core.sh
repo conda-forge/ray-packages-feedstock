@@ -25,9 +25,6 @@ build --define CONDA_NM=${NM}
 build --define CONDA_RANLIB=${RANLIB}
 build --define CONDA_SDKROOT=${SDKROOT}
 EOF
-else
-  # linux
-  CPU_COUNT="12"
 fi
 
 export LDFLAGS="${LDFLAGS} -lm"
