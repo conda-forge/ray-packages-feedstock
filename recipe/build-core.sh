@@ -27,7 +27,7 @@ build --define CONDA_SDKROOT=${SDKROOT}
 EOF
 else
   # linux
-  CPU_COUNT="8"
+  CPU_COUNT="12"
 fi
 
 export LDFLAGS="${LDFLAGS} -lm"
@@ -41,7 +41,7 @@ build --extra_toolchains=//bazel_toolchain:cc_cf_host_toolchain
 build --logging=6
 build --verbose_failures
 build --toolchain_resolution_debug
-build --local_cpu_resources=${CPU_COUNT}
+build --local_resources=cpu=${CPU_COUNT}
 EOF
 
 if [[ "${target_platform}" == "osx-arm64" || "${target_platform}" != "${build_platform}" ]]; then
