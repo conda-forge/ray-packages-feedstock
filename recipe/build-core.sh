@@ -29,6 +29,13 @@ fi
 
 export LDFLAGS="${LDFLAGS} -lm"
 source gen-bazel-toolchain
+
+# bazel-toolchain 0.5.x loads cc_toolchain from @rules_cc//cc/toolchains:cc_toolchain.bzl,
+# but grpc 1.67.1 pins rules_cc 0.0.9 where that path doesn't exist yet. Rewrite the
+# load to use @rules_cc//cc:defs.bzl which exposes the same symbol in older versions.
+sed -i.bak -e 's|@rules_cc//cc/toolchains:cc_toolchain.bzl|@rules_cc//cc:defs.bzl|' bazel_toolchain/BUILD
+rm -f bazel_toolchain/BUILD.bak
+
 cat >> .bazelrc <<EOF
 build --crosstool_top=//bazel_toolchain:toolchain
 build --platforms=//bazel_toolchain:target_platform
