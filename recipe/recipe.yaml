@@ -25,10 +25,6 @@ source:
     - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Turns off --incompatible_strict_action_env
     - patches/0008-bazel-disable-strict-env.patch
-    - patches/0009-fix-symbols.patch
-    # Backport of https://github.com/ray-project/ray/pull/61294
-    # Fixes Windows build where cl.exe command exceeds CreateProcessW 32767 char limit
-    - patches/0010-use-compiler_param_file-on-Windows-to-avoid-CreatePr.patch
 
 build:
   number: 0
@@ -72,9 +68,9 @@ outputs:
         - ${{ compiler('c') }}
         - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
-        - bazel =6.5
+        - bazel =7.7
         - if: not win
-          then: bazel-toolchain =0.2.1
+          then: bazel-toolchain =0.5
         - if: linux
           then: patchelf
         - colorama

@@ -1,7 +1,7 @@
-From 58a0c6933bc6b1c93f663ea92d3a47a9a94f0024 Mon Sep 17 00:00:00 2001
+From 5b6e7ed183f8c3122f40ed3a6b46cdc66142cc95 Mon Sep 17 00:00:00 2001
 From: Lonnie Liu <lonnie@anyscale.com>
 Date: Wed, 15 Oct 2025 16:30:33 +0000
-Subject: [PATCH 08/10] [bazel] disable strict env
+Subject: [PATCH 8/8] [bazel] disable strict env
 
 Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
 ---
@@ -9,10 +9,10 @@ Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/.bazelrc b/.bazelrc
-index bee8b47162..793413a09e 100644
+index b618d3759b..9ba0abe465 100644
 --- a/.bazelrc
 +++ b/.bazelrc
-@@ -1,7 +1,7 @@
+@@ -3,7 +3,7 @@ common --noenable_bzlmod
  # Must be first. Enables build:windows, build:linux, build:macos, build:freebsd, build:openbsd
  build --enable_platform_specific_config
  
