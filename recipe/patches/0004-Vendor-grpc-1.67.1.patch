@@ -1,4 +1,4 @@
-From 123c06365d607609ff20f5ae7e880a7161f1f5e9 Mon Sep 17 00:00:00 2001
+From 6d06534f537f06e8efb1f44104d84f703c6f96bf Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Wed, 15 Oct 2025 16:12:56 +0000
 Subject: [PATCH 4/8] Vendor grpc 1.67.1
@@ -6,17 +6,17 @@ Subject: [PATCH 4/8] Vendor grpc 1.67.1
 Co-authored-by: Lonnie Liu <lonnie@anyscale.com>
 Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
 ---
- bazel/ray_deps_setup.bzl                      | 23 ++++++++-----------
+ bazel/ray_deps_setup.bzl                      | 30 ++++++-------------
  .../task_event_buffer_export_event_test.cc    |  2 +-
- .../gcs/actor/tests/gcs_actor_manager_test.cc | 14 +++++------
+ .../gcs/actor/tests/gcs_actor_manager_test.cc | 14 ++++-----
  src/ray/rpc/server_call.h                     |  2 +-
  src/ray/util/event.cc                         |  2 +-
- .../grpc-configurable-thread-count.patch      | 11 ++++-----
- thirdparty/patches/grpc-zlib-fdopen.patch     |  4 ++--
- 7 files changed, 26 insertions(+), 32 deletions(-)
+ .../grpc-configurable-thread-count.patch      | 11 ++++---
+ thirdparty/patches/grpc-zlib-fdopen.patch     |  4 +--
+ 7 files changed, 26 insertions(+), 39 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index b899f8febf..51fc9400c5 100644
+index b899f8febf..a965095aab 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
 @@ -117,13 +117,8 @@ def ray_deps_setup():
@@ -46,7 +46,7 @@ index b899f8febf..51fc9400c5 100644
          patches = [
              # TODO (israbbani): #55430 Separate the compiler flags and remove this patch
              "@io_ray//thirdparty/patches:abseil-cpp-shadow.patch",
-@@ -324,8 +319,8 @@ def ray_deps_setup():
+@@ -324,19 +319,12 @@ def ray_deps_setup():
      auto_http_archive(
          name = "com_github_grpc_grpc",
          # NOTE: If you update this, also update @boringssl's hash.
@@ -56,8 +56,19 @@ index b899f8febf..51fc9400c5 100644
 +        sha256 = "d74f8e99a433982a12d7899f6773e285c9824e1d9a173ea1d1fb26c9bd089299",
          patches = [
              "@io_ray//thirdparty/patches:grpc-cython-copts.patch",
-             # Work around bazelbuild/bazel#21592: with layering_check and
-@@ -375,11 +370,11 @@ def ray_deps_setup():
+-            # Work around bazelbuild/bazel#21592: with layering_check and
+-            # non-sandbox/local spawn, clang can record transitive *.cppmap files
+-            # in .d files, which Bazel then reports as undeclared direct deps.
+-            # Fixed in Bazel 7.3.0. LLVM used the same workaround by disabling
+-            # layering_check in Bazel overlays (llvm/llvm-project@5bba176).
+-            "@io_ray//thirdparty/patches:grpc-disable-layering-check.patch",
+             "@io_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
+             "@io_ray//thirdparty/patches:grpc-configurable-thread-count.patch",
+-            "@io_ray//thirdparty/patches:grpc-nextresult-cancelled-init.patch",
+         ],
+     )
+ 
+@@ -375,11 +363,11 @@ def ray_deps_setup():
      auto_http_archive(
          # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
          # provides a deterministic archive hash for caching. Explanation here:
