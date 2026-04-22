@@ -68,7 +68,7 @@ outputs:
         - ${{ compiler('c') }}
         - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
-        - bazel =7.7
+        - bazel =7.5
         - if: not win
           then: bazel-toolchain =0.5
         - if: linux
