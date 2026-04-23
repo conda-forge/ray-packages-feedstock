@@ -30,15 +30,6 @@ fi
 export LDFLAGS="${LDFLAGS} -lm"
 source gen-bazel-toolchain
 
-if [[ "${target_platform}" != "${build_platform}" ]]; then
-  export CONFIG_SITE="${BUILD_PREFIX}/${HOST}/sysroot/usr/share/config.site"
-  export ac_cv_func_malloc_0_nonnull=yes
-  export ac_cv_func_realloc_0_nonnull=yes
-  export ac_cv_c_bigendian=no
-  export build="${BUILD}"
-  export host="${HOST}"
-fi
-
 # bazel-toolchain 0.5.x uses load paths (e.g. @rules_cc//cc/toolchains:... and
 # @rules_cc//cc/common:...) that only exist in rules_cc 0.0.10+. Our grpc 1.67.1
 # vendoring pins rules_cc 0.0.9, where cc_toolchain / cc_common / CcToolchainConfigInfo
