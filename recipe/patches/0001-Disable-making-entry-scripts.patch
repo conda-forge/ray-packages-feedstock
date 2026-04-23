@@ -1,4 +1,4 @@
-From d013a5f71206c4a707a96434fc1cb5bddc230c1b Mon Sep 17 00:00:00 2001
+From 94c4fbf583a531bfeb3db269ddbc190b00043df9 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
 Subject: [PATCH 1/8] Disable making entry scripts

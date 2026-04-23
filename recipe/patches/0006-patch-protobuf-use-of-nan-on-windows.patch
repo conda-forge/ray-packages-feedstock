@@ -1,4 +1,4 @@
-From 86964e2523fd85c049c7ffd5aa70be555c53436d Mon Sep 17 00:00:00 2001
+From 023f383f2cad5b3a4f585db4f9fe34432afbeb3a Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Wed, 5 Feb 2025 22:39:59 +1100
 Subject: [PATCH 6/8] patch protobuf use of nan on windows

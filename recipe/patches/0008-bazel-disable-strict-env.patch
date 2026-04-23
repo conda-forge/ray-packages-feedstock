@@ -1,4 +1,4 @@
-From b0da46c66750e72926cdf678b4e0576bbf2c913f Mon Sep 17 00:00:00 2001
+From 2b598ef2d193afd1ed669b38ad2a4d34a8cee4a3 Mon Sep 17 00:00:00 2001
 From: Lonnie Liu <lonnie@anyscale.com>
 Date: Wed, 15 Oct 2025 16:30:33 +0000
 Subject: [PATCH 8/8] [bazel] disable strict env
