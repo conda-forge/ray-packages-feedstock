@@ -1,25 +1,25 @@
-From eb03a0d2fcbb59d0e036c255bc582ec7dfecaaa5 Mon Sep 17 00:00:00 2001
+From 6d06534f537f06e8efb1f44104d84f703c6f96bf Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Wed, 15 Oct 2025 16:12:56 +0000
-Subject: [PATCH 04/10] Vendor grpc 1.67.1
+Subject: [PATCH 4/8] Vendor grpc 1.67.1
 
 Co-authored-by: Lonnie Liu <lonnie@anyscale.com>
 Signed-off-by: Lonnie Liu <lonnie@anyscale.com>
 ---
- bazel/ray_deps_setup.bzl                      | 22 ++++++++-----------
+ bazel/ray_deps_setup.bzl                      | 30 ++++++-------------
  .../task_event_buffer_export_event_test.cc    |  2 +-
- .../gcs/actor/tests/gcs_actor_manager_test.cc | 14 ++++++------
+ .../gcs/actor/tests/gcs_actor_manager_test.cc | 14 ++++-----
  src/ray/rpc/server_call.h                     |  2 +-
  src/ray/util/event.cc                         |  2 +-
- .../grpc-configurable-thread-count.patch      | 11 +++++-----
- thirdparty/patches/grpc-zlib-fdopen.patch     |  4 ++--
- 7 files changed, 26 insertions(+), 31 deletions(-)
+ .../grpc-configurable-thread-count.patch      | 11 ++++---
+ thirdparty/patches/grpc-zlib-fdopen.patch     |  4 +--
+ 7 files changed, 26 insertions(+), 39 deletions(-)
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 7005e01443..0e9919ccc9 100644
+index b899f8febf..a965095aab 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -91,12 +91,8 @@ def ray_deps_setup():
+@@ -117,13 +117,8 @@ def ray_deps_setup():
      # Pinned grpc version: v23.4
      auto_http_archive(
          name = "com_google_protobuf",
@@ -27,6 +27,7 @@ index 7005e01443..0e9919ccc9 100644
 -        url = "https://github.com/protocolbuffers/protobuf/archive/2c5fa078d8e86e5f4bd34e6f4c9ea9e8d7d4d44a.tar.gz",
 -        patches = [
 -            "@com_github_grpc_grpc//third_party:protobuf.patch",
+-            "//thirdparty/patches:protobuf-bazel7.patch",
 -        ],
 -        patch_args = ["-p1"],
 +        sha256 = "b2340aa47faf7ef10a0328190319d3f3bee1b24f426d4ce8f4253b6f27ce16db",
@@ -34,7 +35,7 @@ index 7005e01443..0e9919ccc9 100644
      )
  
      # NOTE(lingxuan.zlx): 3rd party dependencies could be accessed, so it suggests
-@@ -252,8 +248,8 @@ def ray_deps_setup():
+@@ -299,8 +294,8 @@ def ray_deps_setup():
      # TODO(owner): Upgrade abseil to latest version after protobuf updated, which requires to upgrade `rules_cc` first.
      auto_http_archive(
          name = "com_google_absl",
@@ -45,18 +46,29 @@ index 7005e01443..0e9919ccc9 100644
          patches = [
              # TODO (israbbani): #55430 Separate the compiler flags and remove this patch
              "@io_ray//thirdparty/patches:abseil-cpp-shadow.patch",
-@@ -277,8 +273,8 @@ def ray_deps_setup():
+@@ -324,19 +319,12 @@ def ray_deps_setup():
      auto_http_archive(
          name = "com_github_grpc_grpc",
          # NOTE: If you update this, also update @boringssl's hash.
--        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.57.1.tar.gz",
--        sha256 = "0762f809b9de845e6a7c809cabccad6aa4143479fd43b396611fe5a086c0aeeb",
+-        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.58.0.tar.gz",
+-        sha256 = "ec64fdab22726d50fc056474dd29401d914cc616f53ab8f2fe4866772881d581",
 +        url = "https://github.com/grpc/grpc/archive/refs/tags/v1.67.1.tar.gz",
 +        sha256 = "d74f8e99a433982a12d7899f6773e285c9824e1d9a173ea1d1fb26c9bd089299",
          patches = [
              "@io_ray//thirdparty/patches:grpc-cython-copts.patch",
+-            # Work around bazelbuild/bazel#21592: with layering_check and
+-            # non-sandbox/local spawn, clang can record transitive *.cppmap files
+-            # in .d files, which Bazel then reports as undeclared direct deps.
+-            # Fixed in Bazel 7.3.0. LLVM used the same workaround by disabling
+-            # layering_check in Bazel overlays (llvm/llvm-project@5bba176).
+-            "@io_ray//thirdparty/patches:grpc-disable-layering-check.patch",
              "@io_ray//thirdparty/patches:grpc-zlib-fdopen.patch",
-@@ -321,11 +317,11 @@ def ray_deps_setup():
+             "@io_ray//thirdparty/patches:grpc-configurable-thread-count.patch",
+-            "@io_ray//thirdparty/patches:grpc-nextresult-cancelled-init.patch",
+         ],
+     )
+ 
+@@ -375,11 +363,11 @@ def ray_deps_setup():
      auto_http_archive(
          # This rule is used by @com_github_grpc_grpc, and using a GitHub mirror
          # provides a deterministic archive hash for caching. Explanation here:
@@ -64,8 +76,8 @@ index 7005e01443..0e9919ccc9 100644
          # Ensure this rule matches the rule used by grpc's bazel/grpc_deps.bzl
 +        # https://github.com/grpc/grpc/blob/v1.67.1/bazel/grpc_deps.bzl#L33
          name = "boringssl",
--        sha256 = "0675a4f86ce5e959703425d6f9063eaadf6b61b7f3399e77a154c0e85bad46b1",
--        url = "https://github.com/google/boringssl/archive/342e805bc1f5dfdd650e3f031686d6c939b095d9.tar.gz",
+-        sha256 = "b21994a857a7aa6d5256ffe355c735ad4c286de44c6c81dfc04edc41a8feaeef",
+-        url = "https://github.com/google/boringssl/archive/2ff4b968a7e0cfee66d9f151cb95635b43dc1d5b.tar.gz",
 +        sha256 = "c70d519e4ee709b7a74410a5e3a937428b8198d793a3d771be3dd2086ae167c8",
 +        url = "https://github.com/google/boringssl/archive/b8b3e6e11166719a8ebfa43c0cde9ad7d57a84f6.tar.gz",
      )
@@ -85,10 +97,10 @@ index 217786f264..28faccd89a 100644
    std::vector<SourceTypeVariant> source_types = {
        rpc::ExportEvent_SourceType::ExportEvent_SourceType_EXPORT_TASK};
 diff --git a/src/ray/gcs/actor/tests/gcs_actor_manager_test.cc b/src/ray/gcs/actor/tests/gcs_actor_manager_test.cc
-index 01be481477..dc078d37d3 100644
+index 7b9abe1692..2c11979fcd 100644
 --- a/src/ray/gcs/actor/tests/gcs_actor_manager_test.cc
 +++ b/src/ray/gcs/actor/tests/gcs_actor_manager_test.cc
-@@ -1264,7 +1264,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1331,7 +1331,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_actor_id(actor->GetActorID().Binary());
  
      auto &reply =
@@ -97,7 +109,7 @@ index 01be481477..dc078d37d3 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.total(), 1 + num_other_actors);
-@@ -1277,7 +1277,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1344,7 +1344,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -106,7 +118,7 @@ index 01be481477..dc078d37d3 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1289,7 +1289,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1356,7 +1356,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_state(rpc::ActorTableData::ALIVE);
  
      auto &reply =
@@ -115,7 +127,7 @@ index 01be481477..dc078d37d3 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1302,7 +1302,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1369,7 +1369,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -124,7 +136,7 @@ index 01be481477..dc078d37d3 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.actor_table_data().size(), 1);
      ASSERT_EQ(reply.num_filtered(), num_other_actors);
-@@ -1313,7 +1313,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
+@@ -1380,7 +1380,7 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoFilters) {
      request.mutable_filters()->set_job_id(job_id.Binary());
  
      auto &reply =
@@ -133,7 +145,7 @@ index 01be481477..dc078d37d3 100644
      gcs_actor_manager_->HandleGetAllActorInfo(request, &reply, callback);
      ASSERT_EQ(reply.num_filtered(), num_other_actors + 1);
      ASSERT_EQ(reply.actor_table_data().size(), 0);
-@@ -1336,14 +1336,14 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
+@@ -1403,14 +1403,14 @@ TEST_F(GcsActorManagerTest, TestGetAllActorInfoLimit) {
    {
      rpc::GetAllActorInfoRequest request;
      auto &reply =
@@ -151,10 +163,10 @@ index 01be481477..dc078d37d3 100644
      ASSERT_EQ(reply_2.actor_table_data().size(), 2);
      ASSERT_EQ(reply_2.total(), 3);
 diff --git a/src/ray/rpc/server_call.h b/src/ray/rpc/server_call.h
-index 9e6f13c563..fe8fd35995 100644
+index 3a2c7daf94..8be93b5c22 100644
 --- a/src/ray/rpc/server_call.h
 +++ b/src/ray/rpc/server_call.h
-@@ -196,7 +196,7 @@ class ServerCallImpl : public ServerCall {
+@@ -210,7 +210,7 @@ class ServerCallImpl : public ServerCall {
          auth_token_(auth_token),
          start_time_(0),
          record_metrics_(record_metrics) {

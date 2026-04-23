@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.54.1"
+  version: "2.55.0"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 40e1d0f9c65c10c910c037bea151b1b9827c2b652704e67e49e6a083cc2b178b
+  sha256: a3c6b9d436e544a607344c2a365adef6483f16a56f31b9fa91fa91f83ae11473
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -25,10 +25,6 @@ source:
     - patches/0007-patch-zlib-in-prometheus-cpp-and-boost.patch
     # Turns off --incompatible_strict_action_env
     - patches/0008-bazel-disable-strict-env.patch
-    - patches/0009-fix-symbols.patch
-    # Backport of https://github.com/ray-project/ray/pull/61294
-    # Fixes Windows build where cl.exe command exceeds CreateProcessW 32767 char limit
-    - patches/0010-use-compiler_param_file-on-Windows-to-avoid-CreatePr.patch
 
 build:
   number: 0
@@ -72,9 +68,9 @@ outputs:
         - ${{ compiler('c') }}
         - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
-        - bazel =6.5
+        - bazel =7.5
         - if: not win
-          then: bazel-toolchain =0.2.1
+          then: bazel-toolchain =0.5
         - if: linux
           then: patchelf
         - colorama

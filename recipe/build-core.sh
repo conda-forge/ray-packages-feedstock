@@ -29,6 +29,21 @@ fi
 
 export LDFLAGS="${LDFLAGS} -lm"
 source gen-bazel-toolchain
+
+# bazel-toolchain 0.5.x uses load paths (e.g. @rules_cc//cc/toolchains:... and
+# @rules_cc//cc/common:...) that only exist in rules_cc 0.0.10+. Our grpc 1.67.1
+# vendoring pins rules_cc 0.0.9, where cc_toolchain / cc_common / CcToolchainConfigInfo
+# are all re-exported via @rules_cc//cc:defs.bzl. Rewrite the imports accordingly.
+for f in bazel_toolchain/BUILD bazel_toolchain/cc_toolchain_config.bzl bazel_toolchain/cc_toolchain_build_config.bzl; do
+  [ -f "$f" ] || continue
+  sed -i.bak \
+      -e 's|@rules_cc//cc/toolchains:cc_toolchain\.bzl|@rules_cc//cc:defs.bzl|' \
+      -e 's|@rules_cc//cc/toolchains:cc_toolchain_config_info\.bzl|@rules_cc//cc:defs.bzl|' \
+      -e 's|@rules_cc//cc/common:cc_common\.bzl|@rules_cc//cc:defs.bzl|' \
+      "$f"
+  rm -f "$f.bak"
+done
+
 cat >> .bazelrc <<EOF
 build --crosstool_top=//bazel_toolchain:toolchain
 build --platforms=//bazel_toolchain:target_platform

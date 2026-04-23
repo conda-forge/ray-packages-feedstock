@@ -1,14 +1,14 @@
-From 12f98ac3a15fe2600c73acf0eac4a4d07b53a162 Mon Sep 17 00:00:00 2001
+From d013a5f71206c4a707a96434fc1cb5bddc230c1b Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Tue, 10 Nov 2020 23:26:35 +0300
-Subject: [PATCH 01/10] Disable making entry scripts
+Subject: [PATCH 1/8] Disable making entry scripts
 
 ---
  python/setup.py | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/python/setup.py b/python/setup.py
-index a04fa86b46..38b5984b69 100644
+index 6bf29afad8..db8641a7a1 100644
 --- a/python/setup.py
 +++ b/python/setup.py
 @@ -833,9 +833,9 @@ if __name__ == "__main__":

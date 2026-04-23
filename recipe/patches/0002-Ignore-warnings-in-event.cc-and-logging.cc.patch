@@ -1,17 +1,17 @@
-From b1ea91812745adff21ee1d83740c879aed743b92 Mon Sep 17 00:00:00 2001
+From e4432fb40dcc54764629d9eca326e6e8fc996819 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 9 May 2025 13:12:32 +0300
-Subject: [PATCH 02/10] Ignore warnings in event.cc and logging.cc
+Subject: [PATCH 2/8] Ignore warnings in event.cc and logging.cc
 
 ---
  .bazelrc | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/.bazelrc b/.bazelrc
-index eab35f70e7..bc3d371180 100644
+index 888f0e2a47..1ced34aade 100644
 --- a/.bazelrc
 +++ b/.bazelrc
-@@ -53,13 +53,16 @@ build:windows --enable_runfiles
+@@ -55,13 +55,16 @@ build:windows --enable_runfiles
  #                 for compiling assembly files is fixed on Windows:
  #                 https://github.com/bazelbuild/bazel/issues/8924
  # Warnings should be errors

@@ -1,7 +1,7 @@
-From cb5993ed102bf0f705192c3457a48521c2efeae7 Mon Sep 17 00:00:00 2001
+From 86964e2523fd85c049c7ffd5aa70be555c53436d Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Wed, 5 Feb 2025 22:39:59 +1100
-Subject: [PATCH 06/10] patch protobuf use of nan on windows
+Subject: [PATCH 6/8] patch protobuf use of nan on windows
 
 ---
  bazel/ray_deps_setup.bzl                      |  3 ++
@@ -10,10 +10,10 @@ Subject: [PATCH 06/10] patch protobuf use of nan on windows
  create mode 100644 thirdparty/patches/protobuf-windows-const-nan.patch
 
 diff --git a/bazel/ray_deps_setup.bzl b/bazel/ray_deps_setup.bzl
-index 0e9919ccc9..15fc3406a9 100644
+index a965095aab..b8506934cf 100644
 --- a/bazel/ray_deps_setup.bzl
 +++ b/bazel/ray_deps_setup.bzl
-@@ -93,6 +93,9 @@ def ray_deps_setup():
+@@ -119,6 +119,9 @@ def ray_deps_setup():
          name = "com_google_protobuf",
          sha256 = "b2340aa47faf7ef10a0328190319d3f3bee1b24f426d4ce8f4253b6f27ce16db",
          url = "https://github.com/protocolbuffers/protobuf/archive/refs/tags/v28.2.tar.gz",
