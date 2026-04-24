@@ -1,4 +1,4 @@
-From 6d06534f537f06e8efb1f44104d84f703c6f96bf Mon Sep 17 00:00:00 2001
+From e8a2737709754740dc5388ce0c7854b8e1673550 Mon Sep 17 00:00:00 2001
 From: Austin Morton <austin.morton@aquatic.com>
 Date: Wed, 15 Oct 2025 16:12:56 +0000
 Subject: [PATCH 4/8] Vendor grpc 1.67.1

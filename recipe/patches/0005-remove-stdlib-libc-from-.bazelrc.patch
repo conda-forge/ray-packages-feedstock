@@ -1,4 +1,4 @@
-From 6f1b2db7680e45d393f2779bd5aef624694b1727 Mon Sep 17 00:00:00 2001
+From ccc5b3a418a7072941af167ac666881f63ecf8cb Mon Sep 17 00:00:00 2001
 From: Matti Picus <matti.picus@gmail.com>
 Date: Thu, 9 May 2024 05:13:50 +1000
 Subject: [PATCH 5/8] remove stdlib=libc++ from .bazelrc

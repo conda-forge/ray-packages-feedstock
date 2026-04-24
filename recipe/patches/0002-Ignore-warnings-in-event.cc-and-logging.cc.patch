@@ -1,4 +1,4 @@
-From e4432fb40dcc54764629d9eca326e6e8fc996819 Mon Sep 17 00:00:00 2001
+From 025e608205dce4b8ef984950de5cc9af8263e964 Mon Sep 17 00:00:00 2001
 From: Vasily Litvinov <vasilij.n.litvinov@intel.com>
 Date: Fri, 9 May 2025 13:12:32 +0300
 Subject: [PATCH 2/8] Ignore warnings in event.cc and logging.cc
