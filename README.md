@@ -286,7 +286,6 @@ Feedstock Maintainers
 * [@aslonnie](https://github.com/aslonnie/)
 * [@dHannasch](https://github.com/dHannasch/)
 * [@h-vetinari](https://github.com/h-vetinari/)
-* [@mattip](https://github.com/mattip/)
 * [@timkpaine](https://github.com/timkpaine/)
 * [@vnlitvinov](https://github.com/vnlitvinov/)
 
