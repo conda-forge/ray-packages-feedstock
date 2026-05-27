@@ -34,10 +34,6 @@ build:
 outputs:
   - package:
       name: ray-all
-    build:
-      skip:
-        # ray-rllib depends on gymnasium, which is not migrated to Python 3.14 yet.
-        - match(python, ">=3.14")
     requirements:
       host:
         - python
@@ -242,10 +238,6 @@ outputs:
               - powershell -c "Start-Sleep 15"
   - package:
       name: ray-rllib
-    build:
-      skip:
-        # gymnasium is not migrated to Python 3.14 yet.
-        - match(python, ">=3.14")
     requirements:
       host:
         - python
