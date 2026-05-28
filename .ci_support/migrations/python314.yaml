@@ -15,11 +15,11 @@ __migrator:
             - 3.12.* *_cpython
             - 3.13.* *_cp313
             - 3.13.* *_cp313t
-            - 3.14.* *_cp314
+            - 3.14.* *_cp314  # new entry
     paused: false
     longterm: true
     pr_limit: 5
-    max_solver_attempts: 3
+    max_solver_attempts: 3  # this will make the bot retry "not solvable" stuff 12 times
     exclude:
         # this shouldn't attempt to modify the python feedstocks
         - python
