@@ -19,10 +19,10 @@ if [[ "$arch" == "x86_64" ]]; then
 fi
 sed -i.bak "s/platforms = .*/platforms = [\"osx-${arch}\"]/" pixi.toml
 echo "Creating environment"
-pixi install
-pixi list
+pixi install --environment build
+pixi list --environment build
 echo "Activating environment"
-eval "$(pixi shell-hook)"
+eval "$(pixi shell-hook --environment build)"
 mv pixi.toml.bak pixi.toml
 ( endgroup "Provisioning base env with pixi" ) 2> /dev/null
 
@@ -63,7 +63,7 @@ if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
     /usr/bin/sudo chown "${USER}" "${OSX_SDK_DIR}"
   fi
 else
-  if tmpf=$(mktemp -p "$OSX_SDK_DIR" tmp.XXXXXXXX 2>/dev/null); then
+  if tmpf=$(mktemp "$OSX_SDK_DIR"/tmp.XXXXXXXX 2>/dev/null); then
       rm -f "$tmpf"
       echo "OSX_SDK_DIR is writeable without sudo, continuing"
   else
@@ -84,7 +84,16 @@ if [[ -f LICENSE.txt ]]; then
 fi
 
 if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
-    echo "rattler-build does not currently support debug mode"
+    export CONDA_BLD_PATH="${CONDA_BLD_PATH:-${FEEDSTOCK_ROOT:-$PWD}/build_artifacts}"
+    rattler-build debug setup \
+        --recipe ./recipe \
+        -m ./.ci_support/${CONFIG}.yaml \
+        --build-platform "${BUILD_PLATFORM}" \
+        --target-platform "${HOST_PLATFORM}" \
+        ${BUILD_OUTPUT_ID:+--output-name "${BUILD_OUTPUT_ID}"} \
+        ${EXTRA_CB_OPTIONS:-}
+
+    rattler-build debug shell
 else
 
     if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]]; then
@@ -94,6 +103,7 @@ else
     rattler-build build --recipe ./recipe \
         -m ./.ci_support/${CONFIG}.yaml \
         ${EXTRA_CB_OPTIONS:-} \
+        --build-platform "${BUILD_PLATFORM}" \
         --target-platform "${HOST_PLATFORM}" \
         --extra-meta flow_run_id="$flow_run_id" \
         --extra-meta remote_url="$remote_url" \
