@@ -40,7 +40,7 @@ fi
 sed -i.bak -e "s/platforms = .*/platforms = [\"linux-${arch}\"]/" -e "s/# __PLATFORM_SPECIFIC_ENV__ =/docker-build-linux-$arch =/" pixi.toml
 echo "Creating environment"
 PIXI_CACHE_DIR=/opt/conda pixi install --environment docker-build-linux-$arch
-pixi list
+pixi list --environment docker-build-linux-$arch
 echo "Activating environment"
 eval "$(pixi shell-hook --environment docker-build-linux-$arch)"
 mv pixi.toml.bak pixi.toml
@@ -53,6 +53,13 @@ setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 source run_conda_forge_build_setup
 
 (
+source /etc/os-release
+MAJOR_VERSION_ID="${VERSION_ID%%.*}"
+if [[ "$ID" == "almalinux" && "$MAJOR_VERSION_ID" -ge 10 ]]; then
+    # Enable more repositories for Alma 10
+    # e.g. xvfb was in appstream but moved to devel in alma10
+    /usr/bin/sudo -n yum install -y almalinux-release-devel
+fi
 # Due to https://bugzilla.redhat.com/show_bug.cgi?id=1537564 old versions of rpm
 # are drastically slowed down when the number of file descriptors is very high.
 # This can be visible during a `yum install` step of a feedstock build.
@@ -81,16 +88,39 @@ if [[ -f "${FEEDSTOCK_ROOT}/LICENSE.txt" ]]; then
 fi
 
 if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
-    echo "rattler-build currently doesn't support debug mode"
-else
+    # differences between conda-build vs. rattler-build
+    #   - 1 step (conda debug + manually open shell) vs. 2 step (rb debug {setup, shell})
+    #   - recipe is positional vs. --recipe "${RECIPE_ROOT}"
+    #   - --output-id vs. --output-name
+    #   - --clobber-file vs. none
+    #   - none vs. --target-platform
+    export CONDA_BLD_PATH="${CONDA_BLD_PATH:-${FEEDSTOCK_ROOT}/build_artifacts}"
+    rattler-build debug setup \
+        --recipe "${RECIPE_ROOT}" \
+        -m "${CI_SUPPORT}/${CONFIG}.yaml" \
+        ${EXTRA_CB_OPTIONS:-} \
+        ${BUILD_OUTPUT_ID:+--output-name "${BUILD_OUTPUT_ID}"} \
+        --build-platform "${BUILD_PLATFORM}" \
+        --target-platform "${HOST_PLATFORM}"
 
-    rattler-build build --recipe "${RECIPE_ROOT}" \
-     -m "${CI_SUPPORT}/${CONFIG}.yaml" \
-     ${EXTRA_CB_OPTIONS:-} \
-     --target-platform "${HOST_PLATFORM}" \
-     --extra-meta flow_run_id="${flow_run_id:-}" \
-     --extra-meta remote_url="${remote_url:-}" \
-     --extra-meta sha="${sha:-}"
+    rattler-build debug shell
+else
+    # differences between conda-build vs. rattler-build
+    #   - recipe is positional vs. --recipe "${RECIPE_ROOT}"
+    #   - --suppress-variables vs. none
+    #   - --clobber-file vs. none
+    #   - none vs. --target-platform
+    #   - --extra-meta a=b c=d vs. --extra-meta a=b --extra-meta c=d
+
+    rattler-build build \
+        --recipe "${RECIPE_ROOT}" \
+        -m "${CI_SUPPORT}/${CONFIG}.yaml" \
+        ${EXTRA_CB_OPTIONS:-} \
+        --build-platform "${BUILD_PLATFORM}" \
+        --target-platform "${HOST_PLATFORM}" \
+        --extra-meta flow_run_id="${flow_run_id:-}" \
+        --extra-meta remote_url="${remote_url:-}" \
+        --extra-meta sha="${sha:-}"
     ( startgroup "Inspecting artifacts" ) 2> /dev/null
 
     # inspect_artifacts was only added in conda-forge-ci-setup 4.9.4
