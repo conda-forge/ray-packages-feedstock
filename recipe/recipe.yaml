@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.57.0"
+  version: "2.58.0"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 75b8ab2eab971b4c1bfb1bbe1c4636951b746c04a2541f02d0ce0716189f547c
+  sha256: a9ea13cab24854ad6b802ef8da7fc8084bc4e1717b44737ae24a9192333b1cb1
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
@@ -179,7 +179,7 @@ outputs:
       run:
         - python
         - ${{ pin_subpackage('ray-core', exact=True) }}
-        - aiohttp >=3.13.3
+        - aiohttp >=3.14.1
         - aiohttp-cors
         - colorful
         - grpcio >=1.42.0
