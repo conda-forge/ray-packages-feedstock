@@ -27,7 +27,7 @@ source:
     - patches/0008-bazel-disable-strict-env.patch
 
 build:
-  number: 1
+  number: 0
   skip:
     - match(python, "<3.11")
 
@@ -326,10 +326,13 @@ outputs:
         - python
         - ${{ pin_subpackage('ray-default', exact=True) }}
         - fastapi >=0.133.0
+        - grpcio-reflection
+        - jinja2
         - mmh3
+        - numpy >=1.20
         - requests
         - starlette >=1.0.1
-        - uvicorn
+        - uvicorn >=0.26.0
         - watchfiles
         - pyOpenSSL
         # NOTE: upstream ray[serve] pulls `ray-haproxy` on linux. Neither it nor a
@@ -364,7 +367,7 @@ outputs:
         - ${{ pin_subpackage('ray-default', exact=True) }}
         - fsspec
         - pandas
-        - pyarrow
+        - pyarrow >=17.0.0
         - requests
         - tensorboardX >=1.9
     tests:
