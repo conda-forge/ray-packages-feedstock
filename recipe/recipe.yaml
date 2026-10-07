@@ -45,6 +45,7 @@ outputs:
         - ${{ pin_subpackage('ray-default', exact=True) }}
         - if: not osx
           then: ${{ pin_subpackage('ray-cgraph', exact=True) }}
+        - ${{ pin_subpackage('ray-observability', exact=True) }}
         - ${{ pin_subpackage('ray-client', exact=True) }}
         - ${{ pin_subpackage('ray-data', exact=True) }}
         - ${{ pin_subpackage('ray-rllib', exact=True) }}
@@ -55,6 +56,17 @@ outputs:
       - python:
           imports:
             - ray
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          # ray-haproxy: no conda-forge equivalent (see ray-serve); gymnasium: pinned ahead of
+          # upstream (see ray-rllib); cupy-cuda12x: packaged as cupy; celery/taskiq: from the
+          # serve-async-inference extra, which is not packaged
+          - python check_extra.py all ray-haproxy gymnasium cupy-cuda12x celery taskiq
 
   - package:
       name: ray-core
@@ -140,6 +152,15 @@ outputs:
       - python:
           imports:
             - ray.air
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          # ray-haproxy has no conda-forge equivalent (see ray-serve)
+          - python check_extra.py air ray-haproxy
 
   - package:
       name: ray-data
@@ -157,6 +178,14 @@ outputs:
       - python:
           imports:
             - ray.data
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          - python check_extra.py data
 
   - package:
       name: ray-default
@@ -206,6 +235,14 @@ outputs:
           imports:
             - ray
             - ray.dashboard
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          - python check_extra.py default
       - script:
           - python -c "import ray; ray.init(include_dashboard=True)"
           - ray stop
@@ -229,6 +266,14 @@ outputs:
       - python:
           imports:
             - ray
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          - python check_extra.py client
       - script:
           - ray start --head
           - python -c "import ray; ray.init('ray://127.0.0.1:10001')"
@@ -258,6 +303,15 @@ outputs:
       - python:
           imports:
             - ray.rllib
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          # gymnasium is deliberately pinned ahead of upstream for py3.14
+          - python check_extra.py rllib gymnasium
 
   - package:
       name: ray-serve
@@ -272,10 +326,13 @@ outputs:
         - python
         - ${{ pin_subpackage('ray-default', exact=True) }}
         - fastapi >=0.133.0
+        - grpcio-reflection
+        - jinja2
         - mmh3
+        - numpy >=1.20
         - requests
         - starlette >=1.0.1
-        - uvicorn
+        - uvicorn >=0.26.0
         - watchfiles
         - pyOpenSSL
         # NOTE: upstream ray[serve] pulls `ray-haproxy` on linux. Neither it nor a
@@ -286,6 +343,15 @@ outputs:
       - python:
           imports:
             - ray.serve
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          # ray-haproxy has no conda-forge equivalent (see note above)
+          - python check_extra.py serve ray-haproxy
 
   - package:
       name: ray-tune
@@ -301,13 +367,21 @@ outputs:
         - ${{ pin_subpackage('ray-default', exact=True) }}
         - fsspec
         - pandas
-        - pyarrow
+        - pyarrow >=17.0.0
         - requests
         - tensorboardX >=1.9
     tests:
       - python:
           imports:
             - ray.tune
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          - python check_extra.py tune
 
   - package:
       name: ray-train
@@ -325,6 +399,14 @@ outputs:
       - python:
           imports:
             - ray.train
+      - files:
+          recipe:
+            - check_extra.py
+        requirements:
+          run:
+            - packaging
+        script:
+          - python check_extra.py train
 
   - package:
       name: ray-observability
