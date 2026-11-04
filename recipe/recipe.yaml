@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "2.59.0"
+  version: "2.60.0"
 
 recipe:
   name: ray-packages
@@ -10,7 +10,7 @@ recipe:
 
 source:
   url: https://github.com/ray-project/ray/archive/ray-${{ version }}.tar.gz
-  sha256: 22bb42d5c257fa9b3b26b2ed1d1e2d29c1e7bf3ef8fc3d46bb49a96e0a344b5f
+  sha256: 1b9d8631058f8a2de8230dee77f466a4ac17ffea212283a9d0449ff0776b4584
   patches:
     - patches/0001-Disable-making-entry-scripts.patch
     - patches/0002-Ignore-warnings-in-event.cc-and-logging.cc.patch
