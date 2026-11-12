@@ -10,16 +10,22 @@ Signed-off-by: Lonnie Liu <95255098+aslonnie@users.noreply.github.com>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/WORKSPACE b/WORKSPACE
-index 927840e752..db62db90f3 100644
+index b41ace2a8c..a20ffa51dc 100644
 --- a/WORKSPACE
 +++ b/WORKSPACE
-@@ -54,8 +54,10 @@ hedron_compile_commands_setup()
+@@ -73,6 +73,8 @@ hedron_compile_commands_setup()
  load("@rules_python//python:repositories.bzl", "python_register_toolchains")
  
  python_register_toolchains(
 +    # Lie about the version, so that we do not need to change the code
 +    # of the entire repo.
      name = "python3_10",
+     # rules_python >= ~0.23 chmods the hermetic interpreter read-only and then fails
+     # if the current user can still write to it. Ray's CI containers run as root, so
+@@ -80,7 +82,7 @@ python_register_toolchains(
+     # out of the fetched tree; this toolchain is CI-infra only (see bazel/BUILD.bazel)
+     # and the containers are ephemeral, so the determinism it protects is not at risk.
+     ignore_root_user_error = True,
 -    python_version = "3.10",
 +    python_version = "3.12",
      register_toolchains = False,
